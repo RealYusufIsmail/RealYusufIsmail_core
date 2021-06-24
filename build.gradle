@@ -121,10 +121,6 @@ publishing {
                 from(components.java)
             }
         }
-        repositories {
-            maven {
-                url "file:///${project.projectDir}/mcmodsrepo"
-            }
-        }
+
     }
 }
