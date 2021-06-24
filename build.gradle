@@ -144,16 +144,6 @@ repositories {
         }
     }
 
-
-        def fullVersion = outStream.toString().trim()
-        def matcher = fullVersion =~ /(\d+).(\d+).(\d+)-(.*)/
-
-        def maj = matcher[0][1]
-        def min = matcher[0][2]
-        def rev = matcher[0][3]
-        def bn = getBuildNumber()
-
-        return makeVersionMap(maj, min, rev, bn, matcher[0][4])
     }
 
     def makeVersionMap(maj, min, rev, bn, githash) {
