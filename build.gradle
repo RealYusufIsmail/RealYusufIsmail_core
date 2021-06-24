@@ -19,7 +19,7 @@ apply plugin: 'idea'
 
 
 version = "${mod_version}"
-group = 'net.yusuf.realyusufismailcore'
+group = 'net.yusuf'
 archivesBaseName = mod_id
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
