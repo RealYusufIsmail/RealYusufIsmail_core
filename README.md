@@ -23,22 +23,19 @@ gpr.token=paste_your_token_here
 -----------------------------------
 
 Code to add to `build.gradle`
+```gradle
+def gpr_creds = {
+    username = property('gpr.username')
+    password = property('gpr.token')
+}
+```
+Undeer this.
 
 ```gradle
 repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/silentchaos512/silentlib")
-        credentials {
-            username = property('gpr.username')
-            password = property('gpr.token')
-        }
-    }
-    maven {
-        url = uri("https://maven.pkg.github.com/silentchaos512/silent-utils")
-        credentials {
-            username = property('gpr.username')
-            password = property('gpr.token')
-        }
+     maven {
+        url = uri("https://maven.pkg.github.com/realyusufismail/realyusufismail-core")
+        credentials gpr_creds
     }
 }
 ```
