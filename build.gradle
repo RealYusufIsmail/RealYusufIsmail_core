@@ -18,9 +18,9 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'idea'
 
 
-version = '1.16.5-1'
-group = 'net.yusuf.realyusufismailcore' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'realyusufismailcore'
+version = "${mod_version}"
+group = 'net.yusuf.realyusufismailcore'
+archivesBaseName = mod_id
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
@@ -107,6 +107,7 @@ jar {
 }
 
 
+
 jar.finalizedBy('reobfJar')
 publishing {
     repositories {
@@ -119,12 +120,13 @@ publishing {
             }
         }
     }
-    publishing {
-        publications {
-            gpr(MavenPublication) {
-                from(components.java)
+    publications {
+        maven(MavenPublication) {
+            artifactId = mod_id // <<< this line here
+            artifacts {
+                artifact jar
             }
         }
-
+        // [snip]
     }
 }
