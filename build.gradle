@@ -25,12 +25,25 @@ repositories {
     mavenLocal()
     jcenter()
 }
-version = '1.0'
-group = 'net.yusuf.realyusufismailcore' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'realyusufismailcore'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs = ['-Xlint:deprecation']
+}
+
+javadoc {
+    failOnError = false
+}
+
+archivesBaseName = project.archivesBaseName
+def versionInfo = getModVersion()
+System.out.println(versionInfo)
+def version_short = "${versionInfo['version_short']}"
+version = "${versionInfo['version']}"
+
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+
 minecraft {
     mappings channel: 'official', version: '1.16.5'
     runs {
@@ -83,16 +96,30 @@ minecraft {
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
 repositories {
     def gpr_creds = {
         username = property('gpr.username')
         password = property('gpr.token')
+        mavenLocal()
+        jcenter()
     }
+}
+
     dependencies {
         minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
 
     }
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
     jar {
         manifest {
             attributes(["Specification-Title"     : project.mod_id,
@@ -112,6 +139,7 @@ repositories {
         classifier = 'sources'
         from sourceSets.main.allJava
     }
+
     task javadocJar(type: Jar, dependsOn: javadoc) {
         classifier = 'javadoc'
         from javadoc.getDestinationDir()
@@ -143,6 +171,35 @@ repositories {
             }
         }
     }
+
+    def getModVersion() {
+        try {
+            return getGitVersion()
+        } catch (Exception ex) {
+            System.out.println("Git version failed, falling back to old method")
+            return getVersion('VERSION', getModFile())
+        }
+    }
+
+    def getGitVersion() {
+        // Call git command
+        def outStream = new ByteArrayOutputStream()
+        def result = exec {
+            executable = 'git'
+            args = ['describe', '--long']
+            standardOutput = outStream
+        }
+
+
+        def fullVersion = outStream.toString().trim()
+        def matcher = fullVersion =~ /(\d+).(\d+).(\d+)-(.*)/
+
+        def maj = matcher[0][1]
+        def min = matcher[0][2]
+        def rev = matcher[0][3]
+        def bn = getBuildNumber()
+
+        return makeVersionMap(maj, min, rev, bn, matcher[0][4])
 
     }
 
@@ -230,4 +287,4 @@ repositories {
         }
     }
 
-build.finalizedBy incrementBuild // only increment on successful builds
+    build.finalizedBy incrementBuild // only increment on successful builds
