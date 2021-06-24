@@ -8,7 +8,9 @@ You alse need to generate a GitHub token and add it along with your GitHub usern
 
 GitHub tokens can be generated [here](https://github.com/settings/tokens). Click _Generate New Token_ and click the checkmark for _read:packages_
 
-Example of `gradle.properties` file in `C:\Users\YOUR_USERNAME\.gradle` or `~/.gradle/gradle.properties`
+Example of `gradle.properties` file in windows `C:\Users\YOUR_USERNAME\.gradle` or `~/.gradle/gradle.properties`
+Example of `gradle.properties` file in mac`/Users/YOUR_USERNAME/.gradle/gradle.properties` or `~/.gradle/gradle.properties`
+
 
 ```gradle
 //Your GitHub username
