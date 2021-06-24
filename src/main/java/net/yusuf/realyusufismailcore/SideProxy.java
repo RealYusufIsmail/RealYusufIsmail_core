@@ -1,4 +1,4 @@
-package net.yusuf.core;
+package net.yusuf.realyusufismailcore;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.command.CommandSource;
@@ -20,14 +20,11 @@ public class SideProxy {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcEnqueue);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(IRecipeSerializer.class, this::registerRecipeSerializers);
-
         MinecraftForge.EVENT_BUS.addListener(this::onRegisterCommands);
 
     }
     private void gatherData(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
-        gen.addProvider(new TestRecipeProvider(gen));
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {}
@@ -38,17 +35,9 @@ public class SideProxy {
 
     private void onRegisterCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
-        DisplayNBTCommand.register(dispatcher);
-        TeleportCommand.register(dispatcher);
     }
 
-    private void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event) {
-        event.getRegistry().register(DamageItemRecipe.SERIALIZER.setRegistryName(RealYusufIsmailCore.getId("damage_item")));
-    }
 
-    private void registerIngredientSerializers() {
-        CraftingHelper.register(ExclusionIngredient.Serializer.NAME, ExclusionIngredient.Serializer.INSTANCE);
-    }
 
     public void tryFetchTagsHack() {}
 
