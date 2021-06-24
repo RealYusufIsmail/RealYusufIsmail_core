@@ -43,7 +43,7 @@ public class SideProxy {
     }
 
     private void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event) {
-        event.getRegistry().register(DamageItemRecipe.SERIALIZER.setRegistryName(SilentLib.getId("damage_item")));
+        event.getRegistry().register(DamageItemRecipe.SERIALIZER.setRegistryName(RealYusufIsmailCore.getId("damage_item")));
     }
 
     private void registerIngredientSerializers() {
@@ -61,7 +61,7 @@ public class SideProxy {
 
         @Override
         public void tryFetchTagsHack() {
-            TagRegistryManager.fetchTags();
+            TagRegistryManager.resetAllToEmpty();
         }
     }
 
