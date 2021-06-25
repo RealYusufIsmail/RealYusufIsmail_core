@@ -43,7 +43,7 @@ repositories {
 ```gradle
 dependencies {
     // Replace VERSION with the version you need, in the form of "MC_VERSION-MOD_VERSION"
-    // Example: compile fg.deobf("net.yusuf:realyusufismailcore::1.16.5-2") {
+    // Example: compile fg.deobf("net.yusuf:realyusufismailcore::1.16.5-2")
     // Available builds can be found here: https://github.com/RealYusufIsmail/RealYusufIsmail-Core/packages/866444
     compile fg.deobf("net.yusuf:realyusufismailcore::1.16.5-2") {
     exclude module: "forge"
