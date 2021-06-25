@@ -12,7 +12,8 @@ import java.util.function.Supplier;
 
 public interface IModelProvider extends IItemProvider {
 
-    static final class BlockModels extends BlockModelProvider {
+
+    public static final class BlockModels extends BlockModelProvider {
         private final Consumer<IFinishedBlockState> blockStateOutput;
         private final BiConsumer<ResourceLocation, Supplier<JsonElement>> modelOutput;
 
