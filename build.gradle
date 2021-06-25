@@ -77,10 +77,6 @@ sourceSets.main.resources {
     srcDir 'src/generated/resources'
 }
 
-repositories {
-
-}
-
 dependencies {
 
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
