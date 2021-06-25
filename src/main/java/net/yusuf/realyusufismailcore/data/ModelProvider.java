@@ -1,3 +1,4 @@
+/*
 package net.yusuf.realyusufismailcore.data;
 
 import com.google.common.collect.Maps;
@@ -12,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
@@ -24,12 +26,10 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class ModelProvider {
-
-    public static final class BlockState {
+interface IModelProvider extends IItemProvider {
 
 
-        private static final class BlockModels extends BlockModelProvider {
+        static final class BlockModels extends BlockModelProvider {
             private final Consumer<IFinishedBlockState> blockStateOutput;
             private final BiConsumer<ResourceLocation, Supplier<JsonElement>> modelOutput;
 
@@ -79,4 +79,6 @@ public class ModelProvider {
             }
         }
     }
-}
+
+
+ */
