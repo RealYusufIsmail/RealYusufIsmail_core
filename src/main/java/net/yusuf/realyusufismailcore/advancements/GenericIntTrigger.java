@@ -78,7 +78,7 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
             return this.type.equals(typeIn) && this.value <= valueIn;
         }
 
-       
+
         @Override
         public JsonObject serializeToJson(ConditionArraySerializer p_230240_1_) {
             JsonObject json = new JsonObject();
