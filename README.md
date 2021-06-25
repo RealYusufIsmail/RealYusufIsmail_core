@@ -14,7 +14,7 @@ Example of `gradle.properties` file in mac`/Users/YOUR_USERNAME/.gradle/gradle.p
 
 ```gradle
 //Your GitHub username
-gpr.username=SilentChaos512
+gpr.username=RealYusufIsmail
 
 // Your GitHub generated token (bunch of hex digits) with read permission
 gpr.token=paste_your_token_here
