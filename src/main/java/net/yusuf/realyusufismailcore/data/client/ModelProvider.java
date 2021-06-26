@@ -14,19 +14,15 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.RegistryObject;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 
 
-
-import javax.annotation.Nonnull;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -39,18 +35,17 @@ import java.util.stream.Collectors;
 
 
 import static net.yusuf.realyusufismailcore.core.init.BlockInit.*;
-import static net.minecraft.util.Util.name;
 
 public class ModelProvider {
 
-    public static final class Item extends net.minecraftforge.client.model.generators.ItemModelProvider {
+    public static class Item extends net.minecraftforge.client.model.generators.ItemModelProvider {
         public Item(DataGenerator generator, ExistingFileHelper existingFileHelper) {
             super(generator,  RealYusufIsmailCore.MOD_ID, existingFileHelper);
         }
 
         @Override
         protected void registerModels() {
-            block("test_block");
+          //  block("test_block");
 
 
             ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
@@ -85,7 +80,7 @@ public class ModelProvider {
     }
 
 
-    public static final class BlockState extends BlockStateProvider {
+    public static class BlockState extends BlockStateProvider {
         public static final Logger LOGGER = LogManager.getLogger();
         public static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
         public final DataGenerator generator;
@@ -241,11 +236,7 @@ public class ModelProvider {
         }
 
 
-        @Override
-        public void run() {
-            createTrivialCube(TEST_BLOCK.get());
 
-        }
 
 
     }
