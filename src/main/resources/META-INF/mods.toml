@@ -9,7 +9,7 @@ authors="realyusufismail"
 [[mods]]
 modId="realyusufismailcore"
 version="${file.jarVersion}"
-displayName="Silent Lib"
+displayName="RealYusufIsmail Core"
 description='''
     Shared library for Yusuf's mods
     '''
