@@ -59,8 +59,10 @@ minecraft {
 
             property 'forge.logging.console.level', 'debug'
             property 'fml.earlyprogresswindow', 'false'
-            args '--mod', 'armouranditem', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources')
-
+            args '--mod', 'realyusufismailcore', '--all',
+                    '--existing', file('src/main/resources').toString(),
+                    '--existing', file('src/generated/resources').toString(),
+                    '--output', file('src/generated/resources/')
 
 
 

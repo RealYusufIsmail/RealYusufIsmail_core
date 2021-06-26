@@ -1,5 +1,5 @@
 
-package net.yusuf.realyusufismailcore.data;
+package net.yusuf.realyusufismailcore.data.client;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -14,17 +14,19 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fml.RegistryObject;
+import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraft.data.DataGenerator;
-import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
-import net.yusuf.realyusufismailcore.core.init.BlockInit;
 
 
+
+import javax.annotation.Nonnull;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,10 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+
+import static net.yusuf.realyusufismailcore.core.init.BlockInit.*;
+import static net.minecraft.util.Util.name;
 
 public class ModelProvider {
 
@@ -47,25 +53,35 @@ public class ModelProvider {
             block("test_block");
 
 
-
             ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
             ModelFile itemhandHeld = getExistingFile(mcLoc("item/handheld"));
 
             //items
 
+
         }
 
-        private ItemModelBuilder builder(ModelFile itemGenerated, String name) {
-            return getBuilder(name).parent(itemGenerated).texture("layer0", "item/" + name);
+        private void build(ModelFile itemGenerated, String path) {
+            getBuilder(path).parent(itemGenerated).texture("layer0", "item/" + path);
         }
+
+
         private ItemModelBuilder tool(ModelFile itemhandHeld, String name) {
-            return getBuilder(name).parent(itemhandHeld).texture("layer0",  "item/" + name);
+            return getBuilder(name).parent(itemhandHeld).texture("layer0", "item/" + name);
         }
+
         private void block(String name) {
             withExistingParent(name, modLoc("block/" + name));
         }
 
-
+        /**
+         * @see BlockStateProvider#simpleBlock(Block, net.minecraftforge.client.model.generators.ConfiguredModel...)
+         * @see BlockStateProvider#getVariantBuilder(Block)
+         * @see VariantBlockStateBuilder#partialState()
+         * @see VariantBlockStateBuilder#setModels(VariantBlockStateBuilder.PartialBlockstate, ConfiguredModel...)
+         * @see Blocks#FURNACE
+         *
+         */
     }
 
 
@@ -187,9 +203,7 @@ public class ModelProvider {
             }).createWithSuffix(p_239977_1_, "_on", this.modelOutput);
             this.blockStateOutput.accept(FinishedVariantBlockState.multiVariant(p_239977_1_).with(createBooleanModelDispatch(BlockStateProperties.LIT, resourcelocation2, resourcelocation)).with(createHorizontalFacingDispatch()));
         }
-
          */
-
 
 
 
@@ -207,9 +221,7 @@ public class ModelProvider {
             ResourceLocation resourcelocation = p_239977_2_.create(p_239977_1_, this.modelOutput);
             this.blockStateOutput.accept(FinishedVariantBlockState.multiVariant(p_239977_1_).with(createBooleanModelDispatch(BlockStateProperties.LIT, resourcelocation)).with(createHorizontalFacingDispatch()));
         }
-
-         */
-
+ */
         private void createTrivialCube(Block p_239975_1_) {
             this.createTrivialBlock(p_239975_1_, TexturedModel.CUBE);
         }
@@ -231,8 +243,7 @@ public class ModelProvider {
 
         @Override
         public void run() {
-            createTrivialCube(BlockInit.TEST_BLOCK.get());
-
+            createTrivialCube(TEST_BLOCK.get());
 
         }
 
