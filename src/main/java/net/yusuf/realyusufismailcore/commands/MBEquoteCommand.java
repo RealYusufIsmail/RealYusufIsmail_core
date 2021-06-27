@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class MBEquoteCommand {
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        LiteralArgumentBuilder<CommandSource> mbequoteCommand
+        LiteralArgumentBuilder<CommandSource> discord
                 = Commands.literal("mbequote")
                 .requires((commandSource) -> commandSource.hasPermission(1))
                 .then(Commands.literal("discord")
@@ -40,12 +40,7 @@ public class MBEquoteCommand {
     }
 
     enum QuoteSource {
-        DISCORD(new String[]{"Nobody expects the Spanish Inquisition!",
-                "What sad times are these when passing ruffians can say 'Ni' at will to old ladies.",
-                "That's the machine that goes 'ping'.",
-                "Have you got anything without spam?",
-                "We interrupt this program to annoy you and make things generally more irritating.",
-                "My brain hurts!"});
+        DISCORD(new String[]{"https://discord.gg/kbVDCfvVKe"});
 
         public String getQuote() {
             return quotes[new Random().nextInt(quotes.length)];
