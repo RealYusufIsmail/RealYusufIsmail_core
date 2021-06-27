@@ -1,6 +1,8 @@
 package net.yusuf.realyusufismailcore;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
@@ -9,6 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.yusuf.realyusufismailcore.core.init.BlockInit;
 import net.yusuf.realyusufismailcore.core.init.ItemInit;
+import net.yusuf.realyusufismailcore.core.init.RegisterCommandEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +33,7 @@ public class RealYusufIsmailCore {
         PROXY = DistExecutor.safeRunForDist(() -> SideProxy.Client::new, () -> SideProxy.Server::new);
         ItemInit.ITEMS.register(bus);
         BlockInit.BLOCKS.register(bus);
+        MinecraftForge.EVENT_BUS.register(RegisterCommandEvent.class);
     }
     public static String getVersion() {
         Optional<? extends ModContainer> o = ModList.get().getModContainerById(MOD_ID);

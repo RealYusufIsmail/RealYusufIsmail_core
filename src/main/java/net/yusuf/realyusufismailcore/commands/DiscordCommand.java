@@ -15,10 +15,10 @@ import net.minecraft.util.text.TranslationTextComponent;
 import java.util.Random;
 
 
-public class MBEquoteCommand {
+public class DiscordCommand {
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        LiteralArgumentBuilder<CommandSource> discord
-                = Commands.literal("mbequote")
+        LiteralArgumentBuilder<CommandSource> Discord
+                = Commands.literal("discord")
                 .requires((commandSource) -> commandSource.hasPermission(1))
                 .then(Commands.literal("discord")
                         .executes(commandContext -> sendMessage(commandContext, QuoteSource.DISCORD.getQuote()))
