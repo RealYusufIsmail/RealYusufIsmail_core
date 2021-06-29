@@ -1,28 +1,6 @@
 
 package net.yusuf.realyusufismailcore.data.client;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.data.*;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-
-
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +11,42 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import static net.yusuf.realyusufismailcore.core.init.BlockInit.*;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.data.BlockModelDefinition;
+import net.minecraft.data.BlockModelFields;
+import net.minecraft.data.BlockModelProvider;
+import net.minecraft.data.BlockModelWriter;
+import net.minecraft.data.BlockStateVariantBuilder;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DirectoryCache;
+import net.minecraft.data.FinishedVariantBlockState;
+import net.minecraft.data.IDataProvider;
+import net.minecraft.data.IFinishedBlockState;
+import net.minecraft.data.ModelTextures;
+import net.minecraft.data.ModelsResourceUtil;
+import net.minecraft.data.StockModelShapes;
+import net.minecraft.data.StockTextureAliases;
+import net.minecraft.data.TexturedModel;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 
 public class ModelProvider {
 
@@ -168,8 +180,8 @@ public class ModelProvider {
 
 
     public static final class BlockModels extends BlockModelProvider {
-        public final Consumer<IFinishedBlockState> blockStateOutput;
-        public final BiConsumer<ResourceLocation, Supplier<JsonElement>> modelOutput;
+        public static Consumer<IFinishedBlockState> blockStateOutput;
+        public static BiConsumer<ResourceLocation, Supplier<JsonElement>> modelOutput;
         public BlockModels(Consumer<IFinishedBlockState> p_i232514_1_, BiConsumer<ResourceLocation, Supplier<JsonElement>> p_i232514_2_, Consumer<net.minecraft.item.Item> p_i232514_3_) {
             super(p_i232514_1_, p_i232514_2_, p_i232514_3_);
 
@@ -189,25 +201,15 @@ public class ModelProvider {
         }
 
 
-        /*
-        public void createFurnace(Block p_239977_1_, TexturedModel.ISupplier p_239977_2_) {
-            ResourceLocation resourcelocation = p_239977_2_.create(p_239977_1_, this.modelOutput);
-            ResourceLocation resourcelocation1 = ModelTextures.getBlockTexture(p_239977_1_, "_front_on");
-            ResourceLocation resourcelocation2 = p_239977_2_.get(p_239977_1_).updateTextures((p_239963_1_) -> {
-                p_239963_1_.put(StockTextureAliases.FRONT, resourcelocation1);
-            }).createWithSuffix(p_239977_1_, "_on", this.modelOutput);
-            this.blockStateOutput.accept(FinishedVariantBlockState.multiVariant(p_239977_1_).with(createBooleanModelDispatch(BlockStateProperties.LIT, resourcelocation2, resourcelocation)).with(createHorizontalFacingDispatch()));
-        }
-         */
 
 
 
 
-        public void createFurnace(Block p_239977_1_, TexturedModel.ISupplier p_239977_2_) {
-            ResourceLocation resourcelocation = p_239977_2_.create(p_239977_1_, this.modelOutput);
+        public static void createFurnace(Block p_239977_1_, TexturedModel.ISupplier p_239977_2_) {
+            ResourceLocation resourcelocation = p_239977_2_.create(p_239977_1_, modelOutput);
             ResourceLocation resourcelocation1 = p_239977_2_.get(p_239977_1_).updateTextures((p_239963_1_) -> {
-            }).createWithSuffix(p_239977_1_, "_on", this.modelOutput);
-            this.blockStateOutput.accept(FinishedVariantBlockState.multiVariant(p_239977_1_).with(createBooleanModelDispatch(BlockStateProperties.LIT, resourcelocation1, resourcelocation)).with(createHorizontalFacingDispatch()));
+            }).createWithSuffix(p_239977_1_, "_on", modelOutput);
+            blockStateOutput.accept(FinishedVariantBlockState.multiVariant(p_239977_1_).with(createBooleanModelDispatch(BlockStateProperties.LIT, resourcelocation1, resourcelocation)).with(createHorizontalFacingDispatch()));
         }
 
         //
