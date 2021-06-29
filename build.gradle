@@ -115,7 +115,7 @@ publishing {
     }
     publications {
         maven(MavenPublication) {
-            artifactId = mod_id // <<< this line here
+            artifactId = mod_id
             artifacts {
                 artifact jar
             }
