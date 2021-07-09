@@ -1,4 +1,4 @@
-
+/*On hold
 package net.yusuf.realyusufismailcore.data.client;
 
 import java.nio.file.Path;
@@ -89,6 +89,7 @@ public class ModelProvider {
          * @see Blocks#FURNACE
          *
          */
+/*
     }
 
 
@@ -202,7 +203,7 @@ public class ModelProvider {
 
 
 
-
+*/
 
 /*
         public static void createFurnace(Block p_239977_1_, TexturedModel.ISupplier p_239977_2_) {
@@ -238,9 +239,12 @@ public class ModelProvider {
             this.blockStateOutput.accept(createSimpleBlock(p_239875_1_, StockModelShapes.CUBE.create(p_239875_1_, modeltextures, this.modelOutput)));
         }
 
+
  */
-
-
-
+        /*
     }
 }
+
+
+         */
+
