@@ -6,7 +6,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
-import net.yusuf.realyusufismailcore.data.client.ModelProvider;
 
 
 @Mod.EventBusSubscriber(modid = RealYusufIsmailCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -18,7 +17,7 @@ public class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
 
-        gen.addProvider(new ModelProvider.BlockState(gen, existingFileHelper));
-        gen.addProvider(new ModelProvider.Item(gen, existingFileHelper));
+       // gen.addProvider(new ModelProvider.BlockState(gen, existingFileHelper));
+       // gen.addProvider(new ModelProvider.Item(gen, existingFileHelper));
     }
 }

@@ -50,7 +50,7 @@ public class DiscordCommand {
             this.quotes = quotes;
         }
 
-        private String[] quotes;
+        private final String[] quotes;
     }
 }
 

@@ -12,7 +12,7 @@ public class ToggleMessageMessage {
     public ToggleMessageMessage(boolean enabled) {
         this.enabled = enabled;
     }
-    private boolean enabled;
+    private final boolean enabled;
     public static ToggleMessageMessage decode(final PacketBuffer buffer) {
         boolean en = buffer.readBoolean();
         return new ToggleMessageMessage(en);
