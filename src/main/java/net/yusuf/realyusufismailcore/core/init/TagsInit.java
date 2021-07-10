@@ -24,6 +24,7 @@ public class TagsInit {
             return BlockTags.bind(new ResourceLocation(RealYusufIsmailCore.MOD_ID, path).toString());
         }
     }
+
     public static final class Items {
         //ores
         public static final ITag.INamedTag<Item> ORES_COPPER = ItemTags.bind("forge:ores/copper");
@@ -31,8 +32,6 @@ public class TagsInit {
         public static final ITag.INamedTag<Item> STORAGE_COPPER = ItemTags.bind("forge:storage_blocks/copper");
         //items
         public static final ITag.INamedTag<Item> INGOTS_COPPER = ItemTags.bind("forge:ingots/copper");
-
-
 
 
         private static ITag.INamedTag<Item> forge(String path) {

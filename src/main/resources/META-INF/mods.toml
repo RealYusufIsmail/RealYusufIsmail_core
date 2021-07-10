@@ -1,28 +1,28 @@
-modLoader="javafml"
-loaderVersion="[36,)"
-license="BSD-3-Clause License"
-issueTrackerURL="https://github.com/RealYusufIsmail/RealYusufIsmail_core/issues"
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "BSD-3-Clause License"
+issueTrackerURL = "https://github.com/RealYusufIsmail/RealYusufIsmail_core/issues"
 #logoFile="examplemod.png"
-credits="realyusufismail"
-authors="realyusufismail"
+credits = "realyusufismail"
+authors = "realyusufismail"
 
 [[mods]]
-modId="realyusufismailcore"
-version="${file.jarVersion}"
-displayName="RealYusufIsmail Core"
-description='''
+modId = "realyusufismailcore"
+version = "${file.jarVersion}"
+displayName = "RealYusufIsmail Core"
+description = '''
     Shared library for Yusuf's mods
     '''
 
 [[dependencies.realyusufismailcore]]
-modId="forge"
-mandatory=true
-versionRange="[36,)"
-ordering="NONE"
-side="BOTH"
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"
 [[dependencies.realyusufismailcore]]
-modId="minecraft"
-mandatory=true
-versionRange="[1.16.5,)"
-ordering="NONE"
-side="BOTH"
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.5,)"
+ordering = "NONE"
+side = "BOTH"

@@ -1,7 +1,5 @@
 package net.yusuf.realyusufismailcore.advancements;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
@@ -51,13 +49,17 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
     }
 
 
-
-
     @Override
     public Instance createInstance(JsonObject json, ConditionArrayParser p_230307_2_) {
         String type = JSONUtils.getAsString(json, "type", "unknown");
         int value = JSONUtils.getAsInt(json, "value", 0);
         return new Instance(type, value);
+    }
+
+    public void trigger(ServerPlayerEntity player, ResourceLocation type, int value) {
+        GenericIntTrigger.Listeners triggerListeners = this.listeners.get(player.getAdvancements());
+        if (triggerListeners != null)
+            triggerListeners.trigger(type.toString(), value);
     }
 
     public static class Instance extends CriterionInstance {
@@ -86,12 +88,6 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
             json.addProperty("value", this.value);
             return json;
         }
-    }
-
-    public void trigger(ServerPlayerEntity player, ResourceLocation type, int value) {
-        GenericIntTrigger.Listeners triggerListeners = this.listeners.get(player.getAdvancements());
-        if (triggerListeners != null)
-            triggerListeners.trigger(type.toString(), value);
     }
 
     static class Listeners {

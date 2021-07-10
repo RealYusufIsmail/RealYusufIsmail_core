@@ -21,8 +21,8 @@ public class RealYusufIsmailCore {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final Random RANDOM = new Random();
     public static final String MOD_ID = "realyusufismailcore";
-    private static RealYusufIsmailCore INSTANCE;
     public static SideProxy PROXY;
+    private static RealYusufIsmailCore INSTANCE;
 
     public RealYusufIsmailCore() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -31,6 +31,7 @@ public class RealYusufIsmailCore {
         ItemInitCore.ITEMS.register(bus);
         BlockInitCore.BLOCKS.register(bus);
     }
+
     public static String getVersion() {
         Optional<? extends ModContainer> o = ModList.get().getModContainerById(MOD_ID);
         if (o.isPresent()) {

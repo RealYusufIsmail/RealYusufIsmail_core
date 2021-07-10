@@ -11,6 +11,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, RealYusufIsmailCore.MOD_ID, existingFileHelper);
     }
+
     @Override
     protected void registerModels() {
         withExistingParent("copper_block", modLoc("block/copper_block"));
@@ -22,11 +23,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         //items
         builder(itemGenerated, "copper");
     }
+
     private ItemModelBuilder builder(ModelFile itemGenerated, String name) {
         return getBuilder(name).parent(itemGenerated).texture("layer0", "item/" + name);
     }
+
     private ItemModelBuilder tool(ModelFile itemhandHeld, String name) {
-        return getBuilder(name).parent(itemhandHeld).texture("layer0",  "item/" + name);
+        return getBuilder(name).parent(itemhandHeld).texture("layer0", "item/" + name);
     }
 
 }

@@ -13,6 +13,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     public ModItemTagsProvider(DataGenerator dataGenerator, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
         super(dataGenerator, blockTagProvider, RealYusufIsmailCore.MOD_ID, existingFileHelper);
     }
+
     @Override
     protected void addTags() {
         //ores
@@ -24,8 +25,6 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
         //ingots
         tag(TagsInit.Items.ORES_COPPER).add(ItemInitCore.COPPER.get());
-
-
 
 
     }

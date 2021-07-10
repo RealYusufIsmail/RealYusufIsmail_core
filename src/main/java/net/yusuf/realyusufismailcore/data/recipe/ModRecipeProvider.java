@@ -28,7 +28,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(consumer);
 
         ShapedRecipeBuilder.shaped(BlockInitCore.COPPER_BLOCK.get())
-                .define('#',TagsInit.Items.INGOTS_COPPER)
+                .define('#', TagsInit.Items.INGOTS_COPPER)
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")

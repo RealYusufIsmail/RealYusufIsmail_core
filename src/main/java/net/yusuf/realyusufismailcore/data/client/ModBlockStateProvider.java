@@ -4,7 +4,9 @@ import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
-import static net.yusuf.realyusufismailcore.core.init.BlockInitCore.*;
+
+import static net.yusuf.realyusufismailcore.core.init.BlockInitCore.COPPER_BLOCK;
+import static net.yusuf.realyusufismailcore.core.init.BlockInitCore.COPPER_ORE;
 
 public class ModBlockStateProvider extends BlockStateProvider {
 
@@ -12,6 +14,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         super(gen, RealYusufIsmailCore.MOD_ID, exFileHelper);
 
     }
+
     @Override
     protected void registerStatesAndModels() {
         simpleBlock(COPPER_ORE.get());

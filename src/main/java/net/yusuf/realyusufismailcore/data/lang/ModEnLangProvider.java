@@ -24,9 +24,11 @@ public class ModEnLangProvider extends LanguageProvider {
         //ingots
         item(ItemInitCore.COPPER, "Copper");
     }
+
     private <T extends Item> void item(RegistryObject<T> entry, String name) {
         add(entry.get(), name);
     }
+
     private <T extends Block> void block(RegistryObject<T> entry, String name) {
         add(entry.get(), name);
     }
