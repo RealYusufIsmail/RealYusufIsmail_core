@@ -29,7 +29,7 @@ def gpr_creds = {
     password = property('gpr.token')
 }
 ```
-Undeer this.
+Under this.
 
 ```gradle
 repositories {
