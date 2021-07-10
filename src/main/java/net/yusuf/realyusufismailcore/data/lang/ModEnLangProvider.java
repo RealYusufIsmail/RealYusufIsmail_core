@@ -6,8 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fml.RegistryObject;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
-import net.yusuf.realyusufismailcore.core.init.BlockInit;
-import net.yusuf.realyusufismailcore.core.init.ItemInit;
+import net.yusuf.realyusufismailcore.core.init.BlockInitCore;
+import net.yusuf.realyusufismailcore.core.init.ItemInitCore;
 
 public class ModEnLangProvider extends LanguageProvider {
 
@@ -18,11 +18,11 @@ public class ModEnLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         //block
-        block(BlockInit.COPPER_BLOCK, "Copper Block");
+        block(BlockInitCore.COPPER_BLOCK, "Copper Block");
         //ores
-        block(BlockInit.COPPER_ORE, "Copper Ore");
+        block(BlockInitCore.COPPER_ORE, "Copper Ore");
         //ingots
-        item(ItemInit.COPPER, "Copper");
+        item(ItemInitCore.COPPER, "Copper");
     }
     private <T extends Item> void item(RegistryObject<T> entry, String name) {
         add(entry.get(), name);

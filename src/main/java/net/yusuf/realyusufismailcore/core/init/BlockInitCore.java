@@ -13,9 +13,9 @@ import net.yusuf.realyusufismailcore.core.itemgroup.MainItemGroup;
 
 import java.util.function.Supplier;
 
-import static net.yusuf.realyusufismailcore.core.init.ItemInit.ITEMS;
+import static net.yusuf.realyusufismailcore.core.init.ItemInitCore.ITEMS;
 
-public class BlockInit {
+public class BlockInitCore {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, RealYusufIsmailCore.MOD_ID);
 
     public static final RegistryObject<GeneralBlock> COPPER_ORE = register("copper_ore", Blocks.IRON_ORE);

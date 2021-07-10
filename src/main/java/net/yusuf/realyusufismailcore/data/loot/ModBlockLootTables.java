@@ -7,7 +7,7 @@ import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 
 import java.util.stream.Collectors;
 
-import static net.yusuf.realyusufismailcore.core.init.BlockInit.*;
+import static net.yusuf.realyusufismailcore.core.init.BlockInitCore.*;
 
 public class ModBlockLootTables extends BlockLootTables {
     @Override

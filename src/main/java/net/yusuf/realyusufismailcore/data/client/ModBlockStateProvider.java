@@ -4,7 +4,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
-import static net.yusuf.realyusufismailcore.core.init.BlockInit.*;
+import static net.yusuf.realyusufismailcore.core.init.BlockInitCore.*;
 
 public class ModBlockStateProvider extends BlockStateProvider {
 

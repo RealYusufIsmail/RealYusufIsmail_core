@@ -2,7 +2,7 @@ package net.yusuf.realyusufismailcore.core.itemgroup;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.yusuf.realyusufismailcore.core.init.ItemInit;
+import net.yusuf.realyusufismailcore.core.init.ItemInitCore;
 
 public class MainItemGroup extends ItemGroup {
 
@@ -14,7 +14,7 @@ public class MainItemGroup extends ItemGroup {
 
     @Override
     public ItemStack makeIcon() {
-        return new ItemStack(ItemInit.COPPER.get());
+        return new ItemStack(ItemInitCore.COPPER.get());
     }
 
 }

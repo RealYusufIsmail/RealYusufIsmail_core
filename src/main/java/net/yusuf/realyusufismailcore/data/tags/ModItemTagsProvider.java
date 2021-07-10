@@ -5,7 +5,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
-import net.yusuf.realyusufismailcore.core.init.ItemInit;
+import net.yusuf.realyusufismailcore.core.init.ItemInitCore;
 import net.yusuf.realyusufismailcore.core.init.TagsInit;
 
 public class ModItemTagsProvider extends ItemTagsProvider {
@@ -23,7 +23,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
 
         //ingots
-        tag(TagsInit.Items.ORES_COPPER).add(ItemInit.COPPER.get());
+        tag(TagsInit.Items.ORES_COPPER).add(ItemInitCore.COPPER.get());
 
 
 
