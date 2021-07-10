@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "realyusufismailcore:copper_block"
+    }
+  ],
+  "result": {
+    "item": "realyusufismailcore:copper",
+    "count": 9
+  }
+}

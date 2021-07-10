@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "realyusufismailcore:copper_ore"
+  },
+  "result": "realyusufismailcore:copper",
+  "experience": 0.2938392,
+  "cookingtime": 500
+}

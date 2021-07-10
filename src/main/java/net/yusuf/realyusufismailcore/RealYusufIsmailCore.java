@@ -8,7 +8,8 @@ import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.yusuf.realyusufismailcore.core.init.RegisterCommandEvent;
+import net.yusuf.realyusufismailcore.core.init.BlockInit;
+import net.yusuf.realyusufismailcore.core.init.ItemInit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +29,8 @@ public class RealYusufIsmailCore {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         INSTANCE = this;
         PROXY = DistExecutor.safeRunForDist(() -> SideProxy.Client::new, () -> SideProxy.Server::new);
-        MinecraftForge.EVENT_BUS.register(RegisterCommandEvent.class);
+        ItemInit.ITEMS.register(bus);
+        BlockInit.BLOCKS.register(bus);
     }
     public static String getVersion() {
         Optional<? extends ModContainer> o = ModList.get().getModContainerById(MOD_ID);
