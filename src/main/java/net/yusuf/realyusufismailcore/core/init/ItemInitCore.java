@@ -1,7 +1,8 @@
 package net.yusuf.realyusufismailcore.core.init;
 
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.RegistryObject;
+
+import net.minecraft.world.item.Item;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
