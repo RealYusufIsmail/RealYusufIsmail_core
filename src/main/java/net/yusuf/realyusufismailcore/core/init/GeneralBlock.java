@@ -1,11 +1,9 @@
 package net.yusuf.realyusufismailcore.core.init;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 
 public class GeneralBlock extends Block {
     public static final DirectionProperty FACING = HorizontalBlock.FACING;

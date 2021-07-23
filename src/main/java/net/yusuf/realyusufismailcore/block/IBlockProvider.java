@@ -1,9 +1,9 @@
 package net.yusuf.realyusufismailcore.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.Item;
-import net.minecraft.util.IItemProvider;
+
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public interface IBlockProvider extends IItemProvider {
     /**
