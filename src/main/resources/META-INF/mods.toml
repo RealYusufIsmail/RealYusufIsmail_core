@@ -10,9 +10,10 @@ authors = "realyusufismail"
 modId = "realyusufismailcore"
 version = "${file.jarVersion}"
 displayName = "RealYusufIsmail Core"
+updateJSONURL = "https://raw.githubusercontent.com/RealYusufIsmail/RealYusufIsmail-Core/1.17.1/update.json"
 description = '''
-    Shared library for Yusuf's mods
-    '''
+Shared library for Yusuf Arfan Ismail's mods
+ '''
 
 [[dependencies.realyusufismailcore]]
 modId = "forge"
