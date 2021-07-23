@@ -1,7 +1,7 @@
 package net.yusuf.realyusufismailcore.data.lang;
 
 import net.minecraft.block.Block;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.loot.FishingLoot;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fml.RegistryObject;
@@ -9,9 +9,11 @@ import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 import net.yusuf.realyusufismailcore.core.init.BlockInitCore;
 import net.yusuf.realyusufismailcore.core.init.ItemInitCore;
 
+import Item;
+
 public class ModEnLangProvider extends LanguageProvider {
 
-    public ModEnLangProvider(DataGenerator gen) {
+    public ModEnLangProvider(FishingLoot gen) {
         super(gen, RealYusufIsmailCore.MOD_ID, "en_us");
     }
 

@@ -9,6 +9,8 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import javax.annotation.Nullable;
 import java.util.regex.Pattern;
 
+import ResourceLocation;
+
 public final class NameUtils {
     private static final Pattern PATTERN = Pattern.compile("([a-z0-9._-]+:)?[a-z0-9/._-]+");
 

@@ -6,6 +6,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import javax.annotation.Nonnull;
 
+import ItemStack;
+
 public class CraftingEventTrigger extends PlayerEvent {
     @Nonnull
     private final ItemStack left; // The left side of the input
