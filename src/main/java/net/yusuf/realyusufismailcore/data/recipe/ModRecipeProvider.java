@@ -1,10 +1,7 @@
 package net.yusuf.realyusufismailcore.data.recipe;
 
 import net.minecraft.data.*;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
@@ -24,7 +21,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+    protected void ShapelessRecipeBuilder(Consumer<FinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapeless(ItemInitCore.COPPER.get(), 9)
 
                 .requires(BlockInitCore.COPPER_BLOCK.get())
