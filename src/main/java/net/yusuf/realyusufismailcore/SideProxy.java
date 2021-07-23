@@ -3,6 +3,8 @@ package net.yusuf.realyusufismailcore;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.tags.StaticTagHelper;
+import net.minecraft.tags.StaticTags;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.event.lifecycle.*;
@@ -51,7 +53,7 @@ public class SideProxy {
 
         @Override
         public void tryFetchTagsHack() {
-            TagRegistryManager.resetAllToEmpty();
+            StaticTags.resetAllToEmpty();
         }
     }
 
