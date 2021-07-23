@@ -1,7 +1,7 @@
 package net.yusuf.realyusufismailcore.core.itemgroup;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+
+import net.minecraft.world.item.ItemStack;
 import net.yusuf.realyusufismailcore.core.init.ItemInitCore;
 
 public class MainItemGroup extends ItemGroup {
