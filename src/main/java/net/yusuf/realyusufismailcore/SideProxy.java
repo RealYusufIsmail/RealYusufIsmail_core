@@ -2,6 +2,7 @@ package net.yusuf.realyusufismailcore;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.StaticTagHelper;
 import net.minecraft.tags.StaticTags;
@@ -36,7 +37,7 @@ public class SideProxy {
     }
 
     private void onRegisterCommands(RegisterCommandsEvent event) {
-        CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
+        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
     }
 
 
