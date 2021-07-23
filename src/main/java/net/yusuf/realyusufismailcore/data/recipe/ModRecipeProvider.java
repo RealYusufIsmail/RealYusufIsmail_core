@@ -1,8 +1,12 @@
 package net.yusuf.realyusufismailcore.data.recipe;
 
 import net.minecraft.data.*;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 import net.yusuf.realyusufismailcore.core.init.BlockInitCore;
 import net.yusuf.realyusufismailcore.core.init.ItemInitCore;
@@ -35,11 +39,11 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_item", has(TagsInit.Items.INGOTS_COPPER))
                 .save(consumer);
 
-        CookingRecipeBuilder.smelting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), ItemInitCore.COPPER.get(), 0.6f, 500)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), ItemInitCore.COPPER.get(), 0.6f, 500)
                 .unlockedBy("has_item", has(BlockInitCore.COPPER_ORE.get()))
                 .save(consumer, modId("copper_ore_smelt"));
 
-        CookingRecipeBuilder.blasting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), ItemInitCore.COPPER.get(), 0.2938392f, 500)
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), ItemInitCore.COPPER.get(), 0.2938392f, 500)
                 .unlockedBy("has_item", has(BlockInitCore.COPPER_ORE.get()))
                 .save(consumer, modId("copper_ore_blasting_smelt"));
     }

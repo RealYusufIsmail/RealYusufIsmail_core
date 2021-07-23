@@ -1,6 +1,6 @@
 package net.yusuf.realyusufismailcore.data.client;
 
-import net.minecraft.data.loot.FishingLoot;
+import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -8,7 +8,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 
 public class ModItemModelProvider extends ItemModelProvider {
-    public ModItemModelProvider(FishingLoot generator, ExistingFileHelper existingFileHelper) {
+    public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, RealYusufIsmailCore.MOD_ID, existingFileHelper);
     }
 
