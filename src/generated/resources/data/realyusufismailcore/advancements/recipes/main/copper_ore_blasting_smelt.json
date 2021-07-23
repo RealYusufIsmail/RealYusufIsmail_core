@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "realyusufismailcore:copper_ore"
+            "items": [
+              "realyusufismailcore:copper_ore"
+            ]
           }
         ]
       }
