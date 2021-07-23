@@ -9,6 +9,7 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 import net.yusuf.realyusufismailcore.core.init.BlockInitCore;
 import net.yusuf.realyusufismailcore.core.init.ItemInitCore;
+import net.yusuf.realyusufismailcore.core.itemgroup.MainItemGroup;
 
 public class ModEnLangProvider extends LanguageProvider {
 
@@ -24,6 +25,9 @@ public class ModEnLangProvider extends LanguageProvider {
         block(BlockInitCore.COPPER_ORE, "Copper Ore");
         //ingots
         item(ItemInitCore.COPPER, "Copper");
+
+        //others
+        add(MainItemGroup.MAIN.getDisplayName().getString(), "RealYusufIsmail Core Item Group");
     }
 
     private <T extends Item> void item(RegistryObject<T> entry, String name) {
