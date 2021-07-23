@@ -21,7 +21,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    protected void ShapelessRecipeBuilder(Consumer<FinishedRecipe> consumer) {
+    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapeless(ItemInitCore.COPPER.get(), 9)
 
                 .requires(BlockInitCore.COPPER_BLOCK.get())

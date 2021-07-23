@@ -5,6 +5,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -35,6 +36,6 @@ public class BlockInitCore {
     }
 
     private static RegistryObject<GeneralBlock> register(String name, Block existingBlock) {
-        return register(name, () -> new GeneralBlock(AbstractBlock.Properties.copy(existingBlock)));
+        return register(name, () -> new GeneralBlock(BlockBehaviour.Properties.copy(existingBlock)));
     }
 }

@@ -1,14 +1,21 @@
 package net.yusuf.realyusufismailcore.advancements;
 
 import com.google.gson.JsonObject;
+import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.SerializationContext;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.PlayerAdvancements;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.GsonHelper;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
+
 
 import java.util.*;
 
-public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.Instance> {
+public class GenericIntTrigger implements CriterionTrigger<GenericIntTrigger.Instance> {
     private static final ResourceLocation ID = new ResourceLocation(RealYusufIsmailCore.MOD_ID, "generic_int");
     private final Map<PlayerAdvancements, Listeners> listeners = new HashMap<>();
 
@@ -18,22 +25,22 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
     }
 
     @Override
-    public void addPlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<GenericIntTrigger.Instance> listenerIn) {
-        Listeners triggerListeners = this.listeners.get(playerAdvancementsIn);
+    public void addPlayerListener(PlayerAdvancements p_13674_, Listener<Instance> p_13675_) {
+        Listeners triggerListeners = this.listeners.get(p_13674_);
         if (triggerListeners == null) {
-            triggerListeners = new Listeners(playerAdvancementsIn);
-            this.listeners.put(playerAdvancementsIn, triggerListeners);
+            triggerListeners = new Listeners(p_13674_);
+            this.listeners.put(p_13674_, triggerListeners);
         }
-        triggerListeners.add(listenerIn);
+        triggerListeners.add(p_13675_);
     }
 
     @Override
-    public void removePlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<GenericIntTrigger.Instance> listenerIn) {
-        Listeners triggerListeners = this.listeners.get(playerAdvancementsIn);
+    public void removePlayerListener(PlayerAdvancements p_13676_, Listener<Instance> p_13677_) {
+        Listeners triggerListeners = this.listeners.get(p_13676_);
         if (triggerListeners != null) {
-            triggerListeners.remove(listenerIn);
+            triggerListeners.remove(p_13677_);
             if (triggerListeners.isEmpty())
-                this.listeners.remove(playerAdvancementsIn);
+                this.listeners.remove(p_13676_);
         }
     }
 
@@ -44,24 +51,24 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
 
 
     @Override
-    public Instance createInstance(JsonObject json, ConditionArrayParser p_230307_2_) {
-        String type = JSONUtils.getAsString(json, "type", "unknown");
-        int value = JSONUtils.getAsInt(json, "value", 0);
+    public Instance createInstance(JsonObject json, DeserializationContext p_230307_2_) {
+        String type = GsonHelper.getAsString(json, "type", "unknown");
+        int value = GsonHelper.getAsInt(json, "value", 0);
         return new Instance(type, value);
     }
 
-    public void trigger(ServerPlayerEntity player, ResourceLocation type, int value) {
+    public void trigger(ServerPlayer player, ResourceLocation type, int value) {
         GenericIntTrigger.Listeners triggerListeners = this.listeners.get(player.getAdvancements());
         if (triggerListeners != null)
             triggerListeners.trigger(type.toString(), value);
     }
 
-    public static class Instance extends CriterionInstance {
+    public static class Instance extends AbstractCriterionTriggerInstance {
         String type;
         int value;
 
         Instance(String type, int value) {
-            super(GenericIntTrigger.ID, EntityPredicate.AndPredicate.ANY);
+            super(GenericIntTrigger.ID, EntityPredicate.Composite.ANY);
             this.type = type;
             this.value = value;
         }
@@ -76,7 +83,7 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
 
 
         @Override
-        public JsonObject serializeToJson(ConditionArraySerializer p_230240_1_) {
+        public JsonObject serializeToJson(SerializationContext p_230240_1_) {
             JsonObject json = new JsonObject();
             json.addProperty("type", this.type);
             json.addProperty("value", this.value);

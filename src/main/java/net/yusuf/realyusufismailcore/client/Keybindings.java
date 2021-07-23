@@ -1,12 +1,11 @@
 package net.yusuf.realyusufismailcore.client;
 
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.NonNullList;
+import net.minecraft.core.NonNullList;
 
-import NonNullList;
+import javax.swing.text.JTextComponent;
 
 public class Keybindings {
-    public static NonNullList<KeyBinding> keyBinds = NonNullList.create();
+    public static NonNullList<JTextComponent.KeyBinding> keyBinds = NonNullList.create();
 
-    public static KeyBinding RELOAD;
+    public static JTextComponent.KeyBinding RELOAD;
 }

@@ -2,10 +2,11 @@ package net.yusuf.realyusufismailcore.block;
 
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public interface IBlockProvider extends IItemProvider {
+public interface IBlockProvider extends ItemLike {
     /**
      * Get the block this object represents.
      *

@@ -1,16 +1,16 @@
 package net.yusuf.realyusufismailcore.data.loot;
 
 
+import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 
 import java.util.stream.Collectors;
 
-import static net.yusuf.realyusufismailcore.core.init.BlockInitCore.COPPER_BLOCK;
-import static net.yusuf.realyusufismailcore.core.init.BlockInitCore.COPPER_ORE;
+import static net.yusuf.realyusufismailcore.core.init.BlockInitCore.*;
 
-public class ModBlockLootTables extends BlockLootTables {
+public class ModBlockLootTables extends BlockLoot {
     @Override
     protected void addTables() {
         //ores

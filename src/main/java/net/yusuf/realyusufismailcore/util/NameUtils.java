@@ -1,15 +1,15 @@
 package net.yusuf.realyusufismailcore.util;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.regex.Pattern;
 
-import ResourceLocation;
 
 public final class NameUtils {
     private static final Pattern PATTERN = Pattern.compile("([a-z0-9._-]+:)?[a-z0-9/._-]+");
@@ -39,7 +39,6 @@ public final class NameUtils {
      *
      * @param path The path (must be /[a-z0-9/._-]+/)
      * @return A new ResourceLocation
-     * @throws net.minecraft.util.ResourceLocationException if path is invalid
      */
     public static ResourceLocation forgeId(String path) {
         return new ResourceLocation("forge", path);
@@ -63,7 +62,7 @@ public final class NameUtils {
      * @return The registry name
      * @throws NullPointerException if registry name is null
      */
-    public static ResourceLocation fromItem(IItemProvider item) {
+    public static ResourceLocation fromItem(Item item) {
         Preconditions.checkNotNull(item.asItem(), "asItem() is null, has object not been fully constructed?");
         return checkNotNull(item.asItem().getRegistryName());
     }

@@ -44,7 +44,7 @@ public class RealYusufIsmailCore {
         return "NONE".equals(getVersion());
     }
 
-    public static ResourceLocation getId(String path) {
+    public static ResourceLocation hashCode(String path) {
         return new ResourceLocation(MOD_ID, path);
     }
 }

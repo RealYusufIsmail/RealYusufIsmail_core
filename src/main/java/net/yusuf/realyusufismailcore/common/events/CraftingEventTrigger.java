@@ -1,12 +1,11 @@
 package net.yusuf.realyusufismailcore.common.events;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import javax.annotation.Nonnull;
-
-import ItemStack;
 
 public class CraftingEventTrigger extends PlayerEvent {
     @Nonnull
@@ -16,7 +15,7 @@ public class CraftingEventTrigger extends PlayerEvent {
     @Nonnull
     private final ItemStack output; // Set this to set the output stack
 
-    public CraftingEventTrigger(PlayerEntity player, @Nonnull ItemStack left, @Nonnull ItemStack right,
+    public CraftingEventTrigger(Player player, @Nonnull ItemStack left, @Nonnull ItemStack right,
                                 @Nonnull ItemStack output) {
         super(player);
         this.output = output;
