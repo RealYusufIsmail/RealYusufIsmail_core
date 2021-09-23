@@ -33,33 +33,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.yusuf.realyusufismailcore.data.Support.block;
+package net.yusuf.realyusufismailcore.data.support.loot;
 
-
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 
-public interface BlockProvider extends ItemLike {
-    /**
-     * Get the block this object represents.
-     *
-     * @return The block, which may be newly constructed
-     */
-    Block asBlock();
-
-    /**
-     * Shortcut for getting the default state of the block.
-     *
-     * @return Default block state
-     */
-    default BlockState asBlockState() {
-        return asBlock().defaultBlockState();
-    }
+public abstract class ModBlockLootTablesSupport extends BlockLoot {
+    @Override
+    protected abstract void addTables();
 
     @Override
-    default Item asItem() {
-        return asBlock().asItem();
-    }
+    protected abstract Iterable<Block> getKnownBlocks();
 }

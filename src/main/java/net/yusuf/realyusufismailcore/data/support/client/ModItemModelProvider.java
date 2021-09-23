@@ -33,33 +33,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.yusuf.realyusufismailcore.data.Support;
+package net.yusuf.realyusufismailcore.data.support.client;
 
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.ValidationContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
-public abstract class ModLootTablesSupport extends LootTableProvider {
-    public ModLootTablesSupport(DataGenerator dataGeneratorIn) {
-        super(dataGeneratorIn);
+public abstract class ModItemModelProvider extends ItemModelProvider {
+    public ModItemModelProvider(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
+        super(generator, modid, existingFileHelper);
     }
 
-    @Override
-    public abstract String getName();
+    protected abstract void registerModels();
 
-    @Override
-    protected abstract List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables();
+    protected abstract ItemModelBuilder builder(ModelFile itemGenerated, String name);
 
-    @Override
-    public abstract void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker);
+    protected abstract ItemModelBuilder tool(ModelFile itemhandHeld, String name);
 }

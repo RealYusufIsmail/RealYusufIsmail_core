@@ -33,7 +33,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.yusuf.realyusufismailcore.data.Support.advancements;
+package net.yusuf.realyusufismailcore.data.support.advancements;
 
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.CriterionTrigger;

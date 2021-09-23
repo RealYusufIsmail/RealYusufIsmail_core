@@ -33,32 +33,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.yusuf.realyusufismailcore.data.Support;
+package net.yusuf.realyusufismailcore.data.support.loot;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 
-public abstract class ModEnLangProviderSupport extends LanguageProvider {
-    public ModEnLangProviderSupport(DataGenerator gen, String modid, String locale) {
-        super(gen, modid, locale);
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+public abstract class ModLootTablesSupport extends LootTableProvider {
+    public ModLootTablesSupport(DataGenerator dataGeneratorIn) {
+        super(dataGeneratorIn);
     }
 
     @Override
-    protected abstract void addTranslations();
+    public abstract String getName();
 
-    /**
-     * add(entry.get(), name);
-     */
-    public abstract <T extends Item> void item(RegistryObject<T> entry, String name);
+    @Override
+    protected abstract List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables();
 
-    public abstract <T extends Block> void block(RegistryObject<T> entry, String name);
-
-    /**
-     * super.add(translatableComponent.getString(), lang);
-     */
-    public abstract void add(Component translatableComponent, String lang);
+    @Override
+    public abstract void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker);
 }
