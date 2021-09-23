@@ -41,8 +41,8 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-public abstract class ModItemModelProvider extends ItemModelProvider {
-    public ModItemModelProvider(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
+public abstract class ModItemModelProviderSupport extends ItemModelProvider {
+    public ModItemModelProviderSupport(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
         super(generator, modid, existingFileHelper);
     }
 
