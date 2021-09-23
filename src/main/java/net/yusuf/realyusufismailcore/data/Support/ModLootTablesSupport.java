@@ -33,44 +33,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.yusuf.realyusufismailcore.data.lang;
+package net.yusuf.realyusufismailcore.data.Support;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.FishingLoot;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.fmllegacy.RegistryObject;
-import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
-import net.yusuf.realyusufismailcore.core.init.BlockInitCore;
-import net.yusuf.realyusufismailcore.core.init.ItemInitCore;
-import net.yusuf.realyusufismailcore.core.itemgroup.MainItemGroup;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 
-public class ModEnLangProvider extends LanguageProvider {
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-    public ModEnLangProvider(DataGenerator gen) {
-        super(gen, RealYusufIsmailCore.MOD_ID, "en_us");
+public abstract class ModLootTablesSupport extends LootTableProvider {
+    public ModLootTablesSupport(DataGenerator dataGeneratorIn) {
+        super(dataGeneratorIn);
     }
 
     @Override
-    protected void addTranslations() {
-        //block
-        block(BlockInitCore.COPPER_BLOCK, "Copper Block");
-        //ores
-        block(BlockInitCore.COPPER_ORE, "Copper Ore");
-        //ingots
-        item(ItemInitCore.COPPER, "Copper");
+    public abstract String getName();
 
-        //others
-        add(MainItemGroup.MAIN.getDisplayName().getString(), "RealYusufIsmail Core Item Group");
-    }
+    @Override
+    protected abstract List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables();
 
-    private <T extends Item> void item(RegistryObject<T> entry, String name) {
-        add(entry.get(), name);
-    }
-
-    private <T extends Block> void block(RegistryObject<T> entry, String name) {
-        add(entry.get(), name);
-    }
-
+    @Override
+    public abstract void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker);
 }

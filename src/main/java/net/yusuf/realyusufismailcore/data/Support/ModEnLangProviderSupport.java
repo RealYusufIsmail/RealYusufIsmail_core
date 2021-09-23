@@ -33,9 +33,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.yusuf.realyusufismailcore.data.lang;
+package net.yusuf.realyusufismailcore.data.Support;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -49,7 +50,15 @@ public abstract class ModEnLangProviderSupport extends LanguageProvider {
     @Override
     protected abstract void addTranslations();
 
+    /**
+     * add(entry.get(), name);
+     */
     public abstract <T extends Item> void item(RegistryObject<T> entry, String name);
 
     public abstract <T extends Block> void block(RegistryObject<T> entry, String name);
+
+    /**
+     * super.add(translatableComponent.getString(), lang);
+     */
+    public abstract void add(Component translatableComponent, String lang);
 }

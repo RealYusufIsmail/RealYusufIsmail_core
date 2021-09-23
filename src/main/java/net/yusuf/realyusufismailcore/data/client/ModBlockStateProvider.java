@@ -36,7 +36,9 @@
 package net.yusuf.realyusufismailcore.data.client;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 
@@ -47,7 +49,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     public ModBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
         super(gen, RealYusufIsmailCore.MOD_ID, exFileHelper);
-
     }
 
     @Override
