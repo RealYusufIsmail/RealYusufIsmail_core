@@ -40,6 +40,7 @@ import com.google.common.base.Preconditions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import javax.annotation.Nullable;
@@ -74,6 +75,7 @@ public final class NameUtils {
      *
      * @param path The path (must be /[a-z0-9/._-]+/)
      * @return A new ResourceLocation
+     * @throws net.minecraft.resources.ResourceLocation; if path is invalid
      */
     public static ResourceLocation forgeId(String path) {
         return new ResourceLocation("forge", path);
@@ -97,7 +99,7 @@ public final class NameUtils {
      * @return The registry name
      * @throws NullPointerException if registry name is null
      */
-    public static ResourceLocation fromItem(Item item) {
+    public static ResourceLocation fromItem(ItemLike item) {
         Preconditions.checkNotNull(item.asItem(), "asItem() is null, has object not been fully constructed?");
         return checkNotNull(item.asItem().getRegistryName());
     }
