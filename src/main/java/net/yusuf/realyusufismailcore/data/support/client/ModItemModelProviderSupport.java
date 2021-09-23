@@ -51,4 +51,6 @@ public abstract class ModItemModelProviderSupport extends ItemModelProvider {
     protected abstract ItemModelBuilder builder(ModelFile itemGenerated, String name);
 
     protected abstract ItemModelBuilder tool(ModelFile itemhandHeld, String name);
+
+    protected abstract void block(String name);
 }
