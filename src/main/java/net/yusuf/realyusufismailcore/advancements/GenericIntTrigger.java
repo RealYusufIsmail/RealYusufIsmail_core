@@ -52,7 +52,7 @@ import java.util.*;
 
 public class GenericIntTrigger implements CriterionTrigger<GenericIntTrigger.Instance> {
     private static final ResourceLocation ID = new ResourceLocation(RealYusufIsmailCore.MOD_ID, "generic_int");
-    private final Map<PlayerAdvancements, Listeners> listeners = new HashMap<>();
+    private final Map<PlayerAdvancements, GenericIntTrigger.Listeners> listeners = new HashMap<>();
 
     @Override
     public ResourceLocation getId() {
@@ -60,22 +60,22 @@ public class GenericIntTrigger implements CriterionTrigger<GenericIntTrigger.Ins
     }
 
     @Override
-    public void addPlayerListener(PlayerAdvancements p_13674_, Listener<Instance> p_13675_) {
-        Listeners triggerListeners = this.listeners.get(p_13674_);
+    public void addPlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<GenericIntTrigger.Instance> listenerIn) {
+        Listeners triggerListeners = this.listeners.get(playerAdvancementsIn);
         if (triggerListeners == null) {
-            triggerListeners = new Listeners(p_13674_);
-            this.listeners.put(p_13674_, triggerListeners);
+            triggerListeners = new Listeners(playerAdvancementsIn);
+            this.listeners.put(playerAdvancementsIn, triggerListeners);
         }
-        triggerListeners.add(p_13675_);
+        triggerListeners.add(listenerIn);
     }
 
     @Override
-    public void removePlayerListener(PlayerAdvancements p_13676_, Listener<Instance> p_13677_) {
-        Listeners triggerListeners = this.listeners.get(p_13676_);
+    public void removePlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<GenericIntTrigger.Instance> listenerIn) {
+        Listeners triggerListeners = this.listeners.get(playerAdvancementsIn);
         if (triggerListeners != null) {
-            triggerListeners.remove(p_13677_);
+            triggerListeners.remove(listenerIn);
             if (triggerListeners.isEmpty())
-                this.listeners.remove(p_13676_);
+                this.listeners.remove(playerAdvancementsIn);
         }
     }
 
@@ -84,18 +84,11 @@ public class GenericIntTrigger implements CriterionTrigger<GenericIntTrigger.Ins
         this.listeners.remove(playerAdvancementsIn);
     }
 
-
     @Override
     public Instance createInstance(JsonObject json, DeserializationContext p_230307_2_) {
         String type = GsonHelper.getAsString(json, "type", "unknown");
         int value = GsonHelper.getAsInt(json, "value", 0);
         return new Instance(type, value);
-    }
-
-    public void trigger(ServerPlayer player, ResourceLocation type, int value) {
-        GenericIntTrigger.Listeners triggerListeners = this.listeners.get(player.getAdvancements());
-        if (triggerListeners != null)
-            triggerListeners.trigger(type.toString(), value);
     }
 
     public static class Instance extends AbstractCriterionTriggerInstance {
@@ -116,7 +109,6 @@ public class GenericIntTrigger implements CriterionTrigger<GenericIntTrigger.Ins
             return this.type.equals(typeIn) && this.value <= valueIn;
         }
 
-
         @Override
         public JsonObject serializeToJson(SerializationContext p_230240_1_) {
             JsonObject json = new JsonObject();
@@ -124,6 +116,12 @@ public class GenericIntTrigger implements CriterionTrigger<GenericIntTrigger.Ins
             json.addProperty("value", this.value);
             return json;
         }
+    }
+
+    public void trigger(ServerPlayer player, ResourceLocation type, int value) {
+        GenericIntTrigger.Listeners triggerListeners = this.listeners.get(player.getAdvancements());
+        if (triggerListeners != null)
+            triggerListeners.trigger(type.toString(), value);
     }
 
     static class Listeners {

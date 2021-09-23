@@ -5,7 +5,6 @@ issueTrackerURL = "https://github.com/RealYusufIsmail/RealYusufIsmail_core/issue
 #logoFile="examplemod.png"
 credits = "realyusufismail"
 authors = "realyusufismail"
-
 [[mods]]
 modId = "realyusufismailcore"
 version = "${file.jarVersion}"
