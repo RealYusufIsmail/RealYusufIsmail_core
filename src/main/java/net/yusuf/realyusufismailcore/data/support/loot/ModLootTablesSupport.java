@@ -61,5 +61,5 @@ public abstract class ModLootTablesSupport extends LootTableProvider {
     protected abstract List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables();
 
     @Override
-    public abstract void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker);
+    protected abstract void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker);
 }
