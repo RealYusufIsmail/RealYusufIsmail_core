@@ -37,6 +37,8 @@ package net.yusuf.realyusufismailcore.data.support.lang;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -51,11 +53,13 @@ public abstract class ModEnLangProviderSupport extends LanguageProvider {
     protected abstract void addTranslations();
 
     /**
-     * add(entry.get(), name);
+     * add(entry.get(), name); for all
      */
     protected abstract <T extends Item> void item(RegistryObject<T> entry, String name);
 
     protected abstract <T extends Block> void block(RegistryObject<T> entry, String name);
+
+    protected abstract <T extends Entity> void entity(EntityType<?> key, String name);
 
     /**
      * super.add(translatableComponent.getString(), lang);
