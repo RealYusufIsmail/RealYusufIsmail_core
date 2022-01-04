@@ -122,10 +122,14 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
     }
 
     @NotNull
-    public EnchantmentRecipeProvider setEnchantment(Enchantment enchantment, int level,
-            int hideFlags) {
+    public EnchantmentRecipeProvider setEnchantment(Enchantment enchantment, int level) {
         this.enchantment = enchantment;
         this.level = level;
+        return this;
+    }
+
+    @NotNull
+    public EnchantmentRecipeProvider setHideFlags(int hideFlags) {
         this.hideFlags = hideFlags;
         return this;
     }
