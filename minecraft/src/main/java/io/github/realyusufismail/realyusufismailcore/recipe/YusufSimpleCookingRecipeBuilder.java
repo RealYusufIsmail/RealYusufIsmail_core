@@ -33,6 +33,7 @@
 package io.github.realyusufismail.realyusufismailcore.recipe;
 
 import com.google.gson.JsonObject;
+import io.github.realyusufismail.realyusufismailcore.MinecraftClass;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
@@ -60,6 +61,7 @@ import java.util.function.Consumer;
  * 
  * @see SimpleCookingRecipeBuilder
  */
+@MinecraftClass
 @SuppressWarnings("unused")
 public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
     private final Item result;

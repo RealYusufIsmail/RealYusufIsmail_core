@@ -33,6 +33,7 @@
 package io.github.realyusufismail.realyusufismailcore.recipe;
 
 import com.google.gson.JsonObject;
+import io.github.realyusufismail.realyusufismailcore.MinecraftClass;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -43,6 +44,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
+@MinecraftClass
 public class YusufSpecialRecipeBuilder {
     final SimpleRecipeSerializer<?> serializer;
 
