@@ -50,17 +50,10 @@ import java.util.Random;
 @Mod("realyusufismailcore")
 @Mod.EventBusSubscriber(modid = RealYusufIsmailCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RealYusufIsmailCore {
-    public static final Logger LOGGER = LogManager.getLogger();
-    public static final Random RANDOM = new Random();
     public static final String MOD_ID = "realyusufismailcore";
-    public static SideProxy PROXY;
-    private static RealYusufIsmailCore INSTANCE;
 
     public RealYusufIsmailCore() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        INSTANCE = this;
-        PROXY = DistExecutor.safeRunForDist(() -> SideProxy.Client::new,
-                () -> SideProxy.Server::new);
         ItemInitCore.ITEMS.register(bus);
         BlockInitCore.BLOCKS.register(bus);
     }

@@ -60,6 +60,7 @@ public class ModRecipeProvider extends RecipeProvider {
             .unlockedBy("has_item", has(TagsInit.Items.INGOTS_COPPER))
             .save(consumer);
 
+
         ShapedRecipeBuilder.shaped(BlockInitCore.COPPER_BLOCK.get())
             .define('#', TagsInit.Items.INGOTS_COPPER)
             .pattern("###")

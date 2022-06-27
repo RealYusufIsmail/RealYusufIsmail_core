@@ -14,6 +14,6 @@ repositories {
 
 ```gradle
 dependencies {
-     implementation group: 'io.github.yusufsdiscordbot.realyusufismailcore', name: 'minecraft', version: '1.0.0'
+     implementation group: 'io.github.realyusufismail', name: 'realyusufismail-core', version: '1.0.0'
 }
 ```

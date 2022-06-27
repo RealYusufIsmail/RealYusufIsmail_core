@@ -30,33 +30,27 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.github.realyusufismail.realyusufismailcore.data.loot;
+package io.github.realyusufismail.realyusufismailcore.registry;
 
+import net.minecraftforge.registries.ForgeRegistry;
+import net.minecraftforge.registries.RegistryObject;
 
-import net.minecraft.data.loot.BlockLoot;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import java.util.function.Supplier;
 
-import java.util.stream.Collectors;
+public class RegistryObjectWrapper<T extends ForgeRegistry<? super T>> implements Supplier<T> {
+    protected final RegistryObject<T> registryObject;
 
-import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.*;
+    public RegistryObjectWrapper(RegistryObject<T> registryObject) {
+        this.registryObject = registryObject;
+    }
 
-public class ModBlockLootTables extends BlockLoot {
-    @Override
-    protected void addTables() {
-        // ores
-        dropSelf(COPPER_ORE.get());
-        // blocks
-        dropSelf(COPPER_BLOCK.get());
+    public RegistryObject<T> getRegistryObject() {
+        return registryObject;
     }
 
     @Override
-    protected Iterable<Block> getKnownBlocks() {
-        return ForgeRegistries.BLOCKS.getValues()
-            .stream()
-            .filter(block -> RealYusufIsmailCore.MOD_ID
-                .equals(block.getRegistryName().getNamespace()))
-            .collect(Collectors.toSet());
+    public T get() {
+        return registryObject.get();
     }
+
 }

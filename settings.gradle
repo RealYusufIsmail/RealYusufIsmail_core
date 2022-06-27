@@ -1,3 +1,8 @@
-rootProject.name = 'RealYusufIsmail-Core'
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url = 'https://maven.minecraftforge.net/' }
+    }
+}
 
-include 'minecraft'
+rootProject.name = 'RealYusufIsmail-Core'

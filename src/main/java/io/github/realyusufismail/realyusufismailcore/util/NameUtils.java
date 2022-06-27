@@ -35,10 +35,7 @@ package io.github.realyusufismail.realyusufismailcore.util;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -89,31 +86,7 @@ public final class NameUtils {
      * @return The registry name
      * @throws NullPointerException if registry name is null
      */
-    public static ResourceLocation from(@NotNull IForgeRegistryEntry<?> entry) {
+    public static ResourceLocation from(@NotNull ForgeRegistry<?> entry) {
         return checkNotNull(entry.getRegistryName());
-    }
-
-    /**
-     * Gets the item's registry name, throwing an exception if it is null
-     *
-     * @param item The item
-     * @return The registry name
-     * @throws NullPointerException if registry name is null
-     */
-    public static ResourceLocation fromItem(@NotNull ItemLike item) {
-        Preconditions.checkNotNull(item.asItem(),
-                "asItem() is null, has object not been fully constructed?");
-        return checkNotNull(item.asItem().getRegistryName());
-    }
-
-    /**
-     * Gets the registry name of the stack's item, throwing an exception if it is null
-     *
-     * @param stack The ItemStack
-     * @return The registry name
-     * @throws NullPointerException if registry name is null
-     */
-    public static ResourceLocation fromItem(@NotNull ItemStack stack) {
-        return checkNotNull(stack.getItem().getRegistryName());
     }
 }

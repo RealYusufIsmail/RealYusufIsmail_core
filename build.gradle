@@ -1,7 +1,8 @@
 plugins {
     id 'java'
-    id "com.diffplug.spotless" version "6.1.0"
-    id "name.remal.sonarlint" version "1.5.0"
+    id 'eclipse'
+    id "com.diffplug.spotless" version "6.6.1"
+    id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
 ext {
@@ -12,139 +13,208 @@ ext {
     dev_organizationUrl = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core'
 
     gpl_name = 'BSD 3-Clause "New" or "Revised" License'
-    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.18.1/LICENSE.txt'
+    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.19/LICENSE.txt'
 
     // Make sure we have a default for initial configuration evaluation
     isReleaseVersion = false
 }
 
-allprojects {
-    //Maven published can be found in application's gradle
-    group = 'io.github.yusufsdiscordbot.realyusufismailcore'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
-    // When it comes to publishing we need to ensure we have the subproject version set
-    // rather than the root project version
-    afterEvaluate { project ->
-        ext.isReleaseVersion = !version.endsWith("RELEASE")
+
+version = '1.19-1.0.0'
+group = 'io.github.realyusufismail'
+archivesBaseName = 'realyusufismailcore'
+
+// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
+minecraft {
+    mappings channel: 'official', version: '1.19'
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            property 'forge.enabledGameTestNamespaces', archivesBaseName
+
+            mods {
+                realyusufismailcore {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            property 'forge.enabledGameTestNamespaces', archivesBaseName
+
+            mods {
+                realyusufismailcore {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        gameTestServer {
+            workingDirectory project.file('run')
+
+            property 'forge.enabledGameTestNamespaces', archivesBaseName
+
+            mods {
+                realyusufismailcore {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+
+            args '--mod', archivesBaseName, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            mods {
+                realyusufismailcore {
+                    source sourceSets.main
+                }
+            }
+        }
     }
 }
-sourceCompatibility = JavaVersion.VERSION_17
 
-subprojects {
-    //some parts of this gradle copy tj's bot.
-    //so all credits for that goes towards java Together-Java https://github.com/Together-Java/TJ-Bot/blob/a2a963a9e51792018f1beff3b41b6ba9eab0ca50/build.gradle#L25
-    apply plugin: "java"
-    apply plugin: "com.diffplug.spotless"
-    apply plugin: 'java-library'
-    apply plugin: 'maven-publish'
-    apply plugin: 'signing'
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    mavenCentral()
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.19-41.0.45'
+    //Logger
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.11'
+    //test
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}
 
 
-    // All subprojects inherit root project group and version, to avoid duplication.
-    group = rootProject.group
-    version = rootProject.version
+configurations.all {
+    //noinspection GrUnresolvedAccess
+    // ez vulnerability fix
+    exclude group: "org.slf4j", module: "slf4j-log4j12"
+}
 
-    repositories {
-        mavenCentral()
-    }
+afterEvaluate { project ->
+    ext.isReleaseVersion = !version.endsWith("RELEASE")
+}
 
-    dependencies {
-        testImplementation("junit:junit:4.13.2")
-    }
+compileJava {
+    // Makes spotlessApply task run on every compile/build.
+    dependsOn 'spotlessApply'
 
-    compileJava {
-        // Makes spotlessApply task run on every compile/build.
-        dependsOn 'spotlessApply'
+    // Nails the Java-Version of every Subproject
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
-        // Nails the Java-Version of every Subproject
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    spotless {
-        java {
-            // Excludes build folder since it contains generated java classes.
-            targetExclude("build/**")
-            eclipse('4.19.0').configFile("${rootProject.rootDir}/meta/formatting/google-style-eclipse.xml")
-        }
-    }
-
-    javadoc {
-        if (JavaVersion.current().isJava8Compatible()) {
-            options.addStringOption('Xdoclint:none', '-quiet')
-            logging.captureStandardError LogLevel.INFO
-            logging.captureStandardOutput LogLevel.INFO
-        }
-
-        if (JavaVersion.current().isJava9Compatible()) {
-            options.addBooleanOption('html5', true)
-        }
-    }
-
+spotless {
     java {
-        withJavadocJar()
-        withSourcesJar()
+        // Excludes build folder since it contains generated java classes.
+        targetExclude("build/**")
+        eclipse('4.19.0').configFile("${rootProject.rootDir}/meta/formatting/google-style-eclipse.xml")
+    }
+}
+
+javadoc {
+    if (JavaVersion.current().isJava8Compatible()) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        logging.captureStandardError LogLevel.INFO
+        logging.captureStandardOutput LogLevel.INFO
     }
 
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                //artifactId = project.artifactId // or maybe archiveBaseName?
-                from components.java
-                pom {
-                    name = project.archivesBaseName
-                    description = project.description
-                    url = "https://github.com/YusufsDiscordbot/YusufIsmails-Discord-core"
-                    packaging = "jar"
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
 
-                    licenses {
-                        license {
-                            name = "${gpl_name}"
-                            url = "${gpl_url}"
-                        }
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            //artifactId = project.artifactId // or maybe archiveBaseName?
+            from components.java
+            pom {
+                name = project.archivesBaseName
+                description = project.description
+                url = "https://github.com/RealYusufIsmail/RealYusufIsmail-Core"
+                packaging = "jar"
+
+                licenses {
+                    license {
+                        name = "${gpl_name}"
+                        url = "${gpl_url}"
                     }
-                    developers {
-                        developer {
-                            id = "${dev_id}"
-                            name = "${dev_name}"
-                            email = "${dev_email}"
-                            organization = "${dev_organization}"
-                            organizationUrl = "${dev_organizationUrl}"
-                        }
+                }
+                developers {
+                    developer {
+                        id = "${dev_id}"
+                        name = "${dev_name}"
+                        email = "${dev_email}"
+                        organization = "${dev_organization}"
+                        organizationUrl = "${dev_organizationUrl}"
                     }
-                    scm {
-                        connection = 'https://github.com/YusufsDiscordbot/YusufIsmails-Discord-core.git'
-                        developerConnection = 'scm:git:ssh://git@github.com/YusufsDiscordbot/YusufIsmails-Discord-core.git'
-                        url = 'github.com/YusufsDiscordbot/YusufIsmails-Discord-core'
-                    }
+                }
+                scm {
+                    connection = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/RealYusufIsmail/RealYusufIsmail-Core.git'
+                    url = 'github.com/RealYusufIsmail/RealYusufIsmail-Core'
                 }
             }
         }
-        repositories {
-            maven {
-                afterEvaluate { project ->
-                    def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-                    def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                    url = (isReleaseVersion) ? releaseRepo : snapshotRepo
+    }
+    repositories {
+        maven {
+            afterEvaluate { project ->
+                def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url = (isReleaseVersion) ? releaseRepo : snapshotRepo
 
-                    //println "repos: " + version
-                    //println "repos: " + isReleaseVersion
-                    //println url
+                //println "repos: " + version
+                //println "repos: " + isReleaseVersion
+                //println url
 
-                    credentials {
-                        username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
-                        password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
-                    }
+                credentials {
+                    username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
+                    password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
                 }
             }
         }
     }
-    signing {
-        afterEvaluate { project ->
-            //println "sign: " + version
-            //println "sign: " + isReleaseVersion
-            required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
-            sign publishing.publications.mavenJava
-        }
+}
+signing {
+    afterEvaluate { project ->
+        //println "sign: " + version
+        //println "sign: " + isReleaseVersion
+        required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+        sign publishing.publications.mavenJava
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }

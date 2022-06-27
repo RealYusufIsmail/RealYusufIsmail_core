@@ -30,28 +30,18 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.github.realyusufismail.realyusufismailcore.registry;
+package io.github.realyusufismail.realyusufismailcore;
 
-import net.minecraftforge.registries.IForgeRegistryEntry;
-import net.minecraftforge.registries.RegistryObject;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Target;
 
-import java.util.function.Supplier;
+import static java.lang.annotation.ElementType.TYPE;
 
-public class RegistryObjectWrapper<T extends IForgeRegistryEntry<? super T>>
-        implements Supplier<T> {
-    protected final RegistryObject<T> registryObject;
 
-    public RegistryObjectWrapper(RegistryObject<T> registryObject) {
-        this.registryObject = registryObject;
-    }
-
-    public RegistryObject<T> getRegistryObject() {
-        return registryObject;
-    }
-
-    @Override
-    public T get() {
-        return registryObject.get();
-    }
-
+/**
+ * Indicates it is a minecraft class
+ */
+@Documented
+@Target(value = {TYPE})
+public @interface MinecraftClass {
 }
