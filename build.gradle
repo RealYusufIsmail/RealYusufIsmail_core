@@ -23,10 +23,10 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 
-version = '1.19-1.0.0'
+version = '1.19-1.0.1'
 group = 'io.github.realyusufismail'
 archivesBaseName = 'realyusufismailcore'
-description = "RealYusuf Ismail's Core. The main library for all my Minecraft mods."
+description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
 
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.

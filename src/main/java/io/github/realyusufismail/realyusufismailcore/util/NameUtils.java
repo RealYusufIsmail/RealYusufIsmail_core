@@ -35,7 +35,9 @@ package io.github.realyusufismail.realyusufismailcore.util;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistry;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -72,7 +74,6 @@ public final class NameUtils {
      *
      * @param path The path (must be /[a-z0-9/._-]+/)
      * @return A new ResourceLocation
-     * @throws net.minecraft.resources.ResourceLocation; if path is invalid
      */
     @Contract("_ -> new")
     public static @NotNull ResourceLocation forgeId(String path) {
@@ -86,7 +87,31 @@ public final class NameUtils {
      * @return The registry name
      * @throws NullPointerException if registry name is null
      */
-    public static ResourceLocation from(@NotNull ForgeRegistry<?> entry) {
+    public static ResourceLocation from(@NotNull IForgeRegistry<?> entry) {
         return checkNotNull(entry.getRegistryName());
+    }
+
+    /**
+     * Gets the item's registry name, throwing an exception if it is null
+     *
+     * @param item The item
+     * @return The registry name
+     * @throws NullPointerException if registry name is null
+     */
+    public static ResourceLocation fromItem(@NotNull ItemLike item) {
+        Preconditions.checkNotNull(item.asItem(),
+                "asItem() is null, has object not been fully constructed?");
+        return checkNotNull(ResourceLocation.tryParse(item.asItem().getDescription().toString()));
+    }
+
+    /**
+     * Gets the registry name of the stack's item, throwing an exception if it is null
+     *
+     * @param stack The ItemStack
+     * @return The registry name
+     * @throws NullPointerException if registry name is null
+     */
+    public static ResourceLocation fromItem(@NotNull ItemStack stack) {
+        return checkNotNull(ResourceLocation.tryParse(stack.getDisplayName().toString()));
     }
 }

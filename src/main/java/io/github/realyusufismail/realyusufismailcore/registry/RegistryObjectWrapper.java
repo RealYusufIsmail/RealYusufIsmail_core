@@ -33,11 +33,12 @@
 package io.github.realyusufismail.realyusufismailcore.registry;
 
 import net.minecraftforge.registries.ForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
-public class RegistryObjectWrapper<T extends ForgeRegistry<? super T>> implements Supplier<T> {
+public class RegistryObjectWrapper<T extends IForgeRegistry<? super T>> implements Supplier<T> {
     protected final RegistryObject<T> registryObject;
 
     public RegistryObjectWrapper(RegistryObject<T> registryObject) {
