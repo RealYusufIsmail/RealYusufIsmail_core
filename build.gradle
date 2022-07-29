@@ -98,7 +98,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19-41.0.45'
+    minecraft 'net.minecraftforge:forge:1.19.1-42.0.1'
     //Logger
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
     implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.11'
