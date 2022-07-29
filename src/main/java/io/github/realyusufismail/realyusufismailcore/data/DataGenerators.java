@@ -36,9 +36,9 @@ import io.github.realyusufismail.realyusufismailcore.data.client.ModItemModelPro
 import io.github.realyusufismail.realyusufismailcore.data.lang.ModEnLangProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import io.github.realyusufismail.realyusufismailcore.data.client.ModBlockStateProvider;
 import io.github.realyusufismail.realyusufismailcore.data.loot.ModLootTables;

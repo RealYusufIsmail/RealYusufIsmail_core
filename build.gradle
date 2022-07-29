@@ -13,7 +13,7 @@ ext {
     dev_organizationUrl = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core'
 
     gpl_name = 'BSD 3-Clause "New" or "Revised" License'
-    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.19/LICENSE.txt'
+    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.19.1/LICENSE.txt'
 
     // Make sure we have a default for initial configuration evaluation
     isReleaseVersion = false
@@ -23,7 +23,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 
-version = '1.19-1.0.1'
+version = '1.19-1.0.2'
 group = 'io.github.realyusufismail'
 archivesBaseName = 'realyusufismailcore'
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
