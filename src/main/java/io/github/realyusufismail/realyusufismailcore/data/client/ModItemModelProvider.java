@@ -32,6 +32,7 @@
 
 package io.github.realyusufismail.realyusufismailcore.data.client;
 
+import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -52,6 +53,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
         ModelFile itemhandHeld = getExistingFile(mcLoc("item/handheld"));
 
+
         // items
         builder(itemGenerated, "copper");
     }
@@ -63,5 +65,4 @@ public class ModItemModelProvider extends ItemModelProvider {
     private ItemModelBuilder tool(ModelFile itemhandHeld, String name) {
         return getBuilder(name).parent(itemhandHeld).texture("layer0", "item/" + name);
     }
-
 }
