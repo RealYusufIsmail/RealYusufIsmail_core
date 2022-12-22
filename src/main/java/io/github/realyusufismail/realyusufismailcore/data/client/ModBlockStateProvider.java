@@ -43,7 +43,7 @@ import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitC
 public class ModBlockStateProvider extends BlockStateProvider {
 
     public ModBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, RealYusufIsmailCore.MOD_ID, exFileHelper);
+        super(gen.getPackOutput(), RealYusufIsmailCore.MOD_ID, exFileHelper);
     }
 
     @Override

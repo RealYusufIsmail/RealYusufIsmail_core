@@ -43,7 +43,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public abstract class ModEnLangProviderSupport extends LanguageProvider {
     public ModEnLangProviderSupport(DataGenerator gen, String modid, String locale) {
-        super(gen, modid, locale);
+        super(gen.getPackOutput(), modid, locale);
     }
 
     @Override

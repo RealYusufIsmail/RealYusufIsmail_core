@@ -45,7 +45,7 @@ import java.util.function.Consumer;
 
 public class ModRecipeProvider extends RecipeProvider {
     public ModRecipeProvider(DataGenerator generatorIn) {
-        super(generatorIn);
+        super(generatorIn.getPackOutput());
     }
 
     private static ResourceLocation modId(String path) {
@@ -53,15 +53,15 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapeless(ItemInitCore.COPPER.get(), 9)
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInitCore.COPPER.get(), 9)
 
             .requires(BlockInitCore.COPPER_BLOCK.get())
             .unlockedBy("has_item", has(TagsInit.Items.INGOTS_COPPER))
             .save(consumer);
 
 
-        ShapedRecipeBuilder.shaped(BlockInitCore.COPPER_BLOCK.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockInitCore.COPPER_BLOCK.get())
             .define('#', TagsInit.Items.INGOTS_COPPER)
             .pattern("###")
             .pattern("###")
@@ -70,14 +70,14 @@ public class ModRecipeProvider extends RecipeProvider {
             .save(consumer);
 
         SimpleCookingRecipeBuilder
-            .smelting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), ItemInitCore.COPPER.get(),
-                    0.6f, 500)
+            .smelting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), RecipeCategory.TOOLS,
+                    ItemInitCore.COPPER.get(), 0.6f, 500)
             .unlockedBy("has_item", has(BlockInitCore.COPPER_ORE.get()))
             .save(consumer, modId("copper_ore_smelt"));
 
         SimpleCookingRecipeBuilder
-            .blasting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), ItemInitCore.COPPER.get(),
-                    0.2938392f, 500)
+            .blasting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), RecipeCategory.COMBAT,
+                    ItemInitCore.COPPER.get(), 0.2938392f, 500)
             .unlockedBy("has_item", has(BlockInitCore.COPPER_ORE.get()))
             .save(consumer, modId("copper_ore_blasting_smelt"));
     }

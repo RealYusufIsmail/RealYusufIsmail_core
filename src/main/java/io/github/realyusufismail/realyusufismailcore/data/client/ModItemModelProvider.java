@@ -42,7 +42,7 @@ import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, RealYusufIsmailCore.MOD_ID, existingFileHelper);
+        super(generator.getPackOutput(), RealYusufIsmailCore.MOD_ID, existingFileHelper);
     }
 
     @Override

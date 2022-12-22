@@ -32,13 +32,23 @@
 
 package io.github.realyusufismail.realyusufismailcore.data.support.loot;
 
-import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class ModBlockLootTablesSupport extends BlockLoot {
-    @Override
-    protected abstract void addTables();
+import java.util.Set;
+
+public abstract class ModBlockLootTablesSupport extends BlockLootSubProvider {
+    protected ModBlockLootTablesSupport(Set<Item> pExplosionResistant,
+            FeatureFlagSet pEnabledFeatures) {
+        super(pExplosionResistant, pEnabledFeatures);
+    }
 
     @Override
-    protected abstract Iterable<Block> getKnownBlocks();
+    protected abstract void generate();
+
+    @Override
+    protected abstract @NotNull Iterable<Block> getKnownBlocks();
 }

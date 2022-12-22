@@ -39,14 +39,14 @@ import net.minecraftforge.common.data.LanguageProvider;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
-import io.github.realyusufismail.realyusufismailcore.core.itemgroup.MainItemGroup;
+import io.github.realyusufismail.realyusufismailcore.core.itemgroup.RealYusufIsmailCoreItemGroup;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 public class ModEnLangProvider extends LanguageProvider {
 
     public ModEnLangProvider(DataGenerator gen) {
-        super(gen, RealYusufIsmailCore.MOD_ID, "en_us");
+        super(gen.getPackOutput(), RealYusufIsmailCore.MOD_ID, "en_us");
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ModEnLangProvider extends LanguageProvider {
         item(ItemInitCore.COPPER, "Copper");
 
         // others
-        add(MainItemGroup.MAIN.getDisplayName().getString(), "RealYusufIsmail Core Item Group");
+        add("creativetab.realyusufismailcore", "RealYusufIsmail Core Item Group");
     }
 
     private <T extends Item> void item(@NotNull RegistryObject<T> entry, String name) {

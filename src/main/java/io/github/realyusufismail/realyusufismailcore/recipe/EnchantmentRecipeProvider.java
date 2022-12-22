@@ -40,9 +40,12 @@ import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -54,11 +57,14 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 
+import static io.github.realyusufismail.realyusufismailcore.recipe.YusufCraftingRecipeBuilder.determineBookCategory;
+
 /**
  * @see net.minecraft.data.recipes.ShapedRecipeBuilder
  */
 @SuppressWarnings("unused")
 public class EnchantmentRecipeProvider implements RecipeBuilder {
+    private final RecipeCategory category;
     private final Item result;
     private final int count;
     private int hideFlags;
@@ -72,17 +78,21 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
     @Nullable
     private String group;
 
-    public EnchantmentRecipeProvider(@NotNull ItemLike itemLike, int count) {
+    public EnchantmentRecipeProvider(RecipeCategory category, @NotNull ItemLike itemLike,
+            int count) {
+        this.category = category;
         this.result = itemLike.asItem();
         this.count = count;
     }
 
-    public static @NotNull EnchantmentRecipeProvider shaped(ItemLike itemLike) {
-        return shaped(itemLike, 1);
+    public static @NotNull EnchantmentRecipeProvider shaped(RecipeCategory category,
+            ItemLike itemLike) {
+        return shaped(category, itemLike, 1);
     }
 
-    public static @NotNull EnchantmentRecipeProvider shaped(ItemLike itemLike, int count) {
-        return new EnchantmentRecipeProvider(itemLike, count);
+    public static @NotNull EnchantmentRecipeProvider shaped(RecipeCategory category,
+            ItemLike itemLike, int count) {
+        return new EnchantmentRecipeProvider(category, itemLike, count);
     }
 
 
@@ -147,19 +157,14 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
     public void save(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer,
             @NotNull ResourceLocation resourceLocation) {
         this.ensureValid(resourceLocation);
-        this.advancement.parent(new ResourceLocation("recipes/root"))
+        this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceLocation))
             .rewards(AdvancementRewards.Builder.recipe(resourceLocation))
             .requirements(RequirementsStrategy.OR);
-        finishedRecipeConsumer
-            .accept(new EnchantmentRecipeProvider.Result(resourceLocation, this.result, this.count,
-                    this.group == null ? "" : this.group, this.rows, this.key, this.advancement,
-                    this.enchantment, this.level, this.hideFlags,
-                    new ResourceLocation(resourceLocation.getNamespace(),
-                            "recipes/"
-                                    + Objects.requireNonNull(this.result.getItemCategory())
-                                        .getRecipeFolderName()
-                                    + "/" + resourceLocation.getPath())));
+        finishedRecipeConsumer.accept(new ShapedRecipeBuilder.Result(resourceLocation, this.result,
+                this.count, this.group == null ? "" : this.group,
+                determineBookCategory(this.category), this.rows, this.key, this.advancement,
+                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/")));
     }
 
     private void ensureValid(ResourceLocation resourceLocation) throws IllegalStateException {
@@ -195,10 +200,10 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
         }
     }
 
-    public record Result(ResourceLocation id, Item result, int count, String group,
-            List<String> pattern, Map<Character, Ingredient> key, Advancement.Builder advancement,
-            Enchantment enchantment, int enchantmentLevel, int hideFlags,
-            ResourceLocation advancementId) implements FinishedRecipe {
+    public record Result(CraftingBookCategory category, ResourceLocation id, Item result, int count,
+            String group, List<String> pattern, Map<Character, Ingredient> key,
+            Advancement.Builder advancement, Enchantment enchantment, int enchantmentLevel,
+            int hideFlags, ResourceLocation advancementId) implements FinishedRecipe {
 
         @Override
         public void serializeRecipeData(@NotNull JsonObject jsonObject) {
@@ -206,7 +211,7 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
             if (!this.group.isEmpty()) {
                 jsonObject.addProperty("group", this.group);
             }
-
+            jsonObject.addProperty("category", this.category.getSerializedName());
             JsonArray jsonArray = new JsonArray();
 
             for (String s : this.pattern) {

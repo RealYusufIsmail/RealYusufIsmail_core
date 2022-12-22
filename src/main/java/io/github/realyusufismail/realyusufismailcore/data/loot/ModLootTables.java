@@ -33,34 +33,34 @@
 package io.github.realyusufismail.realyusufismailcore.data.loot;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlag;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.*;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.Set;
 
 public class ModLootTables extends LootTableProvider {
+
     public ModLootTables(DataGenerator dataGeneratorIn) {
-        super(dataGeneratorIn);
+        super(dataGeneratorIn.getPackOutput(), Set.of(), ImmutableList
+            .of(new SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK)));
     }
 
     @Override
-    public String getName() {
-        return "RealYusufIsmail core - Loot Tables";
-    }
-
-    @Override
-    protected @NotNull List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
-        return ImmutableList.of(Pair.of(ModBlockLootTables::new, LootContextParamSets.BLOCK));
+    public @NotNull List<SubProviderEntry> getTables() {
+        return ImmutableList
+            .of(new SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK));
     }
 
     @Override

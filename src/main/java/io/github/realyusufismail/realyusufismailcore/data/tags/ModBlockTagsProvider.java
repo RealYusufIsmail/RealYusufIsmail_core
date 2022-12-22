@@ -32,32 +32,34 @@
 
 package io.github.realyusufismail.realyusufismailcore.data.tags;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.TagsInit;
 
+import java.util.concurrent.CompletableFuture;
+
 public class ModBlockTagsProvider extends BlockTagsProvider {
 
-    public ModBlockTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
-        super(generatorIn, RealYusufIsmailCore.MOD_ID, existingFileHelper);
+    public ModBlockTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper,
+            CompletableFuture<HolderLookup.Provider> provider) {
+        super(generatorIn.getPackOutput(), provider, RealYusufIsmailCore.MOD_ID,
+                existingFileHelper);
     }
 
 
     @Override
-    protected void addTags() {
-        // ores
-
+    protected void addTags(HolderLookup.Provider provider) {
         tag(TagsInit.Blocks.ORES_COPPER).add(BlockInitCore.COPPER_ORE.get());
         tag(Tags.Blocks.ORES).addTag(TagsInit.Blocks.ORES_COPPER);
 
         // blocks
         tag(TagsInit.Blocks.STORAGE_COPPER).add(BlockInitCore.COPPER_ORE.get());
         tag(Tags.Blocks.ORES).addTag(TagsInit.Blocks.STORAGE_COPPER);
-
     }
 }
 

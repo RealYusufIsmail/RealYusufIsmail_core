@@ -39,6 +39,8 @@ import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.UpgradeRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -58,23 +60,26 @@ import java.util.function.Consumer;
  */
 @SuppressWarnings("unused")
 public class YusufUpgradeRecipeBuilder {
+    private final RecipeCategory category;
     private final Ingredient base;
     private final Ingredient addition;
     private final Item result;
     private final Advancement.Builder advancement = Advancement.Builder.advancement();
     private final RecipeSerializer<?> type;
 
-    public YusufUpgradeRecipeBuilder(RecipeSerializer<?> type, Ingredient base, Ingredient addition,
-            Item result) {
+    public YusufUpgradeRecipeBuilder(RecipeCategory category, RecipeSerializer<?> type,
+            Ingredient base, Ingredient addition, Item result) {
+        this.category = category;
         this.type = type;
         this.base = base;
         this.addition = addition;
         this.result = result;
     }
 
-    public static @NotNull YusufUpgradeRecipeBuilder smithing(Ingredient base, Ingredient addition,
-            Item result) {
-        return new YusufUpgradeRecipeBuilder(RecipeSerializer.SMITHING, base, addition, result);
+    public static @NotNull YusufUpgradeRecipeBuilder smithing(RecipeCategory category,
+            Ingredient base, Ingredient addition, Item result) {
+        return new YusufUpgradeRecipeBuilder(category, RecipeSerializer.SMITHING, base, addition,
+                result);
     }
 
     public YusufUpgradeRecipeBuilder unlocks(String creterionId,
@@ -90,18 +95,14 @@ public class YusufUpgradeRecipeBuilder {
     public void save(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer,
             ResourceLocation resourceLocation) {
         this.ensureValid(resourceLocation);
-        this.advancement.parent(new ResourceLocation("recipes/root"))
+        this.advancement.parent(RecipeBuilder.ROOT_RECIPE_ADVANCEMENT)
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceLocation))
             .rewards(AdvancementRewards.Builder.recipe(resourceLocation))
             .requirements(RequirementsStrategy.OR);
-        finishedRecipeConsumer
-            .accept(new YusufUpgradeRecipeBuilder.Result(resourceLocation, this.type, this.base,
-                    this.addition, this.result, this.advancement,
-                    new ResourceLocation(resourceLocation.getNamespace(),
-                            "recipes/"
-                                    + Objects.requireNonNull(this.result.getItemCategory())
-                                        .getRecipeFolderName()
-                                    + "/" + resourceLocation.getPath())));
+        finishedRecipeConsumer.accept(new UpgradeRecipeBuilder.Result(resourceLocation, this.type,
+                this.base, this.addition, this.result, this.advancement,
+                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/")));
+
     }
 
     private void ensureValid(ResourceLocation resourceLocation) {

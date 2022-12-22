@@ -33,20 +33,29 @@
 package io.github.realyusufismail.realyusufismailcore.data.loot;
 
 
-import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.*;
 
-public class ModBlockLootTables extends BlockLoot {
+public class ModBlockLootTables extends BlockLootSubProvider {
+
+
+    protected ModBlockLootTables() {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    }
+
     @Override
-    protected void addTables() {
-        // ores
+    protected void generate() {
         dropSelf(COPPER_ORE.get());
         // blocks
         dropSelf(COPPER_BLOCK.get());

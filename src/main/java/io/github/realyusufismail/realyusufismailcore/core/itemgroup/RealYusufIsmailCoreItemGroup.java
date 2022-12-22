@@ -33,21 +33,35 @@
 package io.github.realyusufismail.realyusufismailcore.core.itemgroup;
 
 
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
+import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
-public class MainItemGroup extends CreativeModeTab {
+@Mod.EventBusSubscriber(modid = RealYusufIsmailCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class RealYusufIsmailCoreItemGroup {
 
-    public static final MainItemGroup MAIN = new MainItemGroup(CreativeModeTab.TABS.length, "main");
-
-    public MainItemGroup(int index, String label) {
-        super(index, label);
+    @SubscribeEvent
+    public static void registerCreativeTab(CreativeModeTabEvent.Register event) {
+        event.registerCreativeModeTab(
+                new ResourceLocation(RealYusufIsmailCore.MOD_ID, "creativetab"),
+                RealYusufIsmailCoreItemGroup::createCreativeTabBuilder);
     }
 
-    @Override
-    public ItemStack makeIcon() {
-        return new ItemStack(ItemInitCore.COPPER.get());
+    private static void createCreativeTabBuilder(CreativeModeTab.Builder builder) {
+        builder.displayItems((set, out, unknownMagicBoolean) -> {
+            ItemInitCore.ITEMS.getEntries()
+                .stream()
+                .map(item -> item.get().asItem())
+                .forEach(out::accept);
+        });
+        builder.icon(() -> new ItemStack(ItemInitCore.COPPER.get()));
+        builder.title(Component.translatable("creativetab.realyusufismailcore"));
+        builder.withSearchBar();
     }
-
 }

@@ -42,20 +42,16 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public abstract class ModLootTablesSupport extends LootTableProvider {
-    public ModLootTablesSupport(DataGenerator dataGeneratorIn) {
-        super(dataGeneratorIn);
+    public ModLootTablesSupport(DataGenerator dataGeneratorIn, Set<ResourceLocation> explosion,
+            List<SubProviderEntry> enabledSubProviders) {
+        super(dataGeneratorIn.getPackOutput(), explosion, enabledSubProviders);
     }
-
-    @Override
-    public abstract String getName();
-
-    @Override
-    protected abstract List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables();
 
     @Override
     protected abstract void validate(Map<ResourceLocation, LootTable> map,

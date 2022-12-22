@@ -34,7 +34,7 @@ package io.github.realyusufismail.realyusufismailcore.core.init;
 
 
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.core.itemgroup.MainItemGroup;
+import io.github.realyusufismail.realyusufismailcore.core.itemgroup.RealYusufIsmailCoreItemGroup;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -44,6 +44,6 @@ public class ItemInitCore {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, RealYusufIsmailCore.MOD_ID);
     public static final RegistryObject<Item> COPPER =
-            ITEMS.register("copper", () -> new Item(new Item.Properties().tab(MainItemGroup.MAIN)));
+            ITEMS.register("copper", () -> new Item(new Item.Properties()));
 
 }

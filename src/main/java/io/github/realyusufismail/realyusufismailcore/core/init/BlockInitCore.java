@@ -42,7 +42,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.core.itemgroup.MainItemGroup;
+import io.github.realyusufismail.realyusufismailcore.core.itemgroup.RealYusufIsmailCoreItemGroup;
 
 import java.util.function.Supplier;
 
@@ -61,16 +61,14 @@ public class BlockInitCore {
     private static <T extends Block> RegistryObject<T> registerSpecial(String name,
             Supplier<T> supplier) {
         RegistryObject<T> blockReg = BLOCKS.register(name, supplier);
-        ITEMS.register(name,
-                () -> new BlockItem(blockReg.get(), new Item.Properties().tab(MainItemGroup.MAIN)));
+        ITEMS.register(name, () -> new BlockItem(blockReg.get(), new Item.Properties()));
         return blockReg;
     }
 
     private static RegistryObject<GeneralBlock> register(String name,
             Supplier<GeneralBlock> supplier) {
         RegistryObject<GeneralBlock> blockReg = BLOCKS.register(name, supplier);
-        ITEMS.register(name,
-                () -> new BlockItem(blockReg.get(), new Item.Properties().tab(MainItemGroup.MAIN)));
+        ITEMS.register(name, () -> new BlockItem(blockReg.get(), new Item.Properties()));
         return blockReg;
     }
 

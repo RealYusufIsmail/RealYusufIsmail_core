@@ -47,6 +47,7 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
@@ -154,8 +155,8 @@ public class YusufShapelessRecipeBuilder implements RecipeBuilder {
         }
     }
 
-    public record Result(ResourceLocation id, Item result, int count, String group,
-            List<Ingredient> ingredients, Advancement.Builder advancement,
+    public record Result(CraftingBookCategory category, ResourceLocation id, Item result, int count,
+            String group, List<Ingredient> ingredients, Advancement.Builder advancement,
             ResourceLocation advancementId) implements FinishedRecipe {
 
         public void serializeRecipeData(@NotNull JsonObject jsonObject) {
@@ -163,6 +164,7 @@ public class YusufShapelessRecipeBuilder implements RecipeBuilder {
                 jsonObject.addProperty("group", this.group);
             }
 
+            jsonObject.addProperty("category", this.category.getSerializedName());
             JsonArray jsonArray = new JsonArray();
 
             for (Ingredient ingredient : this.ingredients) {
