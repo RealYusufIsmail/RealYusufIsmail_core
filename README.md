@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.yusufsdiscordbot.realyusufismailcore/minecraft/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.yusufsdiscordbot.realyusufismailcore/minecraft)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail.realyusufismailcore/minecraft/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail.realyusufismailcore/minecraft)
 # RealYusufIsmail-Core
 The core stuff for my mods
 
@@ -14,6 +14,6 @@ repositories {
 
 ```gradle
 dependencies {
-     implementation group: 'io.github.realyusufismail', name: 'realyusufismail-core', version: '1.0.0'
+     implementation group: 'io.github.realyusufismail', name: 'realyusufismailcore', version: '1.0.0'
 }
 ```

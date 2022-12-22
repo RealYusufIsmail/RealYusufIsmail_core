@@ -35,7 +35,6 @@ package io.github.realyusufismail.realyusufismailcore.recipe;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.github.realyusufismail.realyusufismailcore.MinecraftClass;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
@@ -43,6 +42,7 @@ import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -58,14 +58,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static io.github.realyusufismail.realyusufismailcore.recipe.YusufCraftingRecipeBuilder.determineBookCategory;
+
 /**
  * Taken from
  * 
  * @see ShapelessRecipeBuilder
  */
-@MinecraftClass
 @SuppressWarnings("unused")
 public class YusufShapelessRecipeBuilder implements RecipeBuilder {
+    private final RecipeCategory category;
     private final Item result;
     private final int count;
     private final List<Ingredient> ingredients = Lists.newArrayList();
@@ -73,18 +75,21 @@ public class YusufShapelessRecipeBuilder implements RecipeBuilder {
     @Nullable
     private String group;
 
-    public YusufShapelessRecipeBuilder(@NotNull ItemLike itemLike, int count) {
+    public YusufShapelessRecipeBuilder(RecipeCategory category, @NotNull ItemLike itemLike,
+            int count) {
+        this.category = category;
         this.result = itemLike.asItem();
         this.count = count;
     }
 
-    public static @NotNull YusufShapelessRecipeBuilder shapeless(@NotNull ItemLike itemLike) {
-        return new YusufShapelessRecipeBuilder(itemLike, 1);
+    public static @NotNull YusufShapelessRecipeBuilder shapeless(RecipeCategory category,
+            @NotNull ItemLike itemLike) {
+        return new YusufShapelessRecipeBuilder(category, itemLike, 1);
     }
 
-    public static @NotNull YusufShapelessRecipeBuilder shapeless(@NotNull ItemLike itemLike,
-            int count) {
-        return new YusufShapelessRecipeBuilder(itemLike, count);
+    public static @NotNull YusufShapelessRecipeBuilder shapeless(RecipeCategory category,
+            @NotNull ItemLike itemLike, int count) {
+        return new YusufShapelessRecipeBuilder(category, itemLike, count);
     }
 
     public YusufShapelessRecipeBuilder requires(TagKey<Item> itemTag) {
@@ -133,18 +138,14 @@ public class YusufShapelessRecipeBuilder implements RecipeBuilder {
     public void save(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer,
             @NotNull ResourceLocation resourceLocation) {
         this.ensureValid(resourceLocation);
-        this.advancement.parent(new ResourceLocation("recipes/root"))
+        this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceLocation))
             .rewards(AdvancementRewards.Builder.recipe(resourceLocation))
             .requirements(RequirementsStrategy.OR);
-        finishedRecipeConsumer.accept(
-                new YusufShapelessRecipeBuilder.Result(resourceLocation, this.result, this.count,
-                        this.group == null ? "" : this.group, this.ingredients, this.advancement,
-                        new ResourceLocation(resourceLocation.getNamespace(),
-                                "recipes/"
-                                        + Objects.requireNonNull(this.result.getItemCategory())
-                                            .getRecipeFolderName()
-                                        + "/" + resourceLocation.getPath())));
+        finishedRecipeConsumer.accept(new ShapelessRecipeBuilder.Result(resourceLocation,
+                this.result, this.count, this.group == null ? "" : this.group,
+                determineBookCategory(this.category), this.ingredients, this.advancement,
+                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/")));
     }
 
     private void ensureValid(ResourceLocation resourceLocation) {

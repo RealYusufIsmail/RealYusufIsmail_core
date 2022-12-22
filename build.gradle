@@ -3,6 +3,7 @@ plugins {
     id 'eclipse'
     id "com.diffplug.spotless" version "6.6.1"
     id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
 ext {
@@ -13,7 +14,7 @@ ext {
     dev_organizationUrl = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core'
 
     gpl_name = 'BSD 3-Clause "New" or "Revised" License'
-    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.19.1/LICENSE.txt'
+    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.19.3/LICENSE.txt'
 
     // Make sure we have a default for initial configuration evaluation
     isReleaseVersion = false
@@ -22,8 +23,7 @@ ext {
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-
-version = '1.19-1.0.3'
+version = '1.19-1.0.4'
 group = 'io.github.realyusufismail'
 archivesBaseName = 'realyusufismailcore'
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
@@ -35,7 +35,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
 minecraft {
-    mappings channel: 'official', version: '1.19'
+    mappings channel: 'parchment', version: '2022.12.18-1.19.3'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -98,10 +98,10 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.1.25'
+    minecraft 'net.minecraftforge:forge:1.19.3-44.0.37'
     //Logger
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.0'
-    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.4.0'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.5'
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.4.5'
     //test
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
 }
@@ -111,7 +111,7 @@ test {
 }
 
 
-configurations.all {
+configurations.configureEach {
     //noinspection GrUnresolvedAccess
     // ez vulnerability fix
     exclude group: "org.slf4j", module: "slf4j-log4j12"

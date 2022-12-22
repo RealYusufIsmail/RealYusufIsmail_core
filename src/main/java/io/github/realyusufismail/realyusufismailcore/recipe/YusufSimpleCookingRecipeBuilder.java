@@ -33,7 +33,6 @@
 package io.github.realyusufismail.realyusufismailcore.recipe;
 
 import com.google.gson.JsonObject;
-import io.github.realyusufismail.realyusufismailcore.MinecraftClass;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
@@ -41,13 +40,11 @@ import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleCookingSerializer;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -61,9 +58,10 @@ import java.util.function.Consumer;
  * 
  * @see SimpleCookingRecipeBuilder
  */
-@MinecraftClass
 @SuppressWarnings("unused")
 public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
+    private final RecipeCategory category;
+    private final CookingBookCategory bookCategory;
     private final Item result;
     private final Ingredient ingredient;
     private final float experience;
@@ -71,10 +69,14 @@ public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
     private final Advancement.Builder advancement = Advancement.Builder.advancement();
     @Nullable
     private String group;
-    private final SimpleCookingSerializer<?> serializer;
+    private final RecipeSerializer<? extends AbstractCookingRecipe> serializer;
 
-    private YusufSimpleCookingRecipeBuilder(@NotNull ItemLike itemLike, Ingredient ingredient,
-            float experience, int cookingTime, SimpleCookingSerializer<?> serializer) {
+    private YusufSimpleCookingRecipeBuilder(RecipeCategory category,
+            CookingBookCategory bookCategory, @NotNull ItemLike itemLike, Ingredient ingredient,
+            float experience, int cookingTime,
+            RecipeSerializer<? extends AbstractCookingRecipe> serializer) {
+        this.category = category;
+        this.bookCategory = bookCategory;
         this.result = itemLike.asItem();
         this.ingredient = ingredient;
         this.experience = experience;
@@ -82,34 +84,39 @@ public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
         this.serializer = serializer;
     }
 
-    public static @NotNull YusufSimpleCookingRecipeBuilder cooking(Ingredient ingredient,
-            ItemLike itemLike, float experience, int cookingTime,
-            SimpleCookingSerializer<?> serializer) {
-        return new YusufSimpleCookingRecipeBuilder(itemLike, ingredient, experience, cookingTime,
-                serializer);
+    public static @NotNull YusufSimpleCookingRecipeBuilder cooking(RecipeCategory category,
+            CookingBookCategory bookCategory, Ingredient ingredient, ItemLike itemLike,
+            float experience, int cookingTime,
+            RecipeSerializer<? extends AbstractCookingRecipe> serializer) {
+        return new YusufSimpleCookingRecipeBuilder(category, bookCategory, itemLike, ingredient,
+                experience, cookingTime, serializer);
     }
 
-    public static @NotNull YusufSimpleCookingRecipeBuilder campfireCooking(Ingredient ingredient,
-            ItemLike itemLike, float experience, int cookingTime) {
-        return cooking(ingredient, itemLike, experience, cookingTime,
+    public static @NotNull YusufSimpleCookingRecipeBuilder campfireCooking(RecipeCategory category,
+            CookingBookCategory bookCategory, Ingredient ingredient, ItemLike itemLike,
+            float experience, int cookingTime) {
+        return cooking(category, bookCategory, ingredient, itemLike, experience, cookingTime,
                 RecipeSerializer.CAMPFIRE_COOKING_RECIPE);
     }
 
-    public static @NotNull YusufSimpleCookingRecipeBuilder blasting(Ingredient ingredient,
-            ItemLike itemLike, float experience, int cookingTime) {
-        return cooking(ingredient, itemLike, experience, cookingTime,
+    public static @NotNull YusufSimpleCookingRecipeBuilder blasting(RecipeCategory category,
+            CookingBookCategory bookCategory, Ingredient ingredient, ItemLike itemLike,
+            float experience, int cookingTime) {
+        return cooking(category, bookCategory, ingredient, itemLike, experience, cookingTime,
                 RecipeSerializer.BLASTING_RECIPE);
     }
 
-    public static @NotNull YusufSimpleCookingRecipeBuilder smelting(Ingredient ingredient,
-            ItemLike itemLike, float experience, int cookingTime) {
-        return cooking(ingredient, itemLike, experience, cookingTime,
+    public static @NotNull YusufSimpleCookingRecipeBuilder smelting(RecipeCategory category,
+            CookingBookCategory bookCategory, Ingredient ingredient, ItemLike itemLike,
+            float experience, int cookingTime) {
+        return cooking(category, bookCategory, ingredient, itemLike, experience, cookingTime,
                 RecipeSerializer.SMELTING_RECIPE);
     }
 
-    public static @NotNull YusufSimpleCookingRecipeBuilder smoking(Ingredient ingredient,
-            ItemLike itemLike, float experience, int cookingTime) {
-        return cooking(ingredient, itemLike, experience, cookingTime,
+    public static @NotNull YusufSimpleCookingRecipeBuilder smoking(RecipeCategory category,
+            CookingBookCategory bookCategory, Ingredient ingredient, ItemLike itemLike,
+            float experience, int cookingTime) {
+        return cooking(category, bookCategory, ingredient, itemLike, experience, cookingTime,
                 RecipeSerializer.SMOKING_RECIPE);
     }
 
@@ -131,16 +138,14 @@ public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
     public void save(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer,
             @NotNull ResourceLocation resourceLocation) {
         this.ensureValid(resourceLocation);
-        this.advancement.parent(new ResourceLocation("recipes/root"))
+        this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceLocation))
             .rewards(AdvancementRewards.Builder.recipe(resourceLocation))
             .requirements(RequirementsStrategy.OR);
         finishedRecipeConsumer.accept(new YusufSimpleCookingRecipeBuilder.Result(resourceLocation,
-                this.group == null ? "" : this.group, this.ingredient, this.result, this.experience,
-                this.cookingTime, this.advancement,
-                new ResourceLocation(resourceLocation.getNamespace(),
-                        "recipes/" + Objects.requireNonNull(this.result.getItemCategory())
-                            .getRecipeFolderName() + "/" + resourceLocation.getPath()),
+                this.group == null ? "" : this.group, this.bookCategory, this.ingredient,
+                this.result, this.experience, this.cookingTime, this.advancement,
+                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/"),
                 this.serializer));
     }
 
@@ -150,9 +155,9 @@ public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
         }
     }
 
-    public record Result(ResourceLocation id, String group, Ingredient ingredient, Item result,
-            float experience, int cookingTime, Advancement.Builder advancement,
-            ResourceLocation advancementId,
+    public record Result(ResourceLocation id, String group, CookingBookCategory bookCategory,
+            Ingredient ingredient, Item result, float experience, int cookingTime,
+            Advancement.Builder advancement, ResourceLocation advancementId,
             RecipeSerializer<? extends AbstractCookingRecipe> serializer)
             implements
                 FinishedRecipe {
