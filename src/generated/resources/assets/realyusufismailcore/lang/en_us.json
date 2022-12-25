@@ -1,6 +1,6 @@
 {
   "block.realyusufismailcore.copper_block": "Copper Block",
   "block.realyusufismailcore.copper_ore": "Copper Ore",
-  "item.realyusufismailcore.copper": "Copper",
-  "itemGroup.main": "RealYusufIsmail Core Item Group"
+  "creativetab.realyusufismailcore": "RealYusufIsmail Core Item Group",
+  "item.realyusufismailcore.copper": "Copper"
 }

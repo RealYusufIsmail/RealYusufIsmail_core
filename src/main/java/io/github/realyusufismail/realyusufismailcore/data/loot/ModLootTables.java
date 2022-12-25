@@ -34,7 +34,9 @@ package io.github.realyusufismail.realyusufismailcore.data.loot;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
@@ -49,6 +51,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ModLootTables extends LootTableProvider {
 
@@ -58,15 +61,18 @@ public class ModLootTables extends LootTableProvider {
     }
 
     @Override
-    public @NotNull List<SubProviderEntry> getTables() {
-        return ImmutableList
-            .of(new SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK));
-    }
+    protected void validate(final Map<ResourceLocation, LootTable> map,
+            final ValidationContext validationContext) {
+        final Set<ResourceLocation> modLootTableIds = BuiltInLootTables.all()
+            .stream()
+            .filter(lootTable -> lootTable.getNamespace().equals(RealYusufIsmailCore.MOD_ID))
+            .collect(Collectors.toSet());
 
-    @Override
-    public void validate(@NotNull Map<ResourceLocation, LootTable> map,
-            @NotNull ValidationContext validationtracker) {
-        map.forEach((id, table) -> LootTables.validate(validationtracker, id, table));
+        for (final ResourceLocation id : Sets.difference(modLootTableIds, map.keySet())) {
+            validationContext.reportProblem("Missing mod loot table: " + id);
+        }
+
+        map.forEach((id, lootTable) -> LootTables.validate(validationContext, id, lootTable));
     }
 
 }

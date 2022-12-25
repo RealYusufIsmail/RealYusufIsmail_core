@@ -42,6 +42,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,7 +66,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     protected @NotNull Iterable<Block> getKnownBlocks() {
         return ForgeRegistries.BLOCKS.getValues()
             .stream()
-            .filter(block -> RealYusufIsmailCore.MOD_ID.equals(block.getName().toString()))
+            .filter(entry -> Optional.ofNullable(ForgeRegistries.BLOCKS.getKey(entry))
+                .filter(key -> key.getNamespace().equals(RealYusufIsmailCore.MOD_ID))
+                .isPresent())
             .collect(Collectors.toSet());
     }
 }

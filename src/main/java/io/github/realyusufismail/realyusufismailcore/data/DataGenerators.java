@@ -60,14 +60,14 @@ public class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
-        gen.addProvider(false, new ModBlockStateProvider(gen, existingFileHelper));
-        gen.addProvider(false, new ModItemModelProvider(gen, existingFileHelper));
+        gen.addProvider(true, new ModBlockStateProvider(gen, existingFileHelper));
+        gen.addProvider(true, new ModItemModelProvider(gen, existingFileHelper));
         ModBlockTagsProvider blockTags = new ModBlockTagsProvider(gen, existingFileHelper, lookup);
-        gen.addProvider(false, blockTags);
-        gen.addProvider(false, new ModItemTagsProvider(gen, blockTags, lookup, existingFileHelper));
-        gen.addProvider(false, new ModEnLangProvider(gen));
-        gen.addProvider(false, new ModRecipeProvider(gen));
-        gen.addProvider(false, new ModLootTables(gen));
+        gen.addProvider(true, blockTags);
+        gen.addProvider(true, new ModItemTagsProvider(gen, blockTags, lookup, existingFileHelper));
+        gen.addProvider(true, new ModEnLangProvider(gen));
+        gen.addProvider(true, new ModRecipeProvider(gen));
+        gen.addProvider(true, new ModLootTables(gen));
 
     }
 }

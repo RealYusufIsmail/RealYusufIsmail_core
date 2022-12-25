@@ -37,6 +37,8 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 
+import javax.annotation.Nonnull;
+
 import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.COPPER_BLOCK;
 import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.COPPER_ORE;
 
@@ -44,6 +46,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     public ModBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
         super(gen.getPackOutput(), RealYusufIsmailCore.MOD_ID, exFileHelper);
+    }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return "RealYusufIsmail Core - Block States/Models";
     }
 
     @Override

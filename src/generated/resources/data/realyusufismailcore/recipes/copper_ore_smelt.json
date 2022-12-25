@@ -1,9 +1,10 @@
 {
   "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 500,
+  "experience": 0.6,
   "ingredient": {
     "item": "realyusufismailcore:copper_ore"
   },
-  "result": "realyusufismailcore:copper",
-  "experience": 0.6,
-  "cookingtime": 500
+  "result": "realyusufismailcore:copper"
 }

@@ -1,0 +1,4 @@
+// 1.19.3	2022-12-25T11:44:00.162155	Tags for minecraft:block mod id realyusufismailcore
+c2b5cbb75cb33ce8509a1935b3f8ca39844388b3 data/forge/tags/blocks/ores.json
+a0e9732005a4e6fdd6d8a1aafa831f4623e97737 data/forge/tags/blocks/ores/copper.json
+a0e9732005a4e6fdd6d8a1aafa831f4623e97737 data/forge/tags/blocks/storage_blocks/copper.json
