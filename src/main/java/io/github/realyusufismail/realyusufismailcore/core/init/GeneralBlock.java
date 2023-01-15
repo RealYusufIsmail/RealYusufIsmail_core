@@ -42,8 +42,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.jetbrains.annotations.NotNull;
 
 public class GeneralBlock extends Block {
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-
     public GeneralBlock(Properties p_i48440_1_) {
         super(p_i48440_1_);
     }
@@ -51,12 +49,11 @@ public class GeneralBlock extends Block {
     @Override
     protected void createBlockStateDefinition(
             StateDefinition.@NotNull Builder<Block, BlockState> p_206840_1_) {
-        p_206840_1_.add(FACING);
+        super.createBlockStateDefinition(p_206840_1_);
     }
 
     @Override
-    public BlockState getStateForPlacement(@NotNull BlockPlaceContext p_196258_1_) {
-        return this.defaultBlockState()
-            .setValue(FACING, p_196258_1_.getHorizontalDirection().getOpposite());
+    public BlockState getStateForPlacement(BlockPlaceContext p_196258_1_) {
+        return super.getStateForPlacement(p_196258_1_);
     }
 }
