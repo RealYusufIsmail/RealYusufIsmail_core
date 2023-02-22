@@ -23,7 +23,7 @@ ext {
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-version = '1.19-1.0.7'
+version = '1.19-1.0.8'
 group = 'io.github.realyusufismail'
 archivesBaseName = 'realyusufismailcore'
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
