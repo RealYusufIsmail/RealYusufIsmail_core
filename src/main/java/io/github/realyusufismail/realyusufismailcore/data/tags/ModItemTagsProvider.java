@@ -48,8 +48,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     public ModItemTagsProvider(DataGenerator dataGenerator, BlockTagsProvider blockTagProvider,
             CompletableFuture<HolderLookup.Provider> provider,
             ExistingFileHelper existingFileHelper) {
-        super(dataGenerator.getPackOutput(), provider, blockTagProvider, RealYusufIsmailCore.MOD_ID,
-                existingFileHelper);
+        super(dataGenerator.getPackOutput(), provider, blockTagProvider.contentsGetter(),
+                RealYusufIsmailCore.MOD_ID, existingFileHelper);
     }
 
     @Override

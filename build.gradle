@@ -23,7 +23,7 @@ ext {
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-version = '1.19-1.0.8'
+version = '1.19-1.1.0'
 group = 'io.github.realyusufismail'
 archivesBaseName = 'realyusufismailcore'
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
@@ -35,7 +35,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
 minecraft {
-    mappings channel: 'parchment', version: '2022.12.18-1.19.3'
+    mappings channel: 'parchment', version: '1.19.3-2023.03.12-1.19.4'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -98,7 +98,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.3-44.1.0'
+    minecraft 'net.minecraftforge:forge:1.19.4-45.0.43'
     //Logger
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.5'
     implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.4.5'
@@ -201,8 +201,8 @@ publishing {
                 //println url
 
                 credentials {
-                    username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
-                    password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
+                    username = project.hasProperty('MAVEN_USERNAME') ? ossrhUsername : "Unknown user"
+                    password = project.hasProperty('MAVEN_PASSWORD') ? ossrhPassword : "Unknown password"
                 }
             }
         }

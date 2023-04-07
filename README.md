@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail.realyusufismailcore/minecraft/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail.realyusufismailcore/minecraft)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail/realyusufismailcore/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail.realyusufismailcore/minecraft)
 # RealYusufIsmail-Core
 The core stuff for my mods
 

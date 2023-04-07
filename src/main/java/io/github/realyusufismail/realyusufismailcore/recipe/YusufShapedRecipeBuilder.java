@@ -77,6 +77,8 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
     private final Advancement.Builder advancement = Advancement.Builder.advancement();
     @Nullable
     private String group;
+    private boolean showNotification = true;
+
 
     public YusufShapedRecipeBuilder(RecipeCategory category, ItemLike itemLike, int count) {
         this.category = category;
@@ -133,12 +135,17 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
+    public YusufShapedRecipeBuilder showNotification(boolean p_273326_) {
+        this.showNotification = p_273326_;
+        return this;
+    }
+
     public @NotNull Item getResult() {
         return this.result;
     }
 
-    public void save(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer,
-            @NotNull ResourceLocation resourceLocation) {
+    public void save(Consumer<FinishedRecipe> finishedRecipeConsumer,
+            ResourceLocation resourceLocation) {
         this.ensureValid(resourceLocation);
         this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceLocation))
@@ -147,8 +154,8 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
         finishedRecipeConsumer.accept(new ShapedRecipeBuilder.Result(resourceLocation, this.result,
                 this.count, this.group == null ? "" : this.group,
                 determineBookCategory(this.category), this.rows, this.key, this.advancement,
-                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/")));
-
+                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/"),
+                this.showNotification));
     }
 
     private void ensureValid(ResourceLocation resourceLocation) {
@@ -186,8 +193,8 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
 
     public record Result(CraftingBookCategory category, ResourceLocation id, Item result, int count,
             String group, List<String> pattern, Map<Character, Ingredient> key,
-            Advancement.Builder advancement,
-            ResourceLocation advancementId) implements FinishedRecipe {
+            Advancement.Builder advancement, ResourceLocation advancementId,
+            boolean showNotification) implements FinishedRecipe {
 
         public void serializeRecipeData(@NotNull JsonObject jsonObject) {
             if (!this.group.isEmpty()) {
@@ -216,6 +223,7 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
             }
 
             jsonObject.add("result", jsonObject2);
+            jsonObject.addProperty("show_notification", this.showNotification);
         }
 
         public @NotNull RecipeSerializer<?> getType() {

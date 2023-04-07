@@ -74,9 +74,9 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
     private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
 
     private final Advancement.Builder advancement = Advancement.Builder.advancement();
-
     @Nullable
     private String group;
+    private boolean showNotification = true;
 
     public EnchantmentRecipeProvider(RecipeCategory category, @NotNull ItemLike itemLike,
             int count) {
@@ -150,6 +150,11 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
         return this;
     }
 
+    public EnchantmentRecipeProvider showNotification(boolean p_273326_) {
+        this.showNotification = p_273326_;
+        return this;
+    }
+
     public @NotNull Item getResult() {
         return this.result;
     }
@@ -164,7 +169,8 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
         finishedRecipeConsumer.accept(new ShapedRecipeBuilder.Result(resourceLocation, this.result,
                 this.count, this.group == null ? "" : this.group,
                 determineBookCategory(this.category), this.rows, this.key, this.advancement,
-                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/")));
+                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/"),
+                this.showNotification));
     }
 
     private void ensureValid(ResourceLocation resourceLocation) throws IllegalStateException {
@@ -203,7 +209,8 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
     public record Result(CraftingBookCategory category, ResourceLocation id, Item result, int count,
             String group, List<String> pattern, Map<Character, Ingredient> key,
             Advancement.Builder advancement, Enchantment enchantment, int enchantmentLevel,
-            int hideFlags, ResourceLocation advancementId) implements FinishedRecipe {
+            int hideFlags, ResourceLocation advancementId,
+            boolean showNotification) implements FinishedRecipe {
 
         @Override
         public void serializeRecipeData(@NotNull JsonObject jsonObject) {
@@ -247,6 +254,7 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
             jsonObject1.add("nbt", jsonObject2);
 
             jsonObject.add("result", jsonObject1);
+            jsonObject.addProperty("show_notification", this.showNotification);
         }
 
         public @NotNull RecipeSerializer<?> getType() {

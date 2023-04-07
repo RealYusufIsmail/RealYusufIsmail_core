@@ -54,11 +54,11 @@ public class RealYusufIsmailCoreItemGroup {
     }
 
     private static void createCreativeTabBuilder(CreativeModeTab.Builder builder) {
-        builder.displayItems((set, out, unknownMagicBoolean) -> {
+        builder.displayItems((itemDisplayParameters, output) -> {
             ItemInitCore.ITEMS.getEntries()
                 .stream()
                 .map(item -> item.get().asItem())
-                .forEach(out::accept);
+                .forEach(output::accept);
         });
         builder.icon(() -> new ItemStack(ItemInitCore.COPPER.get()));
         builder.title(Component.translatable("creativetab.realyusufismailcore"));
