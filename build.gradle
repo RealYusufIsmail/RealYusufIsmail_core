@@ -23,7 +23,7 @@ ext {
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-version = '1.19-1.1.0'
+version = '1.19-1.1.1'
 group = 'io.github.realyusufismail'
 archivesBaseName = 'realyusufismailcore'
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
@@ -98,10 +98,10 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.4-45.0.43'
+    minecraft 'net.minecraftforge:forge:1.19.4-45.1.0'
     //Logger
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.5'
-    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.4.5'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.8'
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.4.8'
     //test
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
 }
