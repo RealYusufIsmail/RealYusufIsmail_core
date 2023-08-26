@@ -34,6 +34,7 @@ package io.github.realyusufismail.realyusufismailcore.core.itemgroup;
 
 
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -60,7 +61,7 @@ public class RealYusufIsmailCoreItemGroup {
                 .map(item -> item.get().asItem())
                 .forEach(output::accept);
         });
-        builder.icon(() -> new ItemStack(ItemInitCore.COPPER.get()));
+        builder.icon(() -> new ItemStack(BlockInitCore.CUSTOM_SMITHING_TABLE.get()));
         builder.title(Component.translatable("creativetab.realyusufismailcore"));
         builder.withSearchBar();
     }

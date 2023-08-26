@@ -33,16 +33,15 @@
 package io.github.realyusufismail.realyusufismailcore.core.init;
 
 
+import io.github.realyusufismail.realyusufismailcore.blocks.CustomSmithingTable;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.core.itemgroup.RealYusufIsmailCoreItemGroup;
 
 import java.util.function.Supplier;
 
@@ -52,11 +51,8 @@ public class BlockInitCore {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, RealYusufIsmailCore.MOD_ID);
 
-    public static final RegistryObject<GeneralBlock> COPPER_ORE =
-            register("copper_ore", Blocks.IRON_ORE);
-    public static final RegistryObject<GeneralBlock> COPPER_BLOCK =
-            register("copper_block", Blocks.IRON_BLOCK);
-
+    public static final RegistryObject<CustomSmithingTable> CUSTOM_SMITHING_TABLE =
+            registerSpecial("custom_smithing_table", CustomSmithingTable::new);
 
     private static <T extends Block> RegistryObject<T> registerSpecial(String name,
             Supplier<T> supplier) {
