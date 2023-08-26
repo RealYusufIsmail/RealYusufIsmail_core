@@ -1,5 +1,4 @@
-// 1.19.3	2022-12-25T11:44:00.163052	RealYusufIsmail Core - Block States/Models
-e8fcb8205d6d6e126c8517b1992d00fdb079b669 assets/realyusufismailcore/blockstates/copper_block.json
-7701effc15d726946ed5871728672a5bf23956de assets/realyusufismailcore/blockstates/copper_ore.json
-88e130b558c305023098280ead2b23b42fb1c8ee assets/realyusufismailcore/models/block/copper_block.json
-2e159a0e43c3a905df35a198f9066912cf912be4 assets/realyusufismailcore/models/block/copper_ore.json
+// 1.19.4	2023-08-26T21:54:09.2739754	RealYusufIsmail Core - Block States/Models
+e2bb3528ac7c7f285cb1954363de85c37b2372ab assets/realyusufismailcore/blockstates/legacy_smithing_table.json
+11a0a52f5e85edf7a69499e7c09469d3a42b6bdd assets/realyusufismailcore/models/block/legacy_smithing_table.json
+08376662271d75cc72ee8cf5c48e1757279c10a1 assets/realyusufismailcore/models/item/legacy_smithing_table.json

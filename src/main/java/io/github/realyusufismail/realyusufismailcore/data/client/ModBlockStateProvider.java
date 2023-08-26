@@ -32,15 +32,20 @@
 
 package io.github.realyusufismail.realyusufismailcore.data.client;
 
+import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.client.model.generators.BlockModelBuilder;
+import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-
-import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.COPPER_BLOCK;
-import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.COPPER_ORE;
 
 public class ModBlockStateProvider extends BlockStateProvider {
 
@@ -56,8 +61,27 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(COPPER_ORE.get());
-        simpleBlock(COPPER_BLOCK.get());
+        customSmithingTable(BlockInitCore.LEGACY_SMITHING_TABLE.get());
+    }
+
+    protected void customSmithingTable(Block block) {
+        ResourceLocation name = ForgeRegistries.BLOCKS.getKey(block);
+
+        if (name == null) {
+            throw new NullPointerException("Block " + block + " has null name");
+        }
+
+        BlockModelBuilder builder = models().withExistingParent(name.getPath(), "block/cube");
+
+        builder.texture("down", modLoc("block/" + name.getPath() + "_bottom"));
+        builder.texture("east", modLoc("block/" + name.getPath() + "_side"));
+        builder.texture("north", modLoc("block/" + name.getPath() + "_front"));
+        builder.texture("particle", modLoc("block/" + name.getPath() + "_front"));
+        builder.texture("south", modLoc("block/" + name.getPath() + "_side"));
+        builder.texture("up", modLoc("block/" + name.getPath() + "_top"));
+        builder.texture("west", modLoc("block/" + name.getPath() + "_side"));
+        simpleBlockItem(block, builder);
+        simpleBlock(block, builder);
     }
 
 }

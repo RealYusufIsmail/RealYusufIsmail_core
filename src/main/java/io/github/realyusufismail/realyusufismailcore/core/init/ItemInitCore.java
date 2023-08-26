@@ -43,7 +43,4 @@ import net.minecraftforge.registries.RegistryObject;
 public class ItemInitCore {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, RealYusufIsmailCore.MOD_ID);
-    public static final RegistryObject<Item> COPPER =
-            ITEMS.register("copper", () -> new Item(new Item.Properties()));
-
 }

@@ -33,6 +33,7 @@
 package io.github.realyusufismail.realyusufismailcore.data.loot;
 
 
+import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
@@ -57,9 +58,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        dropSelf(COPPER_ORE.get());
-        // blocks
-        dropSelf(COPPER_BLOCK.get());
+        dropSelf(LEGACY_SMITHING_TABLE.get());
     }
 
     @Override

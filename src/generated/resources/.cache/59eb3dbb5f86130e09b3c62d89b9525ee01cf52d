@@ -1,3 +1,2 @@
-// 1.19.3	2022-12-25T11:44:00.162592	Loot Tables
-0254a8022b5283b026ffb0c73f8758003fc9faf4 data/realyusufismailcore/loot_tables/blocks/copper_block.json
-0ef749ffd182464532b9e6b51c7526b01b6b7186 data/realyusufismailcore/loot_tables/blocks/copper_ore.json
+// 1.19.4	2023-08-27T00:09:48.6755282	Loot Tables
+103e51d645a6278f52b940a4087ff246b5efc7ed data/realyusufismailcore/loot_tables/blocks/legacy_smithing_table.json

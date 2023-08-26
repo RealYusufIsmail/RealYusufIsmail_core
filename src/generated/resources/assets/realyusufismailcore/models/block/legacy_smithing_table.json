@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "realyusufismailcore:block/legacy_smithing_table_bottom",
+    "east": "realyusufismailcore:block/legacy_smithing_table_side",
+    "north": "realyusufismailcore:block/legacy_smithing_table_front",
+    "particle": "realyusufismailcore:block/legacy_smithing_table_front",
+    "south": "realyusufismailcore:block/legacy_smithing_table_side",
+    "up": "realyusufismailcore:block/legacy_smithing_table_top",
+    "west": "realyusufismailcore:block/legacy_smithing_table_side"
+  }
+}

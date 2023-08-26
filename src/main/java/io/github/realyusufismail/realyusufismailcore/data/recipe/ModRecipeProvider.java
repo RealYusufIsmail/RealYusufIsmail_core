@@ -32,14 +32,13 @@
 
 package io.github.realyusufismail.realyusufismailcore.data.recipe;
 
+import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import net.minecraft.data.*;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Ingredient;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.TagsInit;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
 
@@ -54,31 +53,15 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInitCore.COPPER.get(), 9)
-
-            .requires(BlockInitCore.COPPER_BLOCK.get())
-            .unlockedBy("has_item", has(TagsInit.Items.INGOTS_COPPER))
+        ShapedRecipeBuilder
+            .shaped(RecipeCategory.BUILDING_BLOCKS, BlockInitCore.LEGACY_SMITHING_TABLE.get())
+            .define('#', Items.OAK_PLANKS)
+            .define('X', Tags.Items.INGOTS_IRON)
+            .pattern("###")
+            .pattern("#X#")
+            .pattern("###")
+            .unlockedBy("has_planks", has(Items.OAK_PLANKS))
             .save(consumer);
 
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockInitCore.COPPER_BLOCK.get())
-            .define('#', TagsInit.Items.INGOTS_COPPER)
-            .pattern("###")
-            .pattern("###")
-            .pattern("###")
-            .unlockedBy("has_item", has(TagsInit.Items.INGOTS_COPPER))
-            .save(consumer);
-
-        SimpleCookingRecipeBuilder
-            .smelting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), RecipeCategory.TOOLS,
-                    ItemInitCore.COPPER.get(), 0.6f, 500)
-            .unlockedBy("has_item", has(BlockInitCore.COPPER_ORE.get()))
-            .save(consumer, modId("copper_ore_smelt"));
-
-        SimpleCookingRecipeBuilder
-            .blasting(Ingredient.of(BlockInitCore.COPPER_ORE.get()), RecipeCategory.COMBAT,
-                    ItemInitCore.COPPER.get(), 0.2938392f, 500)
-            .unlockedBy("has_item", has(BlockInitCore.COPPER_ORE.get()))
-            .save(consumer, modId("copper_ore_blasting_smelt"));
     }
 }

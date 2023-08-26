@@ -34,6 +34,7 @@ package io.github.realyusufismail.realyusufismailcore.core.itemgroup;
 
 
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -43,10 +44,8 @@ import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = RealYusufIsmailCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RealYusufIsmailCoreItemGroup {
 
-    @SubscribeEvent
     public static void registerCreativeTab(CreativeModeTabEvent.Register event) {
         event.registerCreativeModeTab(
                 new ResourceLocation(RealYusufIsmailCore.MOD_ID, "creativetab"),
@@ -55,13 +54,17 @@ public class RealYusufIsmailCoreItemGroup {
 
     private static void createCreativeTabBuilder(CreativeModeTab.Builder builder) {
         builder.displayItems((itemDisplayParameters, output) -> {
+            BlockInitCore.BLOCKS.getEntries()
+                .stream()
+                .map(block -> block.get().asItem())
+                .forEach(output::accept);
+
             ItemInitCore.ITEMS.getEntries()
                 .stream()
                 .map(item -> item.get().asItem())
                 .forEach(output::accept);
         });
-        builder.icon(() -> new ItemStack(ItemInitCore.COPPER.get()));
+        builder.icon(() -> new ItemStack(BlockInitCore.LEGACY_SMITHING_TABLE.get()));
         builder.title(Component.translatable("creativetab.realyusufismailcore"));
-        builder.withSearchBar();
     }
 }
