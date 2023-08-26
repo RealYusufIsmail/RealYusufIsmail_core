@@ -34,12 +34,11 @@ package io.github.realyusufismail.realyusufismailcore.data.tags;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.common.Tags;
+import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.TagsInit;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -54,12 +53,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        tag(TagsInit.Blocks.ORES_COPPER).add(BlockInitCore.COPPER_ORE.get());
-        tag(Tags.Blocks.ORES).addTag(TagsInit.Blocks.ORES_COPPER);
-
-        // blocks
-        tag(TagsInit.Blocks.STORAGE_COPPER).add(BlockInitCore.COPPER_ORE.get());
-        tag(Tags.Blocks.ORES).addTag(TagsInit.Blocks.STORAGE_COPPER);
+        tag(BlockTags.MINEABLE_WITH_AXE).add(BlockInitCore.LEGACY_SMITHING_TABLE.get());
     }
 }
 

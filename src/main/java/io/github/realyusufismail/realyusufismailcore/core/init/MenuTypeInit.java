@@ -1,7 +1,7 @@
 package io.github.realyusufismail.realyusufismailcore.core.init;
 
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.blocks.OldSmithingMenu;
+import io.github.realyusufismail.realyusufismailcore.blocks.LegacySmithingMenu;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -17,9 +17,10 @@ public class MenuTypeInit {
             DeferredRegister.create(ForgeRegistries.MENU_TYPES, RealYusufIsmailCore.MOD_ID);
 
     public static final RegistryObject<MenuType<AbstractContainerMenu>> OLD_SMITHING_TABLE =
-            register("old_smithing", OldSmithingMenu::new, null);
+            register("old_smithing", LegacySmithingMenu::new, null);
 
-    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String name, MenuType.MenuSupplier<T> supplier, @Nullable FeatureFlagSet flagSet) {
+    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(
+            String name, MenuType.MenuSupplier<T> supplier, @Nullable FeatureFlagSet flagSet) {
         if (flagSet == null) {
             flagSet = FeatureFlags.REGISTRY.allFlags();
         }

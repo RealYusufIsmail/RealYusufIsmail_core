@@ -33,10 +33,11 @@
 package io.github.realyusufismail.realyusufismailcore.core.init;
 
 
-import io.github.realyusufismail.realyusufismailcore.blocks.CustomSmithingTable;
+import io.github.realyusufismail.realyusufismailcore.blocks.LegacySmithingTable;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -51,8 +52,9 @@ public class BlockInitCore {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, RealYusufIsmailCore.MOD_ID);
 
-    public static final RegistryObject<CustomSmithingTable> CUSTOM_SMITHING_TABLE =
-            registerSpecial("custom_smithing_table", CustomSmithingTable::new);
+    public static final RegistryObject<LegacySmithingTable> LEGACY_SMITHING_TABLE = registerSpecial(
+            "legacy_smithing_table",
+            () -> new LegacySmithingTable(BlockBehaviour.Properties.copy(Blocks.SMITHING_TABLE)));
 
     private static <T extends Block> RegistryObject<T> registerSpecial(String name,
             Supplier<T> supplier) {

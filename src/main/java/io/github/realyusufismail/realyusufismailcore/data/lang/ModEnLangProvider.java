@@ -52,11 +52,7 @@ public class ModEnLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         // block
-        block(BlockInitCore.COPPER_BLOCK, "Copper Block");
-        // ores
-        block(BlockInitCore.COPPER_ORE, "Copper Ore");
-        // ingots
-        item(ItemInitCore.COPPER, "Copper");
+        block(BlockInitCore.LEGACY_SMITHING_TABLE, "Legacy Smithing Table");
 
         // others
         add("creativetab.realyusufismailcore", "RealYusufIsmail Core Item Group");

@@ -34,6 +34,8 @@ package io.github.realyusufismail.realyusufismailcore;
 
 import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.MenuTypeInit;
+import io.github.realyusufismail.realyusufismailcore.core.init.RecipeSerializerInit;
+import io.github.realyusufismail.realyusufismailcore.core.init.RecipeTypeInit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModContainer;
@@ -52,6 +54,8 @@ public class RealYusufIsmailCore {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         BlockInitCore.BLOCKS.register(bus);
         MenuTypeInit.MENU_TYPES.register(bus);
+        RecipeTypeInit.RECIPE_TYPES.register(bus);
+        RecipeSerializerInit.SERIALIZERS.register(bus);
     }
 
     public static String getVersion() {

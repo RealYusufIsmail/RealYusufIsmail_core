@@ -61,7 +61,7 @@ public class RealYusufIsmailCoreItemGroup {
                 .map(item -> item.get().asItem())
                 .forEach(output::accept);
         });
-        builder.icon(() -> new ItemStack(BlockInitCore.CUSTOM_SMITHING_TABLE.get()));
+        builder.icon(() -> new ItemStack(BlockInitCore.LEGACY_SMITHING_TABLE.get()));
         builder.title(Component.translatable("creativetab.realyusufismailcore"));
         builder.withSearchBar();
     }

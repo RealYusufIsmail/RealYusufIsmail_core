@@ -1,6 +1,4 @@
 {
-  "block.realyusufismailcore.copper_block": "Copper Block",
-  "block.realyusufismailcore.copper_ore": "Copper Ore",
-  "creativetab.realyusufismailcore": "RealYusufIsmail Core Item Group",
-  "item.realyusufismailcore.copper": "Copper"
+  "block.realyusufismailcore.legacy_smithing_table": "Legacy Smithing Table",
+  "creativetab.realyusufismailcore": "RealYusufIsmail Core Item Group"
 }

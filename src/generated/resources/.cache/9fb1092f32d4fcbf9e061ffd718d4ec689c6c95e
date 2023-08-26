@@ -1,9 +1,3 @@
-// 1.19.3	2022-12-25T11:44:00.16282	Recipes
-6697c5d6886bd97ffb52ca086e9091041253cf4e data/realyusufismailcore/advancements/recipes/combat/copper_ore_blasting_smelt.json
-728b49630d1e9f57a419aaded21a15a7138c0a4f data/realyusufismailcore/advancements/recipes/decorations/copper_block.json
-711db5d81a64a339101000832e3b2e97c170fb48 data/realyusufismailcore/advancements/recipes/misc/copper.json
-fc7d0e009d80ace2d45cdfad65e14a8cec58787f data/realyusufismailcore/advancements/recipes/tools/copper_ore_smelt.json
-df381e69516a1884445c6277825ac86ffd807907 data/realyusufismailcore/recipes/copper.json
-62f16f96f029544659acc5600be04e417d430a58 data/realyusufismailcore/recipes/copper_block.json
-f977461032ab2bd8b721b0d203722e8149620358 data/realyusufismailcore/recipes/copper_ore_blasting_smelt.json
-1901ca425bf6161da48efaa04500905c34923180 data/realyusufismailcore/recipes/copper_ore_smelt.json
+// 1.19.4	2023-08-26T23:05:52.3858733	Recipes
+eb900ad62301e798ce804bcc9087005271401697 data/minecraft/advancements/recipes/building_blocks/air.json
+c3f22d5c7e4686f4152e9e89edcf360ee43e0e1e data/minecraft/recipes/air.json

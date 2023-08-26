@@ -32,7 +32,6 @@
 
 package io.github.realyusufismail.realyusufismailcore.data;
 
-import io.github.realyusufismail.realyusufismailcore.data.client.ModItemModelProvider;
 import io.github.realyusufismail.realyusufismailcore.data.lang.ModEnLangProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -45,7 +44,6 @@ import io.github.realyusufismail.realyusufismailcore.data.client.ModBlockStatePr
 import io.github.realyusufismail.realyusufismailcore.data.loot.ModLootTables;
 import io.github.realyusufismail.realyusufismailcore.data.recipe.ModRecipeProvider;
 import io.github.realyusufismail.realyusufismailcore.data.tags.ModBlockTagsProvider;
-import io.github.realyusufismail.realyusufismailcore.data.tags.ModItemTagsProvider;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -61,10 +59,8 @@ public class DataGenerators {
         CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
         gen.addProvider(true, new ModBlockStateProvider(gen, existingFileHelper));
-        gen.addProvider(true, new ModItemModelProvider(gen, existingFileHelper));
         ModBlockTagsProvider blockTags = new ModBlockTagsProvider(gen, existingFileHelper, lookup);
         gen.addProvider(true, blockTags);
-        gen.addProvider(true, new ModItemTagsProvider(gen, blockTags, lookup, existingFileHelper));
         gen.addProvider(true, new ModEnLangProvider(gen));
         gen.addProvider(true, new ModRecipeProvider(gen));
         gen.addProvider(true, new ModLootTables(gen));
