@@ -5,10 +5,9 @@ import io.github.realyusufismail.realyusufismailcore.core.init.RecipeTypeInit;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import net.minecraftforge.common.crafting.IShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
-public interface LegacySmithingShapedRecipe extends IShapedRecipe<Container> {
+public interface ILegacySmithingRecipe extends Recipe<Container> {
     default @NotNull RecipeType<?> getType() {
         return RecipeTypeInit.LEGACY_SMITHING.get();
     }

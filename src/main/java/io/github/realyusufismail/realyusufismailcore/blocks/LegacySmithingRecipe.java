@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-public class LegacySmithingRecipe implements LegacySmithingShapedRecipe {
+public class LegacySmithingRecipe implements ILegacySmithingRecipe {
     final Ingredient base;
     final Ingredient addition;
     final ItemStack result;
@@ -84,18 +84,9 @@ public class LegacySmithingRecipe implements LegacySmithingShapedRecipe {
         return Stream.of(this.base, this.addition).anyMatch(ForgeHooks::hasNoElements);
     }
 
-    @Override
-    public int getRecipeWidth() {
-        return 0;
-    }
-
-    @Override
-    public int getRecipeHeight() {
-        return 0;
-    }
-
     public static class Serializer implements RecipeSerializer<LegacySmithingRecipe> {
-        public LegacySmithingRecipe fromJson(ResourceLocation p_267011_, JsonObject p_267297_) {
+        public @NotNull LegacySmithingRecipe fromJson(ResourceLocation p_267011_,
+                JsonObject p_267297_) {
             Ingredient ingredient =
                     Ingredient.fromJson(GsonHelper.getAsJsonObject(p_267297_, "base"));
             Ingredient ingredient1 =

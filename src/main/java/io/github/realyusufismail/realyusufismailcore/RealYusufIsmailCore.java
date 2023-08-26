@@ -32,10 +32,10 @@
 
 package io.github.realyusufismail.realyusufismailcore;
 
-import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.MenuTypeInit;
-import io.github.realyusufismail.realyusufismailcore.core.init.RecipeSerializerInit;
-import io.github.realyusufismail.realyusufismailcore.core.init.RecipeTypeInit;
+import io.github.realyusufismail.realyusufismailcore.client.ClientSetup;
+import io.github.realyusufismail.realyusufismailcore.core.init.*;
+import io.github.realyusufismail.realyusufismailcore.core.itemgroup.RealYusufIsmailCoreItemGroup;
+import io.github.realyusufismail.realyusufismailcore.data.DataGenerators;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModContainer;
@@ -46,16 +46,22 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import java.util.Optional;
 
 @Mod("realyusufismailcore")
-@Mod.EventBusSubscriber(modid = RealYusufIsmailCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RealYusufIsmailCore {
     public static final String MOD_ID = "realyusufismailcore";
 
     public RealYusufIsmailCore() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         BlockInitCore.BLOCKS.register(bus);
+        ItemInitCore.ITEMS.register(bus);
         MenuTypeInit.MENU_TYPES.register(bus);
         RecipeTypeInit.RECIPE_TYPES.register(bus);
         RecipeSerializerInit.SERIALIZERS.register(bus);
+
+        bus.addListener(RealYusufIsmailCoreItemGroup::registerCreativeTab);
+        bus.addListener(DataGenerators::gatherData);
+        bus.addListener(ClientSetup::clientSetup);
+
+        bus.register(this);
     }
 
     public static String getVersion() {

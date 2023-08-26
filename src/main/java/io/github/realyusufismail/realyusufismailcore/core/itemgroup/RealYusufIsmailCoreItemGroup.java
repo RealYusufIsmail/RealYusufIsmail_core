@@ -44,10 +44,8 @@ import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = RealYusufIsmailCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RealYusufIsmailCoreItemGroup {
 
-    @SubscribeEvent
     public static void registerCreativeTab(CreativeModeTabEvent.Register event) {
         event.registerCreativeModeTab(
                 new ResourceLocation(RealYusufIsmailCore.MOD_ID, "creativetab"),
@@ -56,6 +54,11 @@ public class RealYusufIsmailCoreItemGroup {
 
     private static void createCreativeTabBuilder(CreativeModeTab.Builder builder) {
         builder.displayItems((itemDisplayParameters, output) -> {
+            BlockInitCore.BLOCKS.getEntries()
+                .stream()
+                .map(block -> block.get().asItem())
+                .forEach(output::accept);
+
             ItemInitCore.ITEMS.getEntries()
                 .stream()
                 .map(item -> item.get().asItem())
@@ -63,6 +66,5 @@ public class RealYusufIsmailCoreItemGroup {
         });
         builder.icon(() -> new ItemStack(BlockInitCore.LEGACY_SMITHING_TABLE.get()));
         builder.title(Component.translatable("creativetab.realyusufismailcore"));
-        builder.withSearchBar();
     }
 }

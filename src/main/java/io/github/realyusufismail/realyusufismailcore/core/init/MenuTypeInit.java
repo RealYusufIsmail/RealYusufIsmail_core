@@ -16,8 +16,8 @@ public class MenuTypeInit {
     public static DeferredRegister<MenuType<?>> MENU_TYPES =
             DeferredRegister.create(ForgeRegistries.MENU_TYPES, RealYusufIsmailCore.MOD_ID);
 
-    public static final RegistryObject<MenuType<AbstractContainerMenu>> OLD_SMITHING_TABLE =
-            register("old_smithing", LegacySmithingMenu::new, null);
+    public static final RegistryObject<MenuType<LegacySmithingMenu>> LEGACY_SMITHING_TABLE =
+            register("legacy_smithing_table", LegacySmithingMenu::new, null);
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(
             String name, MenuType.MenuSupplier<T> supplier, @Nullable FeatureFlagSet flagSet) {

@@ -16,8 +16,8 @@ public class LegacySmithingScreen extends ItemCombinerScreen<LegacySmithingMenu>
             RealYusufIsmailCore.getId("textures/gui/container/legacy_smithing.png");
 
     public LegacySmithingScreen(LegacySmithingMenu pMenu, Inventory pPlayerInventory,
-            Component pTitle, ResourceLocation pMenuResource) {
-        super(pMenu, pPlayerInventory, pTitle, pMenuResource);
+            Component pTitle) {
+        super(pMenu, pPlayerInventory, pTitle, SMITHING_LOCATION);
         this.titleLabelX = 60;
         this.titleLabelY = 18;
     }

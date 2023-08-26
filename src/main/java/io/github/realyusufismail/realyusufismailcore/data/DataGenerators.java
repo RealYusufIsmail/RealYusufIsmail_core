@@ -48,11 +48,9 @@ import io.github.realyusufismail.realyusufismailcore.data.tags.ModBlockTagsProvi
 import java.util.concurrent.CompletableFuture;
 
 
-@Mod.EventBusSubscriber(modid = RealYusufIsmailCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
     private DataGenerators() {}
 
-    @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();

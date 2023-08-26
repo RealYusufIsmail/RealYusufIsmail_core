@@ -2,8 +2,6 @@ package io.github.realyusufismail.realyusufismailcore.core.init;
 
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import io.github.realyusufismail.realyusufismailcore.blocks.LegacySmithingRecipe;
-import io.github.realyusufismail.realyusufismailcore.blocks.LegacySmithingShapedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;

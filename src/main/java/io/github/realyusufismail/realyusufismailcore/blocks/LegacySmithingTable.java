@@ -9,7 +9,6 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SmithingTableBlock;
@@ -18,13 +17,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
 public class LegacySmithingTable extends SmithingTableBlock {
-    public static Component CONTAINER_TITLE = Component.nullToEmpty("container.upgrade");
+    public static Component CONTAINER_TITLE = Component.translatable("container.legacy_smithing");
 
     public LegacySmithingTable(Properties pProperties) {
         super(pProperties);
     }
 
-    public AbstractContainerMenu getLegacySmithingMenu(int id, Inventory inventory,
+    public LegacySmithingMenu getLegacySmithingMenu(int id, Inventory inventory,
             ContainerLevelAccess access) {
         return new LegacySmithingMenu(id, inventory, access);
     }
