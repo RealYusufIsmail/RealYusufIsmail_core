@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -18,12 +19,10 @@ public class MenuTypeInit {
             DeferredRegister.create(ForgeRegistries.MENU_TYPES, RealYusufIsmailCore.MOD_ID);
 
     public static final RegistryObject<MenuType<LegacySmithingMenu>> LEGACY_SMITHING_TABLE =
-            register("legacy_smithing_table", LegacySmithingMenu::new, null);
+            register("legacy_smithing_table", LegacySmithingMenu::new,  FeatureFlags.REGISTRY.allFlags());
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(
-            String name, MenuType.MenuSupplier<T> supplier, @Nullable FeatureFlagSet flagSet) {
-        FeatureFlagSet finalFlagSet =
-                Objects.requireNonNullElseGet(flagSet, FeatureFlags.REGISTRY::allFlags);
-        return MENU_TYPES.register(name, () -> new MenuType<>(supplier, finalFlagSet));
+           @NotNull String name, @NotNull MenuType.MenuSupplier<T> supplier, @NotNull FeatureFlagSet flagSet) {
+        return MENU_TYPES.register(name, () -> new MenuType<>(supplier, flagSet));
     }
 }

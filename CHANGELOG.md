@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.19-1.1.4] - 29/08/2023
+
+### Rolled back a change with menu type to see if it fixes the issue with datagen not loading.
+
 ## [1.19-1.1.3] - 28/08/2023
 
 ### Cleaned some backend code
