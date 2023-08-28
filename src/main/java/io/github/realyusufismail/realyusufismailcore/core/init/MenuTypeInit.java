@@ -11,6 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class MenuTypeInit {
     public static DeferredRegister<MenuType<?>> MENU_TYPES =
@@ -21,11 +22,8 @@ public class MenuTypeInit {
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(
             String name, MenuType.MenuSupplier<T> supplier, @Nullable FeatureFlagSet flagSet) {
-        if (flagSet == null) {
-            flagSet = FeatureFlags.REGISTRY.allFlags();
-        }
-
-        FeatureFlagSet finalFlagSet = flagSet;
+        FeatureFlagSet finalFlagSet =
+                Objects.requireNonNullElseGet(flagSet, FeatureFlags.REGISTRY::allFlags);
         return MENU_TYPES.register(name, () -> new MenuType<>(supplier, finalFlagSet));
     }
 }

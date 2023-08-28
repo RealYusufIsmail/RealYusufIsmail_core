@@ -1,15 +1,15 @@
 modLoader = "javafml"
 loaderVersion = "[45,)"
 license = "BSD-3-Clause License"
-issueTrackerURL = "https://github.com/RealYusufIsmail/RealYusufIsmail_core/issues"
+issueTrackerURL = "https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail_core/issues"
 #logoFile="examplemod.png"
 credits = "realyusufismail"
-authors = "realyusufismail"
+authors = "RealYusufIsmail-Mc-Mods org"
 [[mods]]
 modId = "realyusufismailcore"
 version = "${file.jarVersion}"
 displayName = "RealYusufIsmail Core"
-updateJSONURL = "https://raw.githubusercontent.com/RealYusufIsmail/RealYusufIsmail-Core/1.19.4/update.json"
+updateJSONURL = "https://forge.curseupdate.com/497372/realyusufismail-core"
 description = '''
 Shared library for Yusuf Arfan Ismail's mods
  '''
