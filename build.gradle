@@ -1,20 +1,33 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
+buildscript {
+    repositories { mavenCentral() }
+
+    dependencies {
+        classpath("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
+    }
+}
+
 plugins {
     id 'java'
     id 'eclipse'
     id "com.diffplug.spotless" version "6.6.1"
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'net.darkhax.curseforgegradle' version '1.1.15'
 }
+
+apply plugin: 'io.codearte.nexus-staging'
 
 ext {
     dev_id = 'yusuf'
     dev_name = 'Yusuf Ismail'
     dev_email = 'ysufgamer222@gmail.com'
     dev_organization = 'Real Yusuf Ismail'
-    dev_organizationUrl = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core'
+    dev_organizationUrl = 'https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core'
 
     gpl_name = 'BSD 3-Clause "New" or "Revised" License'
-    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.19.3/LICENSE.txt'
+    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Mc-Mods-Core/blob/main/LICENSE.txt'
 
     // Make sure we have a default for initial configuration evaluation
     isReleaseVersion = false
@@ -23,10 +36,15 @@ ext {
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-version = '1.19-1.1.2'
-group = 'io.github.realyusufismail'
-archivesBaseName = 'realyusufismailcore'
+project.version = '1.19-1.1.3'
+project.group = 'io.github.realyusufismail'
+base.archivesName.set('realyusufismailcore')
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
+final var mcVersion = "1.19.4"
+// A project ID is required to tell CurseForge which project the uploaded
+// file belongs to. This is public on your project page and is not private
+// information.
+final var projectId = "497372"
 
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
@@ -35,9 +53,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
 minecraft {
-    mappings channel: 'parchment', version: '1.19.3-2023.03.12-1.19.4'
-
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    mappings channel: 'parchment', version: "2023.06.26-$mcVersion"
 
     runs {
         client {
@@ -163,7 +179,7 @@ publishing {
             pom {
                 name = project.archivesBaseName
                 description = project.description
-                url = "https://github.com/RealYusufIsmail/RealYusufIsmail-Core"
+                url = "https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core"
                 packaging = "jar"
 
                 licenses {
@@ -182,9 +198,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core.git'
-                    developerConnection = 'scm:git:ssh://git@github.com/RealYusufIsmail/RealYusufIsmail-Core.git'
-                    url = 'github.com/RealYusufIsmail/RealYusufIsmail-Core'
+                    connection = 'https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core.git'
+                    url = 'github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core'
                 }
             }
         }
@@ -215,6 +231,32 @@ signing {
         required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
         sign publishing.publications.mavenJava
     }
+}
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    group = "CurseForge"
+    dependsOn("build")
+    disableVersionDetection()
+
+    var token = project.hasProperty('curseforge.token') ? project.property('curseforge.token') as String : ""
+    apiToken = token
+
+    final var jar = file("build/libs/${base.archivesName.get()}-${project.version}.jar")
+
+    final var mainFile = upload(projectId, jar)
+    mainFile.changelog = file("CHANGELOG.md").getText()
+    mainFile.changelogType = "markdown"
+    mainFile.releaseType = "release"
+    mainFile.addJavaVersion("Java 17")
+    mainFile.addModLoader("forge")
+    mainFile.addGameVersion(mcVersion)
+}
+
+nexusStaging {
+    packageGroup = 'io.github.realyusufismail'
+    serverUrl = "https://s01.oss.sonatype.org/service/local"
+    username = project.hasProperty('MAVEN_USERNAME') ? project.property('MAVEN_USERNAME') : 'username'
+    password = project.hasProperty('MAVEN_PASSWORD') ? project.property('MAVEN_PASSWORD') : 'password'
 }
 
 tasks.withType(JavaCompile).configureEach {

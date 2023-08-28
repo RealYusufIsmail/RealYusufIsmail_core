@@ -33,8 +33,13 @@
 package io.github.realyusufismail.realyusufismailcore.data;
 
 import io.github.realyusufismail.realyusufismailcore.data.lang.ModEnLangProvider;
+import net.minecraft.DetectedVersion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.metadata.PackMetadataGenerator;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -45,7 +50,10 @@ import io.github.realyusufismail.realyusufismailcore.data.loot.ModLootTables;
 import io.github.realyusufismail.realyusufismailcore.data.recipe.ModRecipeProvider;
 import io.github.realyusufismail.realyusufismailcore.data.tags.ModBlockTagsProvider;
 
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 public class DataGenerators {
@@ -62,6 +70,12 @@ public class DataGenerators {
         gen.addProvider(true, new ModEnLangProvider(gen));
         gen.addProvider(true, new ModRecipeProvider(gen));
         gen.addProvider(true, new ModLootTables(gen));
-
+        gen.addProvider(true,
+                new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,
+                        new PackMetadataSection(Component.literal("Armour and Tools Mod Resources"),
+                                DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
+                                Arrays.stream(PackType.values())
+                                    .collect(Collectors.toMap(Function.identity(),
+                                            DetectedVersion.BUILT_IN::getPackVersion)))));
     }
 }
