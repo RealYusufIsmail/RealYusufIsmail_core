@@ -36,9 +36,9 @@ ext {
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-project.version = '1.20.1.1.0.0'
+project.version = '1.20.1-1.0.0'
 project.group = 'io.github.realyusufismail'
-base.archivesName.set('realyusufismailcore')
+base.archivesName.set('realyusufismailcore-neoforge')
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
 final var mcVersion = "1.20.1"
 // A project ID is required to tell CurseForge which project the uploaded
@@ -222,11 +222,13 @@ publishing {
             }
     }
 }
+
+//For future reference if issue occurs with signing just put secret-keys.gpg locally and update main gradle.properties accordingly.
 signing {
     afterEvaluate { project ->
         def isReleaseVersion = releaseVersion && gradle.taskGraph.hasTask("publish")
         setRequired(isReleaseVersion)
-        sign(publishing.publications.getByName("mavenJava"))
+        sign(publishing.publications.mavenJava)
     }
 }
 
@@ -236,6 +238,7 @@ nexusStaging {
     username = project.hasProperty('MAVEN_USERNAME') ? project.property('MAVEN_USERNAME') : 'username'
     password = project.hasProperty('MAVEN_PASSWORD') ? project.property('MAVEN_PASSWORD') : 'password'
 }
+
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
     group = "CurseForge"
