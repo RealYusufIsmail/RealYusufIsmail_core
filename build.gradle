@@ -12,7 +12,7 @@ plugins {
     id 'java'
     id 'eclipse'
     id "com.diffplug.spotless" version "6.6.1"
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.neoforged.gradle' version '[6.0.18, 6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'net.darkhax.curseforgegradle' version '1.1.15'
 }
@@ -24,7 +24,7 @@ ext {
     dev_name = 'Yusuf Ismail'
     dev_email = 'ysufgamer222@gmail.com'
     dev_organization = 'Real Yusuf Ismail'
-    dev_organizationUrl = 'https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core'
+    dev_organizationUrl = 'https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core-Neo'
 
     gpl_name = 'BSD 3-Clause "New" or "Revised" License'
     gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Mc-Mods-Core/blob/main/LICENSE.txt'
@@ -36,15 +36,17 @@ ext {
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-project.version = '1.19-1.1.4'
+project.version = '1.20.1.1.0.0'
 project.group = 'io.github.realyusufismail'
 base.archivesName.set('realyusufismailcore')
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
-final var mcVersion = "1.19.4"
+final var mcVersion = "1.20.1"
 // A project ID is required to tell CurseForge which project the uploaded
 // file belongs to. This is public on your project page and is not private
 // information.
 final var projectId = "497372"
+
+def releaseVersion = !project.version.endsWith("SNAPSHOT")
 
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
@@ -114,7 +116,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.4-45.1.0'
+    minecraft 'net.neoforged:forge:1.20.1-47.1.79'
     //Logger
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.8'
     implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.4.8'
@@ -172,6 +174,7 @@ java {
 }
 
 publishing {
+    def isReleaseVersion = !version.toString().endsWith("SNAPSHOT")
     publications {
         mavenJava(MavenPublication) {
             //artifactId = project.artifactId // or maybe archiveBaseName?
@@ -179,7 +182,7 @@ publishing {
             pom {
                 name = project.archivesBaseName
                 description = project.description
-                url = "https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core"
+                url = "https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core-Neo"
                 packaging = "jar"
 
                 licenses {
@@ -198,39 +201,40 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core.git'
-                    developerConnection = 'scm:git:ssh://git@github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core.git'
-                    url = 'github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core'
+                    connection = 'https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core-Neo.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core-Neo.git'
+                    url = 'github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core-Neo'
                 }
             }
         }
     }
     repositories {
         maven {
-            afterEvaluate { project ->
+            name = "MavenCentral"
                 def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
                 def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
                 url = (isReleaseVersion) ? releaseRepo : snapshotRepo
-
-                //println "repos: " + version
-                //println "repos: " + isReleaseVersion
-                //println url
 
                 credentials {
                     username = project.hasProperty('MAVEN_USERNAME') ? ossrhUsername : "Unknown user"
                     password = project.hasProperty('MAVEN_PASSWORD') ? ossrhPassword : "Unknown password"
                 }
             }
-        }
     }
 }
 signing {
     afterEvaluate { project ->
-        //println "sign: " + version
-        //println "sign: " + isReleaseVersion
-        required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
-        sign publishing.publications.mavenJava
+        def isReleaseVersion = releaseVersion && gradle.taskGraph.hasTask("publish")
+        setRequired(isReleaseVersion)
+        sign(publishing.publications.getByName("mavenJava"))
     }
+}
+
+nexusStaging {
+    packageGroup = 'io.github.realyusufismail'
+    serverUrl = "https://s01.oss.sonatype.org/service/local"
+    username = project.hasProperty('MAVEN_USERNAME') ? project.property('MAVEN_USERNAME') : 'username'
+    password = project.hasProperty('MAVEN_PASSWORD') ? project.property('MAVEN_PASSWORD') : 'password'
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
@@ -248,15 +252,8 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     mainFile.changelogType = "markdown"
     mainFile.releaseType = "release"
     mainFile.addJavaVersion("Java 17")
-    mainFile.addModLoader("forge")
+    mainFile.addModLoader("NeoForge")
     mainFile.addGameVersion(mcVersion)
-}
-
-nexusStaging {
-    packageGroup = 'io.github.realyusufismail'
-    serverUrl = "https://s01.oss.sonatype.org/service/local"
-    username = project.hasProperty('MAVEN_USERNAME') ? project.property('MAVEN_USERNAME') : 'username'
-    password = project.hasProperty('MAVEN_PASSWORD') ? project.property('MAVEN_PASSWORD') : 'password'
 }
 
 tasks.withType(JavaCompile).configureEach {

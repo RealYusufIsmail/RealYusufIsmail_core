@@ -56,7 +56,7 @@ public class ModEnLangProvider extends LanguageProvider {
 
         // others
         add("creativetab.realyusufismailcore", "RealYusufIsmail Core Item Group");
-        add("container.legacy_smithing", "Legacy Smithing Table");
+        add("container.legacy_smithing", "Improve Gear");
     }
 
     private <T extends Item> void item(@NotNull RegistryObject<T> entry, String name) {

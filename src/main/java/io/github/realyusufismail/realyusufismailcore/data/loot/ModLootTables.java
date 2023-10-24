@@ -72,7 +72,7 @@ public class ModLootTables extends LootTableProvider {
             validationContext.reportProblem("Missing mod loot table: " + id);
         }
 
-        map.forEach((id, lootTable) -> LootTables.validate(validationContext, id, lootTable));
+        map.forEach((id, lootTable) -> lootTable.validate(validationContext));
     }
 
 }

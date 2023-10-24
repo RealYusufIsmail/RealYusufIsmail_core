@@ -56,8 +56,8 @@ public class RealYusufIsmailCore {
         MenuTypeInit.MENU_TYPES.register(bus);
         RecipeTypeInit.RECIPE_TYPES.register(bus);
         RecipeSerializerInit.SERIALIZERS.register(bus);
+        RealYusufIsmailCoreItemGroup.CREATIVE_MODE_TABS.register(bus);
 
-        bus.addListener(RealYusufIsmailCoreItemGroup::registerCreativeTab);
         bus.addListener(DataGenerators::gatherData);
         bus.addListener(ClientSetup::clientSetup);
 

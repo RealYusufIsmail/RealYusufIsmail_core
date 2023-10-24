@@ -1,10 +1,9 @@
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y3BAYHO)
 #
-![Long Term Support](https://img.shields.io/badge/Long_Term_Support-1.19.4-green)
-![Short Term Support](https://img.shields.io/badge/Short_Term_Support-1.20.1-green)
+![Long Term Support](https://img.shields.io/badge/Long_Term_Support-1.20.1-green)
 [![](http://cf.way2muchnoise.eu/versions/459985.svg)](https://www.curseforge.com/minecraft/mc-mods/ben-ten-mod)
 [![License: BSD](https://img.shields.io/badge/License-BSD-blue.svg)](https://opensource.org/license/bsd-3-clause/)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail/realyusufismailcore/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail.realyusufismailcore/minecraft)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail/realyusufismailcore-neo/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail.realyusufismailcore/minecraft)
 
 # RealYusufIsmail Core
 
@@ -28,7 +27,7 @@ repositories {
 
 ```gradle
 dependencies {
-     implementation group: 'io.github.realyusufismail', name: 'realyusufismailcore', version: 'version'
+     implementation group: 'io.github.realyusufismail', name: 'realyusufismailcore-neo', version: 'version'
 }
 ```
 

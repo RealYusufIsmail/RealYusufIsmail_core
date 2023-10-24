@@ -28,7 +28,7 @@ public class LegacySmithingMenu extends ItemCombinerMenu {
 
     public LegacySmithingMenu(int p_266937_, Inventory p_267213_, ContainerLevelAccess p_266723_) {
         super(MenuTypeInit.LEGACY_SMITHING_TABLE.get(), p_266937_, p_267213_, p_266723_);
-        this.level = p_267213_.player.level;
+        this.level = p_267213_.player.level();
         this.recipes = this.level.getRecipeManager()
             .getAllRecipesFor(RecipeTypeInit.LEGACY_SMITHING.get())
             .stream()
@@ -54,8 +54,8 @@ public class LegacySmithingMenu extends ItemCombinerMenu {
     }
 
     protected void onTake(Player p_267006_, ItemStack p_266731_) {
-        p_266731_.onCraftedBy(p_267006_.level, p_267006_, p_266731_.getCount());
-        this.resultSlots.awardUsedRecipes(p_267006_);
+        p_266731_.onCraftedBy(p_267006_.level(), p_267006_, p_266731_.getCount());
+        this.resultSlots.awardUsedRecipes(p_267006_, List.of(p_266731_));
         this.shrinkStackInSlot(0);
         this.shrinkStackInSlot(1);
         this.access.execute((p_267191_, p_267098_) -> {

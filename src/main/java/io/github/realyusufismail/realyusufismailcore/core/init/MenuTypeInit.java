@@ -22,9 +22,11 @@ public class MenuTypeInit {
             register("legacy_smithing_table", LegacySmithingMenu::new,
                     FeatureFlags.REGISTRY.allFlags());
 
+
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(
-            @NotNull String name, @NotNull MenuType.MenuSupplier<T> supplier,
-            @NotNull FeatureFlagSet flagSet) {
-        return MENU_TYPES.register(name, () -> new MenuType<>(supplier, flagSet));
+            String name, MenuType.MenuSupplier<T> supplier, @Nullable FeatureFlagSet flagSet) {
+        FeatureFlagSet finalFlagSet =
+                Objects.requireNonNullElseGet(flagSet, FeatureFlags.REGISTRY::allFlags);
+        return MENU_TYPES.register(name, () -> new MenuType<>(supplier, finalFlagSet));
     }
 }
