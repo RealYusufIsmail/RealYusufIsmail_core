@@ -33,21 +33,18 @@
 package io.github.realyusufismail.realyusufismailcore.data.loot;
 
 
-import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import net.minecraft.data.loot.BlockLootSubProvider;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.ForgeRegistries;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.*;
+import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.LEGACY_SMITHING_TABLE;
 
 public class ModBlockLootTables extends BlockLootSubProvider {
 

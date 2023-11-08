@@ -32,18 +32,24 @@
 
 package io.github.realyusufismail.realyusufismailcore.data.recipe;
 
-import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
-import net.minecraft.data.*;
-import net.minecraft.data.recipes.*;
-import net.minecraft.resources.ResourceLocation;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.Tags;
-import java.util.function.Consumer;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends RecipeProvider {
-    public ModRecipeProvider(DataGenerator generatorIn) {
-        super(generatorIn.getPackOutput());
+    public ModRecipeProvider(DataGenerator generatorIn,
+            CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(generatorIn.getPackOutput(), lookupProvider);
     }
 
     private static ResourceLocation modId(String path) {
@@ -53,14 +59,14 @@ public class ModRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes(RecipeOutput consumer) {
         ShapedRecipeBuilder
-                .shaped(RecipeCategory.BUILDING_BLOCKS, BlockInitCore.LEGACY_SMITHING_TABLE.get())
-                .define('#', Items.OAK_PLANKS)
-                .define('X', Tags.Items.INGOTS_IRON)
-                .pattern("###")
-                .pattern("#X#")
-                .pattern("###")
-                .unlockedBy("has_planks", has(Items.OAK_PLANKS))
-                .save(consumer);
+            .shaped(RecipeCategory.BUILDING_BLOCKS, BlockInitCore.LEGACY_SMITHING_TABLE.get())
+            .define('#', Items.OAK_PLANKS)
+            .define('X', Tags.Items.INGOTS_IRON)
+            .pattern("###")
+            .pattern("#X#")
+            .pattern("###")
+            .unlockedBy("has_planks", has(Items.OAK_PLANKS))
+            .save(consumer);
 
     }
 }

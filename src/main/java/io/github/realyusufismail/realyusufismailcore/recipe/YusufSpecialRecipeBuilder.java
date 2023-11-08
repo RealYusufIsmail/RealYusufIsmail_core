@@ -33,14 +33,14 @@
 package io.github.realyusufismail.realyusufismailcore.recipe;
 
 import com.google.gson.JsonObject;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.function.Consumer;
+import org.jetbrains.annotations.Nullable;
 
 public class YusufSpecialRecipeBuilder {
     final RecipeSerializer<?> serializer;
@@ -55,28 +55,26 @@ public class YusufSpecialRecipeBuilder {
         return new YusufSpecialRecipeBuilder(simpleRecipeSerializer);
     }
 
-    public void save(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer,
-            final String resourceLocation) {
-        finishedRecipeConsumer.accept(new FinishedRecipe() {
+    public void save(@NotNull RecipeOutput recipeOutput, final String resourceLocation) {
+
+        recipeOutput.accept(new FinishedRecipe() {
             public void serializeRecipeData(@NotNull JsonObject jsonObject) {
                 // TODO document why this method is empty
             }
 
-            public @NotNull RecipeSerializer<?> getType() {
+            @Override
+            public ResourceLocation id() {
+                return advancement().id();
+            }
+
+            public @NotNull RecipeSerializer<?> type() {
                 return YusufSpecialRecipeBuilder.this.serializer;
             }
 
-            public @NotNull ResourceLocation getId() {
-                return new ResourceLocation(resourceLocation);
-            }
-
             @Nullable
-            public JsonObject serializeAdvancement() {
+            @Override
+            public AdvancementHolder advancement() {
                 return null;
-            }
-
-            public ResourceLocation getAdvancementId() {
-                return new ResourceLocation("");
             }
         });
     }

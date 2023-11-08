@@ -37,10 +37,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
@@ -52,19 +49,15 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import record;
+
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Consumer;
+import java.util.*;
 
 import static io.github.realyusufismail.realyusufismailcore.recipe.YusufCraftingRecipeBuilder.determineBookCategory;
 
 /**
  * Taken from
- * 
+ *
  * @see ShapedRecipeBuilder
  */
 @SuppressWarnings("unused")
@@ -74,7 +67,7 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
     private final int count;
     private final List<String> rows = Lists.newArrayList();
     private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
-    private final Advancement.Builder advancement = Advancement.Builder.advancement();
+    private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
     @Nullable
     private String group;
     private boolean showNotification = true;
@@ -125,8 +118,8 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
     }
 
     public @NotNull YusufShapedRecipeBuilder unlockedBy(@NotNull String creterionId,
-            @NotNull CriterionTriggerInstance criterionTriggerInstance) {
-        this.advancement.addCriterion(creterionId, criterionTriggerInstance);
+            @NotNull Criterion<?> criterion) {
+        this.criteria.put(creterionId, criterion);
         return this;
     }
 
@@ -144,17 +137,18 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
         return this.result;
     }
 
-    public void save(Consumer<FinishedRecipe> finishedRecipeConsumer,
-            ResourceLocation resourceLocation) {
+    public void save(RecipeOutput recipeOutput, ResourceLocation resourceLocation) {
         this.ensureValid(resourceLocation);
-        this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
+
+        Advancement.Builder advancementBuilder = recipeOutput.advancement()
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceLocation))
             .rewards(AdvancementRewards.Builder.recipe(resourceLocation))
-            .requirements(RequirementsStrategy.OR);
-        finishedRecipeConsumer.accept(new ShapedRecipeBuilder.Result(resourceLocation, this.result,
-                this.count, this.group == null ? "" : this.group,
-                determineBookCategory(this.category), this.rows, this.key, this.advancement,
-                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/"),
+            .requirements(AdvancementRequirements.Strategy.OR);
+
+        recipeOutput.accept(new Result(determineBookCategory(this.category), resourceLocation,
+                this.result, this.count, this.group == null ? "" : this.group, this.rows, this.key,
+                advancementBuilder.build(resourceLocation
+                    .withPrefix("recipes/" + this.category.getFolderName() + "/")),
                 this.showNotification));
     }
 
@@ -185,7 +179,7 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
             } else if (this.rows.size() == 1 && this.rows.get(0).length() == 1) {
                 throw new IllegalStateException("Shaped recipe " + resourceLocation
                         + " only takes in a single item - should it be a shapeless recipe instead?");
-            } else if (this.advancement.getCriteria().isEmpty()) {
+            } else if (this.criteria.isEmpty()) {
                 throw new IllegalStateException("No way of obtaining recipe " + resourceLocation);
             }
         }
@@ -193,8 +187,7 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
 
     public record Result(CraftingBookCategory category, ResourceLocation id, Item result, int count,
             String group, List<String> pattern, Map<Character, Ingredient> key,
-            Advancement.Builder advancement, ResourceLocation advancementId,
-            boolean showNotification) implements FinishedRecipe {
+            AdvancementHolder advancement, boolean showNotification) implements FinishedRecipe {
 
         public void serializeRecipeData(@NotNull JsonObject jsonObject) {
             if (!this.group.isEmpty()) {
@@ -211,7 +204,7 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
             JsonObject jsonObject1 = new JsonObject();
 
             for (Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
-                jsonObject1.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
+                jsonObject1.add(String.valueOf(entry.getKey()), entry.getValue().toJson(false));
             }
 
             jsonObject.add("key", jsonObject1);
@@ -226,21 +219,12 @@ public class YusufShapedRecipeBuilder implements RecipeBuilder {
             jsonObject.addProperty("show_notification", this.showNotification);
         }
 
-        public @NotNull RecipeSerializer<?> getType() {
+        public @NotNull RecipeSerializer<?> type() {
             return RecipeSerializer.SHAPED_RECIPE;
         }
 
-        public @NotNull ResourceLocation getId() {
-            return this.id;
-        }
-
         public @NotNull JsonObject serializeAdvancement() {
-            return this.advancement.serializeToJson();
-        }
-
-        @Nullable
-        public ResourceLocation getAdvancementId() {
-            return this.advancementId;
+            return this.advancement.value().serializeToJson();
         }
     }
 }

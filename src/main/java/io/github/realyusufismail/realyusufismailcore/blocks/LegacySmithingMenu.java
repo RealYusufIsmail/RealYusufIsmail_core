@@ -5,10 +5,13 @@ import io.github.realyusufismail.realyusufismailcore.core.init.MenuTypeInit;
 import io.github.realyusufismail.realyusufismailcore.core.init.RecipeTypeInit;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.ItemCombinerMenu;
+import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +23,7 @@ public class LegacySmithingMenu extends ItemCombinerMenu {
     private final Level level;
     @Nullable
     private ILegacySmithingRecipe selectedRecipe;
-    private final List<ILegacySmithingRecipe> recipes;
+    private final List<RecipeHolder<ILegacySmithingRecipe>> recipes;
 
     public LegacySmithingMenu(int p_267173_, Inventory p_267175_) {
         this(p_267173_, p_267175_, ContainerLevelAccess.NULL);
@@ -74,22 +77,26 @@ public class LegacySmithingMenu extends ItemCombinerMenu {
      * slot.
      */
     public void createResult() {
-        List<ILegacySmithingRecipe> list = this.level.getRecipeManager()
+        List<RecipeHolder<ILegacySmithingRecipe>> list = this.level.getRecipeManager()
             .getRecipesFor(RecipeTypeInit.LEGACY_SMITHING.get(), this.inputSlots, this.level)
             .stream()
             .filter(Objects::nonNull)
             .toList();
+
         if (list.isEmpty()) {
             this.resultSlots.setItem(0, ItemStack.EMPTY);
         } else {
-            ILegacySmithingRecipe oldSmithingRecipe = list.get(0);
-            ItemStack itemstack =
-                    oldSmithingRecipe.assemble(this.inputSlots, this.level.registryAccess());
+            RecipeHolder<ILegacySmithingRecipe> oldSmithingRecipe = list.get(0);
+
+            ItemStack itemstack = oldSmithingRecipe.value()
+                .assemble(this.inputSlots, this.level.registryAccess());
+
             if (itemstack.isItemEnabled(this.level.enabledFeatures())) {
-                this.selectedRecipe = oldSmithingRecipe;
+                this.selectedRecipe = oldSmithingRecipe.value();
                 this.resultSlots.setRecipeUsed(oldSmithingRecipe);
                 this.resultSlots.setItem(0, itemstack);
             }
+
         }
 
     }
@@ -99,9 +106,8 @@ public class LegacySmithingMenu extends ItemCombinerMenu {
     }
 
     protected boolean shouldQuickMoveToAdditionalSlot(ItemStack p_267176_) {
-        return this.recipes.stream().anyMatch((p_267065_) -> {
-            return p_267065_.isAdditionIngredient(p_267176_);
-        });
+        return this.recipes.stream()
+            .anyMatch((p_267065_) -> p_267065_.value().isAdditionIngredient(p_267176_));
     }
 
     /**

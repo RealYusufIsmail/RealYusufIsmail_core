@@ -35,13 +35,12 @@ package io.github.realyusufismail.realyusufismailcore.recipe;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import io.github.realyusufismail.realyusufismailcore.recipe.util.EnchantmentsAndLevels;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeBuilder;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -52,28 +51,25 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import record;
+
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Consumer;
-
-import static io.github.realyusufismail.realyusufismailcore.recipe.YusufCraftingRecipeBuilder.determineBookCategory;
 
 /**
  * @see net.minecraft.data.recipes.ShapedRecipeBuilder
  */
 @SuppressWarnings("unused")
-public class EnchantmentRecipeProvider implements RecipeBuilder {
+public class EnchantmentRecipeProvider extends CraftingRecipeBuilder implements RecipeBuilder {
     private final RecipeCategory category;
     private final Item result;
     private final int count;
-    private int hideFlags;
     private int level;
-    private Enchantment enchantment;
+    private EnchantmentsAndLevels enchantmentsAndLevels = new EnchantmentsAndLevels();
+    private int hideFlags = 0;
     private final List<String> rows = Lists.newArrayList();
     private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
 
-    private final Advancement.Builder advancement = Advancement.Builder.advancement();
+    private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
     @Nullable
     private String group;
     private boolean showNotification = true;
@@ -127,15 +123,13 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
 
     @NotNull
     public EnchantmentRecipeProvider unlockedBy(@NotNull String creterionId,
-            @NotNull CriterionTriggerInstance criterionTriggerInstance) {
-        this.advancement.addCriterion(creterionId, criterionTriggerInstance);
+            @NotNull Criterion<?> criterion) {
+        this.criteria.put(creterionId, criterion);
         return this;
     }
 
-    @NotNull
-    public EnchantmentRecipeProvider setEnchantment(Enchantment enchantment, int level) {
-        this.enchantment = enchantment;
-        this.level = level;
+    public EnchantmentRecipeProvider enchantment(Enchantment enchantment, int level) {
+        this.enchantmentsAndLevels.add(enchantment, level);
         return this;
     }
 
@@ -159,22 +153,31 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
         return this.result;
     }
 
-    public void save(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer,
-            @NotNull ResourceLocation resourceLocation) {
+    @Override
+    public void save(RecipeOutput recipeOutput, @NotNull ResourceLocation resourceLocation) {
         this.ensureValid(resourceLocation);
-        this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
+
+        Advancement.Builder advancementBuilder = recipeOutput.advancement()
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceLocation))
             .rewards(AdvancementRewards.Builder.recipe(resourceLocation))
-            .requirements(RequirementsStrategy.OR);
-        finishedRecipeConsumer.accept(new ShapedRecipeBuilder.Result(resourceLocation, this.result,
-                this.count, this.group == null ? "" : this.group,
-                determineBookCategory(this.category), this.rows, this.key, this.advancement,
-                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/"),
-                this.showNotification));
+            .requirements(AdvancementRequirements.Strategy.OR);
+
+        this.criteria.forEach(advancementBuilder::addCriterion);
+
+        recipeOutput.accept(new Result(determineBookCategory(this.category), resourceLocation,
+                this.result, this.count, this.group == null ? "" : this.group, this.rows, this.key,
+                advancementBuilder.build(resourceLocation
+                    .withPrefix("recipes/" + this.category.getFolderName() + "/")),
+                this.showNotification, enchantmentsAndLevels, hideFlags));
+
+
     }
 
     private void ensureValid(ResourceLocation resourceLocation) throws IllegalStateException {
-        if (!this.rows.isEmpty()) {
+        if (this.rows.isEmpty()) {
+            throw new IllegalStateException(
+                    "No pattern is defined for shaped recipe " + resourceLocation + "!");
+        } else {
             Set<Character> set = Sets.newHashSet(this.key.keySet());
             set.remove(' ');
 
@@ -197,20 +200,16 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
             } else if (this.rows.size() == 1 && this.rows.get(0).length() == 1) {
                 throw new IllegalStateException("Shaped recipe " + resourceLocation
                         + " only takes in a single item - should it be a shapeless recipe instead?");
-            } else if (this.advancement.getCriteria().isEmpty()) {
+            } else if (this.criteria.isEmpty()) {
                 throw new IllegalStateException("No way of obtaining recipe " + resourceLocation);
             }
-        } else {
-            throw new IllegalStateException(
-                    "No pattern is defined for shaped recipe " + resourceLocation + "!");
         }
     }
 
     public record Result(CraftingBookCategory category, ResourceLocation id, Item result, int count,
             String group, List<String> pattern, Map<Character, Ingredient> key,
-            Advancement.Builder advancement, Enchantment enchantment, int enchantmentLevel,
-            int hideFlags, ResourceLocation advancementId,
-            boolean showNotification) implements FinishedRecipe {
+            AdvancementHolder advancement, boolean showNotification,
+            EnchantmentsAndLevels enchantmentsAndLevels, int hideFlags) implements FinishedRecipe {
 
         @Override
         public void serializeRecipeData(@NotNull JsonObject jsonObject) {
@@ -229,7 +228,7 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
             JsonObject jsonobject = new JsonObject();
 
             for (Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
-                jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
+                jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson(false));
             }
 
             jsonObject.add("key", jsonobject);
@@ -241,37 +240,45 @@ public class EnchantmentRecipeProvider implements RecipeBuilder {
             }
 
             // enchantment
-            JsonArray jsonArray1 = new JsonArray();
-            JsonObject jsonObject2 = new JsonObject();
-            JsonObject jsonObject3 = new JsonObject();
-            jsonObject3.addProperty("id",
-                    Objects.requireNonNull(ForgeRegistries.ENCHANTMENTS.getKey(this.enchantment))
-                        .toString());
-            jsonObject3.addProperty("lvl", enchantmentLevel);
-            jsonArray1.add(jsonObject3);
-            jsonObject2.add("Enchantments", jsonArray1);
-            jsonObject2.addProperty("HideFlags", hideFlags);
-            jsonObject1.add("nbt", jsonObject2);
+            if (!enchantmentsAndLevels.isEmpty()) {
+                JsonArray jsonArray1 = new JsonArray();
+                JsonObject jsonObject3 = new JsonObject();
+                JsonObject jsonObject4;
+                for (Map.Entry<Enchantment, Integer> entry : enchantmentsAndLevels.entrySet()) {
+                    jsonObject4 = new JsonObject();
+                    jsonObject4.addProperty("id",
+                            Objects
+                                .requireNonNull(ForgeRegistries.ENCHANTMENTS.getKey(entry.getKey()))
+                                .toString());
+                    jsonObject4.addProperty("lvl", entry.getValue());
+                    jsonArray1.add(jsonObject4);
+                }
+                jsonObject3.add("Enchantments", jsonArray1);
+                jsonObject3.addProperty("HideFlags", hideFlags);
+                jsonObject1.add("nbt", jsonObject3);
+            }
+
 
             jsonObject.add("result", jsonObject1);
             jsonObject.addProperty("show_notification", this.showNotification);
         }
 
-        public @NotNull RecipeSerializer<?> getType() {
+        @Override
+        public @NotNull RecipeSerializer<?> type() {
             return RecipeSerializer.SHAPED_RECIPE;
         }
+
 
         public @NotNull ResourceLocation getId() {
             return this.id;
         }
 
         public @NotNull JsonObject serializeAdvancement() {
-            return this.advancement.serializeToJson();
+            return this.advancement.value().serializeToJson();
         }
 
-        @Nullable
-        public ResourceLocation getAdvancementId() {
-            return this.advancementId;
+        public @NotNull ResourceLocation getAdvancementId() {
+            return advancement.id();
         }
     }
 }

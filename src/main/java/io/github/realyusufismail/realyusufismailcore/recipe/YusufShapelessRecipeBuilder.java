@@ -35,15 +35,9 @@ package io.github.realyusufismail.realyusufismailcore.recipe;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeBuilder;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -53,17 +47,18 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import record;
+
 import javax.annotation.Nullable;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import static io.github.realyusufismail.realyusufismailcore.recipe.YusufCraftingRecipeBuilder.determineBookCategory;
 
 /**
  * Taken from
- * 
+ *
  * @see ShapelessRecipeBuilder
  */
 @SuppressWarnings("unused")
@@ -72,7 +67,7 @@ public class YusufShapelessRecipeBuilder implements RecipeBuilder {
     private final Item result;
     private final int count;
     private final List<Ingredient> ingredients = Lists.newArrayList();
-    private final Advancement.Builder advancement = Advancement.Builder.advancement();
+    private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
     @Nullable
     private String group;
 
@@ -122,8 +117,8 @@ public class YusufShapelessRecipeBuilder implements RecipeBuilder {
     }
 
     public @NotNull YusufShapelessRecipeBuilder unlockedBy(@NotNull String creterionId,
-            @NotNull CriterionTriggerInstance criterionTriggerInstance) {
-        this.advancement.addCriterion(creterionId, criterionTriggerInstance);
+            @NotNull Criterion<?> criterion) {
+        this.criteria.put(creterionId, criterion);
         return this;
     }
 
@@ -136,28 +131,30 @@ public class YusufShapelessRecipeBuilder implements RecipeBuilder {
         return this.result;
     }
 
-    public void save(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer,
+    public void save(@NotNull RecipeOutput recipeOutput,
             @NotNull ResourceLocation resourceLocation) {
         this.ensureValid(resourceLocation);
-        this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
+
+        Advancement.Builder advancementBuilder = recipeOutput.advancement()
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceLocation))
             .rewards(AdvancementRewards.Builder.recipe(resourceLocation))
-            .requirements(RequirementsStrategy.OR);
-        finishedRecipeConsumer.accept(new ShapelessRecipeBuilder.Result(resourceLocation,
-                this.result, this.count, this.group == null ? "" : this.group,
-                determineBookCategory(this.category), this.ingredients, this.advancement,
-                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/")));
+            .requirements(AdvancementRequirements.Strategy.OR);
+
+        recipeOutput.accept(new Result(determineBookCategory(this.category), resourceLocation,
+                this.result, this.count, this.group == null ? "" : this.group, this.ingredients,
+                advancementBuilder.build(resourceLocation
+                    .withPrefix("recipes/" + this.category.getFolderName() + "/"))));
     }
 
     private void ensureValid(ResourceLocation resourceLocation) {
-        if (this.advancement.getCriteria().isEmpty()) {
+        if (this.criteria.isEmpty()) {
             throw new IllegalStateException("No way of obtaining recipe " + resourceLocation);
         }
     }
 
     public record Result(CraftingBookCategory category, ResourceLocation id, Item result, int count,
-            String group, List<Ingredient> ingredients, Advancement.Builder advancement,
-            ResourceLocation advancementId) implements FinishedRecipe {
+            String group, List<Ingredient> ingredients,
+            AdvancementHolder advancement) implements FinishedRecipe {
 
         public void serializeRecipeData(@NotNull JsonObject jsonObject) {
             if (!this.group.isEmpty()) {
@@ -168,7 +165,7 @@ public class YusufShapelessRecipeBuilder implements RecipeBuilder {
             JsonArray jsonArray = new JsonArray();
 
             for (Ingredient ingredient : this.ingredients) {
-                jsonArray.add(ingredient.toJson());
+                jsonArray.add(ingredient.toJson(false));
             }
 
             jsonObject.add("ingredients", jsonArray);
@@ -182,21 +179,12 @@ public class YusufShapelessRecipeBuilder implements RecipeBuilder {
             jsonObject.add("result", jsonObjectTwo);
         }
 
-        public @NotNull RecipeSerializer<?> getType() {
+        public @NotNull RecipeSerializer<?> type() {
             return RecipeSerializer.SHAPELESS_RECIPE;
         }
 
-        public @NotNull ResourceLocation getId() {
-            return this.id;
-        }
-
         public @NotNull JsonObject serializeAdvancement() {
-            return this.advancement.serializeToJson();
-        }
-
-        @Nullable
-        public ResourceLocation getAdvancementId() {
-            return this.advancementId;
+            return this.advancement.value().serializeToJson();
         }
     }
 }

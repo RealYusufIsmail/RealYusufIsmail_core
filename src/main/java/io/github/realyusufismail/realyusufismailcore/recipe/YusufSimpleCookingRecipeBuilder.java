@@ -33,30 +33,28 @@
 package io.github.realyusufismail.realyusufismailcore.recipe;
 
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeBuilder;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import record;
+
 import javax.annotation.Nullable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
  * Taken from
- * 
+ *
  * @see SimpleCookingRecipeBuilder
  */
 @SuppressWarnings("unused")
@@ -67,7 +65,7 @@ public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
     private final Ingredient ingredient;
     private final float experience;
     private final int cookingTime;
-    private final Advancement.Builder advancement = Advancement.Builder.advancement();
+    private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
     @Nullable
     private String group;
     private final RecipeSerializer<? extends AbstractCookingRecipe> serializer;
@@ -149,8 +147,8 @@ public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
 
 
     public @NotNull YusufSimpleCookingRecipeBuilder unlockedBy(@NotNull String creterionId,
-            @NotNull CriterionTriggerInstance criterionTriggerInstance) {
-        this.advancement.addCriterion(creterionId, criterionTriggerInstance);
+            @NotNull Criterion<?> criterion) {
+        this.criteria.put(creterionId, criterion);
         return this;
     }
 
@@ -163,29 +161,31 @@ public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
         return this.result;
     }
 
-    public void save(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer,
+    public void save(@NotNull RecipeOutput recipeOutput,
             @NotNull ResourceLocation resourceLocation) {
         this.ensureValid(resourceLocation);
-        this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
+
+        Advancement.Builder advancementBuilder = recipeOutput.advancement()
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceLocation))
             .rewards(AdvancementRewards.Builder.recipe(resourceLocation))
-            .requirements(RequirementsStrategy.OR);
-        finishedRecipeConsumer.accept(new YusufSimpleCookingRecipeBuilder.Result(resourceLocation,
-                this.group == null ? "" : this.group, this.bookCategory, this.ingredient,
-                this.result, this.experience, this.cookingTime, this.advancement,
-                resourceLocation.withPrefix("recipes/" + this.category.getFolderName() + "/"),
+            .requirements(AdvancementRequirements.Strategy.OR);
+
+        recipeOutput.accept(new Result(resourceLocation, this.group == null ? "" : this.group,
+                this.bookCategory, this.ingredient, this.result, this.experience, this.cookingTime,
+                advancementBuilder.build(resourceLocation
+                    .withPrefix("recipes/" + this.category.getFolderName() + "/")),
                 this.serializer));
     }
 
     private void ensureValid(ResourceLocation resourceLocation) {
-        if (this.advancement.getCriteria().isEmpty()) {
+        if (this.criteria.isEmpty()) {
             throw new IllegalStateException("No way of obtaining recipe " + resourceLocation);
         }
     }
 
     public record Result(ResourceLocation id, String group, CookingBookCategory bookCategory,
             Ingredient ingredient, Item result, float experience, int cookingTime,
-            Advancement.Builder advancement, ResourceLocation advancementId,
+            AdvancementHolder advancement,
             RecipeSerializer<? extends AbstractCookingRecipe> serializer)
             implements
                 FinishedRecipe {
@@ -195,7 +195,7 @@ public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
                 jsonObject.addProperty("group", this.group);
             }
 
-            jsonObject.add("ingredient", this.ingredient.toJson());
+            jsonObject.add("ingredient", this.ingredient.toJson(false));
             jsonObject.addProperty("result",
                     Objects
                         .requireNonNull(ForgeRegistries.ITEMS.getKey(this.result), "Item is null")
@@ -204,21 +204,12 @@ public class YusufSimpleCookingRecipeBuilder implements RecipeBuilder {
             jsonObject.addProperty("cookingtime", this.cookingTime);
         }
 
-        public @NotNull RecipeSerializer<?> getType() {
+        public @NotNull RecipeSerializer<?> type() {
             return this.serializer;
         }
 
-        public @NotNull ResourceLocation getId() {
-            return this.id;
-        }
-
         public @NotNull JsonObject serializeAdvancement() {
-            return this.advancement.serializeToJson();
-        }
-
-        @Nullable
-        public ResourceLocation getAdvancementId() {
-            return this.advancementId;
+            return this.advancement.value().serializeToJson();
         }
     }
 }

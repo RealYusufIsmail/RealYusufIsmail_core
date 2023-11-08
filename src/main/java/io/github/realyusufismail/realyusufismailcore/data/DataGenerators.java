@@ -32,7 +32,11 @@
 
 package io.github.realyusufismail.realyusufismailcore.data;
 
+import io.github.realyusufismail.realyusufismailcore.data.client.ModBlockStateProvider;
 import io.github.realyusufismail.realyusufismailcore.data.lang.ModEnLangProvider;
+import io.github.realyusufismail.realyusufismailcore.data.loot.ModLootTables;
+import io.github.realyusufismail.realyusufismailcore.data.recipe.ModRecipeProvider;
+import io.github.realyusufismail.realyusufismailcore.data.tags.ModBlockTagsProvider;
 import net.minecraft.DetectedVersion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -42,11 +46,6 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.data.client.ModBlockStateProvider;
-import io.github.realyusufismail.realyusufismailcore.data.loot.ModLootTables;
-import io.github.realyusufismail.realyusufismailcore.data.recipe.ModRecipeProvider;
-import io.github.realyusufismail.realyusufismailcore.data.tags.ModBlockTagsProvider;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
@@ -66,11 +65,11 @@ public class DataGenerators {
         ModBlockTagsProvider blockTags = new ModBlockTagsProvider(gen, existingFileHelper, lookup);
         gen.addProvider(true, blockTags);
         gen.addProvider(true, new ModEnLangProvider(gen));
-        gen.addProvider(true, new ModRecipeProvider(gen));
+        gen.addProvider(true, new ModRecipeProvider(gen, lookup));
         gen.addProvider(true, new ModLootTables(gen));
         gen.addProvider(true,
                 new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,
-                        new PackMetadataSection(Component.literal("Armour and Tools Mod Resources"),
+                        new PackMetadataSection(Component.literal("RealYusufIsmailCore Resources"),
                                 DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
                                 Arrays.stream(PackType.values())
                                     .collect(Collectors.toMap(Function.identity(),

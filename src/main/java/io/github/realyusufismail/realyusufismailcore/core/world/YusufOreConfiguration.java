@@ -45,7 +45,7 @@ import java.util.List;
 
 /**
  * Taken from
- * 
+ *
  * @see OreConfiguration
  */
 @SuppressWarnings("unused")

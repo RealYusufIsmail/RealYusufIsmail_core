@@ -1,20 +1,20 @@
 package io.github.realyusufismail.realyusufismailcore.blocks;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.realyusufismail.realyusufismailcore.core.init.RecipeSerializerInit;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipeCodecs;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
 
@@ -22,11 +22,8 @@ public class LegacySmithingRecipe implements ILegacySmithingRecipe {
     final Ingredient base;
     final Ingredient addition;
     final ItemStack result;
-    private final ResourceLocation id;
 
-    public LegacySmithingRecipe(ResourceLocation resourceLocation, Ingredient base,
-            Ingredient addition, ItemStack result) {
-        this.id = resourceLocation;
+    public LegacySmithingRecipe(Ingredient base, Ingredient addition, ItemStack result) {
         this.base = base;
         this.addition = addition;
         this.result = result;
@@ -72,10 +69,6 @@ public class LegacySmithingRecipe implements ILegacySmithingRecipe {
         return this.addition.test(p_267128_);
     }
 
-    public @NotNull ResourceLocation getId() {
-        return this.id;
-    }
-
     public @NotNull RecipeSerializer<?> getSerializer() {
         return RecipeSerializerInit.LEGACY_SMITHING.get();
     }
@@ -85,23 +78,26 @@ public class LegacySmithingRecipe implements ILegacySmithingRecipe {
     }
 
     public static class Serializer implements RecipeSerializer<LegacySmithingRecipe> {
-        public @NotNull LegacySmithingRecipe fromJson(ResourceLocation p_267011_,
-                JsonObject p_267297_) {
-            Ingredient ingredient =
-                    Ingredient.fromJson(GsonHelper.getAsJsonObject(p_267297_, "base"));
-            Ingredient ingredient1 =
-                    Ingredient.fromJson(GsonHelper.getAsJsonObject(p_267297_, "addition"));
-            ItemStack itemstack =
-                    ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(p_267297_, "result"));
-            return new LegacySmithingRecipe(p_267011_, ingredient, ingredient1, itemstack);
+        private static final Codec<LegacySmithingRecipe> CODEC =
+                RecordCodecBuilder.create((p_44108_) -> p_44108_
+                    .group(Ingredient.CODEC.fieldOf("base").forGetter((p_44110_) -> p_44110_.base),
+                            Ingredient.CODEC.fieldOf("addition")
+                                .forGetter((p_44105_) -> p_44105_.addition),
+                            CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("result")
+                                .forGetter((p_44103_) -> p_44103_.result))
+                    .apply(p_44108_, LegacySmithingRecipe::new));
+
+        @Override
+        public @NotNull Codec<LegacySmithingRecipe> codec() {
+            return CODEC;
         }
 
-        public LegacySmithingRecipe fromNetwork(ResourceLocation p_266671_,
-                FriendlyByteBuf p_266826_) {
-            Ingredient ingredient = Ingredient.fromNetwork(p_266826_);
-            Ingredient ingredient1 = Ingredient.fromNetwork(p_266826_);
-            ItemStack itemstack = p_266826_.readItem();
-            return new LegacySmithingRecipe(p_266671_, ingredient, ingredient1, itemstack);
+        @Override
+        public @Nullable LegacySmithingRecipe fromNetwork(FriendlyByteBuf p_44106_) {
+            Ingredient ingredient = Ingredient.fromNetwork(p_44106_);
+            Ingredient ingredient1 = Ingredient.fromNetwork(p_44106_);
+            ItemStack itemstack = p_44106_.readItem();
+            return new LegacySmithingRecipe(ingredient, ingredient1, itemstack);
         }
 
         public void toNetwork(FriendlyByteBuf p_266918_, LegacySmithingRecipe p_266728_) {

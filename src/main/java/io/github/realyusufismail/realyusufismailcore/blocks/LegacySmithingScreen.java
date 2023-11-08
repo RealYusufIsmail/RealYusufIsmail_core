@@ -1,8 +1,6 @@
 package io.github.realyusufismail.realyusufismailcore.blocks;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.blocks.LegacySmithingMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
 import net.minecraft.network.chat.Component;
