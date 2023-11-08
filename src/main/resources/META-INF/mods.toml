@@ -7,7 +7,7 @@ credits = "realyusufismail"
 authors = "RealYusufIsmail-Mc-Mods org"
 [[mods]]
 modId = "realyusufismailcore"
-version = "1.20.2-1.0.2"
+version = "1.20.2-1.0.3"
 displayName = "RealYusufIsmail Core"
 updateJSONURL = "https://forge.curseupdate.com/497372/realyusufismail-core"
 logoFile = "logo.png"
@@ -16,7 +16,7 @@ Shared library for Yusuf Arfan Ismail's mods
  '''
 
 [[dependencies.realyusufismailcore]]
-modId = "forge"
+modId = "neoforge"
 mandatory = true
 versionRange = "[20.2,)"
 ordering = "NONE"

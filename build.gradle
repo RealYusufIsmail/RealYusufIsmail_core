@@ -38,6 +38,7 @@ apply plugin: 'signing'
 project.version = modVersion
 project.group = 'io.github.realyusufismail'
 base.archivesName.set('realyusufismailcore-neoforge')
+final var modId = 'realyusufismailcore'
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
 final var mcVersion = "1.20.2"
 final var projectId = "497372"
@@ -54,31 +55,27 @@ runs {
     configureEach {
         systemProperty 'forge.logging.console.level', 'debug'
 
-        modSource sourceSets.main
+        modSource project.sourceSets.main
     }
 
     client {
-        workingDirectory project.file('run')
-
-        systemProperty 'forge.enabledGameTestNamespaces', archivesBaseName
+        systemProperty 'forge.enabledGameTestNamespaces', modId
     }
 
     server {
-        workingDirectory project.file('run')
-
-        systemProperty 'forge.enabledGameTestNamespaces', archivesBaseName
+        systemProperty 'forge.enabledGameTestNamespaces', modId
+        programArgument '--nogui'
     }
 
     gameTestServer {
-        workingDirectory project.file('run')
 
-        systemProperty 'forge.enabledGameTestNamespaces', archivesBaseName
+        systemProperty 'forge.enabledGameTestNamespaces', modId
     }
 
     data {
-        workingDirectory project.file('run')
+        workingDirectory project.file('run-data')
 
-        programArguments.addAll '--mod', archivesBaseName, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        programArguments.addAll '--mod', modId, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
@@ -90,7 +87,7 @@ repositories {
 }
 
 dependencies {
-    implementation  'net.neoforged:neoforge:20.2.35-beta'
+    implementation  "net.neoforged:neoforge:${neoVersion}"
     //Logger
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.8'
     implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.4.8'
@@ -102,6 +99,20 @@ test {
     useJUnitPlatform()
 }
 
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version   : mcVersion, minecraft_version_range: '[1.20.2,1.21)',
+            neo_version         : neoVersion, neo_version_range: '[20.2,)',
+            loader_version_range: '[1,)',
+            mod_id              : modId, mod_name: archivesBaseName, mod_license: 'BSD 3-Clause "New" or "Revised" License', mod_version: modVersion,
+            mod_authors         : 'RealYusufIsmail', mod_description: 'Core lib for my mods', pack_format_number: '18',
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
 
 configurations.configureEach {
     //noinspection GrUnresolvedAccess

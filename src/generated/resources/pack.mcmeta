@@ -1,9 +1,14 @@
 {
   "pack": {
     "description": {
-      "text": "Armour and Tools Mod Resources"
+      "text": "RealYusufIsmailCore Resources"
     },
-    "forge:server_data_pack_format": 12,
-    "pack_format": 13
+    "neoforge": {
+      "versions": {
+        "client_resources": 18,
+        "server_data": 18
+      }
+    },
+    "pack_format": 18
   }
 }

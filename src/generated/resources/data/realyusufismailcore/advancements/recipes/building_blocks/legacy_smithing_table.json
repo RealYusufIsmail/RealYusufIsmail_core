@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_planks",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_planks"
     ]
   ],
   "rewards": {
     "recipes": [
       "realyusufismailcore:legacy_smithing_table"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

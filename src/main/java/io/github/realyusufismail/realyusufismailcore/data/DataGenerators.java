@@ -52,6 +52,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore.logger;
+
 
 public class DataGenerators {
     private DataGenerators() {}
@@ -61,18 +63,23 @@ public class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
-        gen.addProvider(true, new ModBlockStateProvider(gen, existingFileHelper));
-        ModBlockTagsProvider blockTags = new ModBlockTagsProvider(gen, existingFileHelper, lookup);
-        gen.addProvider(true, blockTags);
-        gen.addProvider(true, new ModEnLangProvider(gen));
-        gen.addProvider(true, new ModRecipeProvider(gen, lookup));
-        gen.addProvider(true, new ModLootTables(gen));
-        gen.addProvider(true,
-                new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,
-                        new PackMetadataSection(Component.literal("RealYusufIsmailCore Resources"),
-                                DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
-                                Arrays.stream(PackType.values())
-                                    .collect(Collectors.toMap(Function.identity(),
-                                            DetectedVersion.BUILT_IN::getPackVersion)))));
+        try {
+            gen.addProvider(true, new ModBlockStateProvider(gen, existingFileHelper));
+            ModBlockTagsProvider blockTags =
+                    new ModBlockTagsProvider(gen, existingFileHelper, lookup);
+            gen.addProvider(true, blockTags);
+            gen.addProvider(true, new ModEnLangProvider(gen));
+            gen.addProvider(true, new ModRecipeProvider(gen, lookup));
+            gen.addProvider(true, new ModLootTables(gen));
+            gen.addProvider(true, new PackMetadataGenerator(gen.getPackOutput()).add(
+                    PackMetadataSection.TYPE,
+                    new PackMetadataSection(Component.literal("RealYusufIsmailCore Resources"),
+                            DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
+                            Arrays.stream(PackType.values())
+                                .collect(Collectors.toMap(Function.identity(),
+                                        DetectedVersion.BUILT_IN::getPackVersion)))));
+        } catch (RuntimeException e) {
+            logger.error("Error while generating data", e);
+        }
     }
 }

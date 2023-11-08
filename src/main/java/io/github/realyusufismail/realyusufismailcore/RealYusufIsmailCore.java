@@ -44,15 +44,17 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.neoforge.common.NeoForge;
+import org.slf4j.Logger;
 
 import java.util.Optional;
 
 @Mod("realyusufismailcore")
 public class RealYusufIsmailCore {
     public static final String MOD_ID = "realyusufismailcore";
+    public static Logger logger = org.slf4j.LoggerFactory.getLogger(RealYusufIsmailCore.class);
 
-    public RealYusufIsmailCore() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    public RealYusufIsmailCore(IEventBus bus) {
         BlockInitCore.BLOCKS.register(bus);
         ItemInitCore.ITEMS.register(bus);
         MenuTypeInit.MENU_TYPES.register(bus);
@@ -66,7 +68,16 @@ public class RealYusufIsmailCore {
             event.enqueueWork(RealYusufIsmailCore::registerScreens);
         });
 
-        bus.register(this);
+        FMLJavaModLoadingContext.get()
+            .getModEventBus()
+            .addListener(FMLClientSetupEvent.class, (event) -> {
+                event.enqueueWork(() -> {
+                    ModList.get().getModContainerById(MOD_ID).ifPresent((mod) -> {
+                        logger.info("Loaded {} v{}", mod.getModInfo().getDisplayName(),
+                                mod.getModInfo().getVersion());
+                    });
+                });
+            });
     }
 
     private static void registerScreens() {
