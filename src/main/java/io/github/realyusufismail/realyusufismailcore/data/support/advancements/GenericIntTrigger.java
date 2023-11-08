@@ -40,6 +40,7 @@ import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 
 import java.util.*;
@@ -49,7 +50,6 @@ public class GenericIntTrigger implements CriterionTrigger<GenericIntTrigger.Ins
             new ResourceLocation(RealYusufIsmailCore.MOD_ID, "generic_int");
     private final Map<PlayerAdvancements, GenericIntTrigger.Listeners> listeners = new HashMap<>();
 
-    @Override
     public ResourceLocation getId() {
         return ID;
     }
@@ -93,7 +93,7 @@ public class GenericIntTrigger implements CriterionTrigger<GenericIntTrigger.Ins
         int value;
 
         Instance(String type, int value) {
-            super(GenericIntTrigger.ID, ContextAwarePredicate.ANY);
+            super(Optional.of(ContextAwarePredicate.create()));
             this.type = type;
             this.value = value;
         }

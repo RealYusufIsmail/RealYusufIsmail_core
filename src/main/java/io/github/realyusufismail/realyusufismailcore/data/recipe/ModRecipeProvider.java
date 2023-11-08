@@ -38,8 +38,7 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
-
+import net.neoforged.neoforge.common.Tags;
 import java.util.function.Consumer;
 
 public class ModRecipeProvider extends RecipeProvider {
@@ -52,16 +51,16 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(RecipeOutput consumer) {
         ShapedRecipeBuilder
-            .shaped(RecipeCategory.BUILDING_BLOCKS, BlockInitCore.LEGACY_SMITHING_TABLE.get())
-            .define('#', Items.OAK_PLANKS)
-            .define('X', Tags.Items.INGOTS_IRON)
-            .pattern("###")
-            .pattern("#X#")
-            .pattern("###")
-            .unlockedBy("has_planks", has(Items.OAK_PLANKS))
-            .save(consumer);
+                .shaped(RecipeCategory.BUILDING_BLOCKS, BlockInitCore.LEGACY_SMITHING_TABLE.get())
+                .define('#', Items.OAK_PLANKS)
+                .define('X', Tags.Items.INGOTS_IRON)
+                .pattern("###")
+                .pattern("#X#")
+                .pattern("###")
+                .unlockedBy("has_planks", has(Items.OAK_PLANKS))
+                .save(consumer);
 
     }
 }

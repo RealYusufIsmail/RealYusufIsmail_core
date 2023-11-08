@@ -35,8 +35,7 @@ package io.github.realyusufismail.realyusufismailcore.common.events;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import javax.annotation.Nonnull;
 
 public class CraftingEventTrigger extends PlayerEvent {

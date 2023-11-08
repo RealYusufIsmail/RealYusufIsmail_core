@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
+loaderVersion = "[1,)"
 license = "BSD-3-Clause License"
 issueTrackerURL = "https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core-Neo/issues"
 #logoFile="examplemod.png"
@@ -7,7 +7,7 @@ credits = "realyusufismail"
 authors = "RealYusufIsmail-Mc-Mods org"
 [[mods]]
 modId = "realyusufismailcore"
-version = "1.20.1-1.0.2"
+version = "1.20.2-1.0.2"
 displayName = "RealYusufIsmail Core"
 updateJSONURL = "https://forge.curseupdate.com/497372/realyusufismail-core"
 logoFile = "logo.png"
@@ -18,13 +18,13 @@ Shared library for Yusuf Arfan Ismail's mods
 [[dependencies.realyusufismailcore]]
 modId = "forge"
 mandatory = true
-versionRange = "[47.1,)"
+versionRange = "[20.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.realyusufismailcore]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.1, 1.21)"
+versionRange = "[1.20.2, 1.21)"
 ordering = "NONE"
 side = "BOTH"

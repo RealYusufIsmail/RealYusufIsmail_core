@@ -39,7 +39,7 @@ import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import org.jetbrains.annotations.NotNull;
 

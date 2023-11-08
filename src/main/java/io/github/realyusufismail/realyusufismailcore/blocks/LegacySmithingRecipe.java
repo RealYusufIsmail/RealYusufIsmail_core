@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
@@ -81,7 +81,7 @@ public class LegacySmithingRecipe implements ILegacySmithingRecipe {
     }
 
     public boolean isIncomplete() {
-        return Stream.of(this.base, this.addition).anyMatch(ForgeHooks::hasNoElements);
+        return Stream.of(this.base, this.addition).anyMatch(CommonHooks::hasNoElements);
     }
 
     public static class Serializer implements RecipeSerializer<LegacySmithingRecipe> {

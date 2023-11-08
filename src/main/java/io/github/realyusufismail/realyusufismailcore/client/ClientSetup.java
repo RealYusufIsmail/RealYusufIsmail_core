@@ -3,7 +3,7 @@ package io.github.realyusufismail.realyusufismailcore.client;
 import io.github.realyusufismail.realyusufismailcore.core.init.MenuTypeInit;
 import io.github.realyusufismail.realyusufismailcore.blocks.LegacySmithingScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientSetup {
     public static void clientSetup(FMLClientSetupEvent event) {
