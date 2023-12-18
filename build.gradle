@@ -32,8 +32,8 @@ ext {
     dev_organization = 'Real Yusuf Ismail'
     dev_organizationUrl = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core'
 
-    gpl_name = 'BSD 3-Clause "New" or "Revised" License'
-    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.16.5/LICENSE.txt'
+    gpl_name = 'Apache License 2.0'
+    gpl_url = 'https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core/blob/main/LICENSE'
 
     // Make sure we have a default for initial configuration evaluation
     isReleaseVersion = false
