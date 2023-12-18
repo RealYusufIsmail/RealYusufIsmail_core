@@ -1,6 +1,25 @@
+/*
+ * Copyright 2023 RealYusufIsmail.
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ 
 package net.yusuf.realyusufismailcore.advancements;
 
 import com.google.gson.JsonObject;
+import java.util.*;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.criterion.CriterionInstance;
@@ -12,8 +31,6 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.yusuf.realyusufismailcore.RealYusufIsmailCore;
 
-import java.util.*;
-
 public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.Instance> {
     private static final ResourceLocation ID = new ResourceLocation(RealYusufIsmailCore.MOD_ID, "generic_int");
     private final Map<PlayerAdvancements, Listeners> listeners = new HashMap<>();
@@ -24,7 +41,8 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
     }
 
     @Override
-    public void addPlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<GenericIntTrigger.Instance> listenerIn) {
+    public void addPlayerListener(
+            PlayerAdvancements playerAdvancementsIn, Listener<GenericIntTrigger.Instance> listenerIn) {
         Listeners triggerListeners = this.listeners.get(playerAdvancementsIn);
         if (triggerListeners == null) {
             triggerListeners = new Listeners(playerAdvancementsIn);
@@ -34,12 +52,12 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
     }
 
     @Override
-    public void removePlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<GenericIntTrigger.Instance> listenerIn) {
+    public void removePlayerListener(
+            PlayerAdvancements playerAdvancementsIn, Listener<GenericIntTrigger.Instance> listenerIn) {
         Listeners triggerListeners = this.listeners.get(playerAdvancementsIn);
         if (triggerListeners != null) {
             triggerListeners.remove(listenerIn);
-            if (triggerListeners.isEmpty())
-                this.listeners.remove(playerAdvancementsIn);
+            if (triggerListeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
         }
     }
 
@@ -47,7 +65,6 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
     public void removePlayerListeners(PlayerAdvancements playerAdvancementsIn) {
         this.listeners.remove(playerAdvancementsIn);
     }
-
 
     @Override
     public Instance createInstance(JsonObject json, ConditionArrayParser p_230307_2_) {
@@ -58,8 +75,7 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
 
     public void trigger(ServerPlayerEntity player, ResourceLocation type, int value) {
         GenericIntTrigger.Listeners triggerListeners = this.listeners.get(player.getAdvancements());
-        if (triggerListeners != null)
-            triggerListeners.trigger(type.toString(), value);
+        if (triggerListeners != null) triggerListeners.trigger(type.toString(), value);
     }
 
     public static class Instance extends CriterionInstance {
@@ -79,7 +95,6 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
         public boolean test(String typeIn, int valueIn) {
             return this.type.equals(typeIn) && this.value <= valueIn;
         }
-
 
         @Override
         public JsonObject serializeToJson(ConditionArraySerializer p_230240_1_) {
@@ -114,11 +129,9 @@ public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.In
             List<Listener<Instance>> list = new ArrayList<>();
 
             for (Listener<Instance> listener : this.listeners)
-                if (listener.getTriggerInstance().test(typeIn, valueIn))
-                    list.add(listener);
+                if (listener.getTriggerInstance().test(typeIn, valueIn)) list.add(listener);
 
-            for (Listener<Instance> listener : list)
-                listener.run(this.playerAdvancements);
+            for (Listener<Instance> listener : list) listener.run(this.playerAdvancements);
         }
     }
 }

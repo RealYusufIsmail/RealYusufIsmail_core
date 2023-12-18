@@ -4,23 +4,40 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
     }
 }
 
 plugins {
-    id 'maven'
-    id 'maven-publish'
-
+    id 'java'
+    id 'eclipse'
+    id "com.diffplug.spotless" version "6.10.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
+apply plugin: 'io.codearte.nexus-staging'
 
 version = "${mod_version}"
-group = 'net.yusuf'
+group = 'io.github.realyusufismail'
 archivesBaseName = mod_id
+
+ext {
+    dev_id = 'yusuf'
+    dev_name = 'Yusuf Ismail'
+    dev_email = 'ysufgamer222@gmail.com'
+    dev_organization = 'Real Yusuf Ismail'
+    dev_organizationUrl = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core'
+
+    gpl_name = 'BSD 3-Clause "New" or "Revised" License'
+    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.16.5/LICENSE.txt'
+
+    // Make sure we have a default for initial configuration evaluation
+    isReleaseVersion = false
+}
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
@@ -81,7 +98,7 @@ sourceSets.main.resources {
 
 dependencies {
 
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
 
 }
 
@@ -102,23 +119,117 @@ jar {
 
 
 jar.finalizedBy('reobfJar')
+
+javadoc {
+    if (JavaVersion.current().isJava8Compatible()) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        logging.captureStandardError LogLevel.INFO
+        logging.captureStandardOutput LogLevel.INFO
+    }
+
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+afterEvaluate { project ->
+    ext.isReleaseVersion = !version.endsWith("RELEASE")
+}
+
+spotless {
+    java {
+        // Excludes build folder since it contains generated java classes.
+        targetExclude("build/**")
+        palantirJavaFormat()
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+        licenseHeader(
+                """/*
+ * Copyright 2023 RealYusufIsmail.
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ """)
+    }
+}
+
 publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/realyusufismail/${project.repoName}")
-            credentials {
-                username = property('gpr.username')
-                password = property('gpr.token')
+    publications {
+        mavenJava(MavenPublication) {
+            //artifactId = project.artifactId // or maybe archiveBaseName?
+            from components.java
+            pom {
+                name = project.archivesBaseName
+                description = project.description
+                url = "https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core/"
+                packaging = "jar"
+
+                licenses {
+                    license {
+                        name = "${gpl_name}"
+                        url = "${gpl_url}"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "${dev_id}"
+                        name = "${dev_name}"
+                        email = "${dev_email}"
+                        organization = "${dev_organization}"
+                        organizationUrl = "${dev_organizationUrl}"
+                    }
+                }
+                scm {
+                    connection = 'https://github.com/RealYusufIsmail/YDW.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core.git'
+                    url = 'https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core/'
+                }
             }
         }
     }
-    publications {
-        maven(MavenPublication) {
-            artifactId = mod_id
-            artifacts {
-                artifact jar
+    repositories {
+        maven {
+            afterEvaluate { project ->
+                def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url = (isReleaseVersion) ? releaseRepo : snapshotRepo
+
+                //println "repos: " + version
+                //println "repos: " + isReleaseVersion
+                //println url
+
+                credentials {
+                    username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
+                    password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
+                }
             }
         }
+    }
+}
+
+signing {
+    afterEvaluate { project ->
+        //println "sign: " + version
+        //println "sign: " + isReleaseVersion
+        required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+        sign publishing.publications.mavenJava
     }
 }
