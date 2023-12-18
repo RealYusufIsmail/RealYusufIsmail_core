@@ -18,12 +18,12 @@
  */ 
 package io.github.realyusufismail.realyusufismailcore.core.init;
 
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import io.github.realyusufismail.realyusufismailcore.core.itemgroup.MainItemGroup;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.core.itemgroup.MainItemGroup;
 
 public class ItemInitCore {
     public static final DeferredRegister<Item> ITEMS =

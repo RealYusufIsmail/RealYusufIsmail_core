@@ -22,19 +22,13 @@ import io.github.realyusufismail.realyusufismailcore.data.client.ModBlockStatePr
 import io.github.realyusufismail.realyusufismailcore.data.client.ModItemModelProvider;
 import io.github.realyusufismail.realyusufismailcore.data.lang.ModEnLangProvider;
 import io.github.realyusufismail.realyusufismailcore.data.loot.ModLootTables;
-import io.github.realyusufismail.realyusufismailcore.data.pack.PackMetadataGenerator;
 import io.github.realyusufismail.realyusufismailcore.data.recipe.ModRecipeProvider;
 import io.github.realyusufismail.realyusufismailcore.data.tags.ModBlockTagsProvider;
 import io.github.realyusufismail.realyusufismailcore.data.tags.ModItemTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.data.PackMetadataSection;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
-
-import java.util.Arrays;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class DataGenerators {
     private DataGenerators() {}
@@ -52,17 +46,5 @@ public class DataGenerators {
         gen.addProvider(new ModEnLangProvider(gen));
         gen.addProvider(new ModRecipeProvider(gen));
         gen.addProvider(new ModLootTables(gen));
-        gen.addProvider(
-                true,
-                new PackMetadataGenerator(gen, existingFileHelper)
-                        .add(
-                                PackMetadataSection.SERIALIZER,
-                                new PackMetadataSection(
-                                        Component.literal("RealYusufIsmailCore Resources"),
-                                        DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
-                                        Arrays.stream(PackType.values())
-                                                .collect(Collectors.toMap(
-                                                        Function.identity(),
-                                                        DetectedVersion.BUILT_IN::getPackVersion)))));
     }
 }

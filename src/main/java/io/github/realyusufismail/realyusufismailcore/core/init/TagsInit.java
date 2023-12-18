@@ -18,13 +18,13 @@
  */ 
 package io.github.realyusufismail.realyusufismailcore.core.init;
 
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 
 public class TagsInit {
     public static final class Blocks {

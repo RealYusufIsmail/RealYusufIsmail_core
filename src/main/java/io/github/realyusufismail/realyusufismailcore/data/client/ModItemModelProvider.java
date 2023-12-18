@@ -18,12 +18,12 @@
  */ 
 package io.github.realyusufismail.realyusufismailcore.data.client;
 
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {

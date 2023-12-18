@@ -18,14 +18,14 @@
  */ 
 package io.github.realyusufismail.realyusufismailcore.data.recipe;
 
-import java.util.function.Consumer;
-import net.minecraft.data.*;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
 import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.TagsInit;
+import java.util.function.Consumer;
+import net.minecraft.data.*;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
 
 public class ModRecipeProvider extends RecipeProvider {
     public ModRecipeProvider(DataGenerator generatorIn) {

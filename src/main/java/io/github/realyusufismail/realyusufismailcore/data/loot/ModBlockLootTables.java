@@ -21,11 +21,11 @@ package io.github.realyusufismail.realyusufismailcore.data.loot;
 import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.COPPER_BLOCK;
 import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.COPPER_ORE;
 
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import java.util.stream.Collectors;
 import net.minecraft.block.Block;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraftforge.registries.ForgeRegistries;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 
 public class ModBlockLootTables extends BlockLootTables {
     @Override

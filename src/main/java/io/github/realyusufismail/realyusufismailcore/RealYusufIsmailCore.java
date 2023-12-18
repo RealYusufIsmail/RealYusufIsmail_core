@@ -18,11 +18,10 @@
  */ 
 package io.github.realyusufismail.realyusufismailcore;
 
-import java.util.Optional;
-
 import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
 import io.github.realyusufismail.realyusufismailcore.data.DataGenerators;
+import java.util.Optional;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModContainer;

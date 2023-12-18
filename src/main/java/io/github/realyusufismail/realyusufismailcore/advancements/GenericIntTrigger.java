@@ -19,6 +19,7 @@
 package io.github.realyusufismail.realyusufismailcore.advancements;
 
 import com.google.gson.JsonObject;
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import java.util.*;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
@@ -29,7 +30,6 @@ import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.loot.ConditionArraySerializer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 
 public class GenericIntTrigger implements ICriterionTrigger<GenericIntTrigger.Instance> {
     private static final ResourceLocation ID = new ResourceLocation(RealYusufIsmailCore.MOD_ID, "generic_int");

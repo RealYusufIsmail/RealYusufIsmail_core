@@ -18,13 +18,13 @@
  */ 
 package io.github.realyusufismail.realyusufismailcore.data.tags;
 
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
+import io.github.realyusufismail.realyusufismailcore.core.init.TagsInit;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.TagsInit;
 
 public class ModBlockTagsProvider extends BlockTagsProvider {
 

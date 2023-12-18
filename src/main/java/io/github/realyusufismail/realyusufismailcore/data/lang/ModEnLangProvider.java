@@ -18,15 +18,15 @@
  */ 
 package io.github.realyusufismail.realyusufismailcore.data.lang;
 
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
+import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
+import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
+import io.github.realyusufismail.realyusufismailcore.core.itemgroup.MainItemGroup;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fml.RegistryObject;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
-import io.github.realyusufismail.realyusufismailcore.core.itemgroup.MainItemGroup;
 
 public class ModEnLangProvider extends LanguageProvider {
 

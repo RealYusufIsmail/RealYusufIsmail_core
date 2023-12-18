@@ -21,10 +21,10 @@ package io.github.realyusufismail.realyusufismailcore.data.client;
 import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.COPPER_BLOCK;
 import static io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore.COPPER_ORE;
 
+import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 
 public class ModBlockStateProvider extends BlockStateProvider {
 

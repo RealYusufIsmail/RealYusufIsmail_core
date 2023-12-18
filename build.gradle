@@ -1,3 +1,5 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
@@ -13,6 +15,7 @@ plugins {
     id 'java'
     id 'eclipse'
     id "com.diffplug.spotless" version "6.10.0"
+    id 'net.darkhax.curseforgegradle' version '1.1.17'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -21,9 +24,17 @@ apply plugin: 'signing'
 
 apply plugin: 'io.codearte.nexus-staging'
 
-version = "${mod_version}"
-group = 'io.github.realyusufismail'
-archivesBaseName = mod_id
+project.version = modVersion
+project.group = 'io.github.realyusufismail'
+
+// Mod name
+base.archivesName.set('realyusufismailcore')
+
+description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
+
+final var modId = modId
+final var mcVersion = mcVersion
+final var projectId = projectId
 
 ext {
     dev_id = 'yusuf'
@@ -125,10 +136,6 @@ javadoc {
         options.addStringOption('Xdoclint:none', '-quiet')
         logging.captureStandardError LogLevel.INFO
         logging.captureStandardOutput LogLevel.INFO
-    }
-
-    if (JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
     }
 }
 
@@ -232,4 +239,23 @@ signing {
         required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
         sign publishing.publications.mavenJava
     }
+}
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    group = "CurseForge"
+    dependsOn("build")
+    disableVersionDetection()
+
+    var token = project.hasProperty('curseforge.token') ? project.property('curseforge.token') as String : ""
+    apiToken = token
+
+    final var jar = file("build/libs/${base.archivesName.get()}-${project.version}.jar")
+
+    final var mainFile = upload(projectId, jar)
+    mainFile.changelog = file("CHANGELOG.md").getText()
+    mainFile.changelogType = "markdown"
+    mainFile.releaseType = "release"
+    mainFile.addJavaVersion("Java 8")
+    mainFile.addModLoader("Forge")
+    mainFile.addGameVersion(mcVersion)
 }
