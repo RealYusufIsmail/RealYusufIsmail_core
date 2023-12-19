@@ -1,11 +1,15 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
+        classpath("org.parchmentmc:librarian:1.+")
     }
 }
 
@@ -13,17 +17,27 @@ plugins {
     id 'java'
     id 'eclipse'
     id "com.diffplug.spotless" version "6.10.0"
+    id 'net.darkhax.curseforgegradle' version '1.1.17'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
-
 apply plugin: 'io.codearte.nexus-staging'
 
-version = "${mod_version}"
-group = 'io.github.realyusufismail'
-archivesBaseName = mod_id
+
+project.version = modVersion
+project.group = 'io.github.realyusufismail'
+
+// Mod name
+base.archivesName.set('realyusufismailcore')
+
+description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
+
+final var modId = modId
+final var mcVersion = mcVersion
+final var projectId = projectId
 
 ext {
     dev_id = 'yusuf'
@@ -32,8 +46,8 @@ ext {
     dev_organization = 'Real Yusuf Ismail'
     dev_organizationUrl = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core'
 
-    gpl_name = 'BSD 3-Clause "New" or "Revised" License'
-    gpl_url = 'https://github.com/RealYusufIsmail/RealYusufIsmail-Core/blob/1.16.5/LICENSE.txt'
+    gpl_name = 'Apache License 2.0'
+    gpl_url = 'https://github.com/RealYusufIsmail-Mc-Mods/RealYusufIsmail-Core/blob/main/LICENSE'
 
     // Make sure we have a default for initial configuration evaluation
     isReleaseVersion = false
@@ -44,7 +58,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
 
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: 'parchment', version: '2022.03.06-1.16.5'
     runs {
         client {
             workingDirectory project.file('run')
@@ -125,10 +139,6 @@ javadoc {
         options.addStringOption('Xdoclint:none', '-quiet')
         logging.captureStandardError LogLevel.INFO
         logging.captureStandardOutput LogLevel.INFO
-    }
-
-    if (JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
     }
 }
 
@@ -232,4 +242,30 @@ signing {
         required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
         sign publishing.publications.mavenJava
     }
+}
+
+nexusStaging {
+    packageGroup = 'io.github.realyusufismail'
+    serverUrl = "https://s01.oss.sonatype.org/service/local"
+    username = project.hasProperty('MAVEN_USERNAME') ? project.property('MAVEN_USERNAME') : 'username'
+    password = project.hasProperty('MAVEN_PASSWORD') ? project.property('MAVEN_PASSWORD') : 'password'
+}
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    group = "CurseForge"
+    dependsOn("build")
+    disableVersionDetection()
+
+    var token = project.hasProperty('curseforge.token') ? project.property('curseforge.token') as String : ""
+    apiToken = token
+
+    final var jar = file("build/libs/${base.archivesName.get()}-${project.version}.jar")
+
+    final var mainFile = upload(projectId, jar)
+    mainFile.changelog = file("CHANGELOG.md").getText()
+    mainFile.changelogType = "markdown"
+    mainFile.releaseType = "release"
+    mainFile.addJavaVersion("Java 8")
+    mainFile.addModLoader("Forge")
+    mainFile.addGameVersion(mcVersion)
 }

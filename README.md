@@ -30,7 +30,6 @@ dependencies {
 ![Long Term Support](https://img.shields.io/badge/Long_Term_Support-1.16.5-green)
 ![Short Term Support](https://img.shields.io/badge/Long_Term_Support-1.20.1-green)
 [![](http://cf.way2muchnoise.eu/versions/497372.svg)](https://www.curseforge.com/minecraft/mc-mods/realyusufismail-core)
-[![License: BSD](https://img.shields.io/badge/License-BSD-blue.svg)](https://opensource.org/license/bsd-3-clause/)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail/realyusufismailcore/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.realyusufismail.realyusufismailcore/realyusufismailcore)
 
 This mod can be used in a modpack
