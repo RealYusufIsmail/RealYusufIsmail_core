@@ -29,10 +29,7 @@ apply plugin: 'io.codearte.nexus-staging'
 
 project.version = modVersion
 project.group = 'io.github.realyusufismail'
-
-// Mod name
 base.archivesName.set('realyusufismailcore')
-
 description = "RealYusuf Ismail's Core. The main library for all my Minecraft mod."
 
 final var modId = modId
