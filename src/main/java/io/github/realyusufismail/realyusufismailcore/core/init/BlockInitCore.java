@@ -37,13 +37,6 @@ public class BlockInitCore {
     public static final RegistryObject<GeneralBlock> COPPER_ORE = register("copper_ore", Blocks.IRON_ORE);
     public static final RegistryObject<GeneralBlock> COPPER_BLOCK = register("copper_block", Blocks.IRON_BLOCK);
 
-    private static <T extends Block> RegistryObject<T> registerSpecial(String name, Supplier<T> supplier) {
-        RegistryObject<T> blockReg = BLOCKS.register(name, supplier);
-        ItemInitCore.ITEMS.register(
-                name, () -> new BlockItem(blockReg.get(), new Item.Properties().tab(MainItemGroup.MAIN)));
-        return blockReg;
-    }
-
     private static RegistryObject<GeneralBlock> register(String name, Supplier<GeneralBlock> supplier) {
         RegistryObject<GeneralBlock> blockReg = BLOCKS.register(name, supplier);
         ItemInitCore.ITEMS.register(
