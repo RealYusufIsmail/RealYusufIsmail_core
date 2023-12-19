@@ -42,6 +42,8 @@ public class RealYusufIsmailCore {
         BlockInitCore.BLOCKS.register(bus);
 
         bus.addListener(DataGenerators::gatherData);
+
+        bus.register(this);
     }
 
     public static String getVersion() {

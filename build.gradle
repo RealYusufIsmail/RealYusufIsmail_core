@@ -3,11 +3,13 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
+        classpath("org.parchmentmc:librarian:1.+")
     }
 }
 
@@ -19,10 +21,11 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
-
 apply plugin: 'io.codearte.nexus-staging'
+
 
 project.version = modVersion
 project.group = 'io.github.realyusufismail'
@@ -55,7 +58,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
 
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: 'parchment', version: '2022.03.06-1.16.5'
     runs {
         client {
             workingDirectory project.file('run')
