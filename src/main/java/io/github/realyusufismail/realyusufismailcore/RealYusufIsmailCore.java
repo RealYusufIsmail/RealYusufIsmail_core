@@ -18,11 +18,7 @@
  */ 
 package io.github.realyusufismail.realyusufismailcore;
 
-import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
-import io.github.realyusufismail.realyusufismailcore.core.init.ItemInitCore;
-import io.github.realyusufismail.realyusufismailcore.data.DataGenerators;
 import java.util.Optional;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
@@ -38,11 +34,6 @@ public class RealYusufIsmailCore {
 
     public RealYusufIsmailCore() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        ItemInitCore.ITEMS.register(bus);
-        BlockInitCore.BLOCKS.register(bus);
-
-        bus.addListener(DataGenerators::gatherData);
-
         bus.register(this);
     }
 
@@ -52,9 +43,5 @@ public class RealYusufIsmailCore {
             return o.get().getModInfo().getVersion().toString();
         }
         return "0.0.0";
-    }
-
-    public static ResourceLocation getId(String path) {
-        return new ResourceLocation(MOD_ID, path);
     }
 }
