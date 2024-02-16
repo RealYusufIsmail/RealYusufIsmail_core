@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 RealYusufIsmail.
+ * Copyright 2024 RealYusufIsmail.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +41,7 @@ public class ModRecipeProvider extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(ItemInitCore.COPPER.get(), 9)
                 .requires(BlockInitCore.COPPER_BLOCK.get())
                 .unlockedBy("has_item", has(TagsInit.Items.INGOTS_COPPER))
-                .save(consumer);
+                .save(consumer, modId("copper_ingot_from_block"));
 
         ShapedRecipeBuilder.shaped(BlockInitCore.COPPER_BLOCK.get())
                 .define('#', TagsInit.Items.INGOTS_COPPER)
@@ -49,7 +49,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("###")
                 .pattern("###")
                 .unlockedBy("has_item", has(TagsInit.Items.INGOTS_COPPER))
-                .save(consumer);
+                .save(consumer, modId("copper_block"));
 
         CookingRecipeBuilder.smelting(
                         Ingredient.of(BlockInitCore.COPPER_ORE.get()), ItemInitCore.COPPER.get(), 0.6f, 500)

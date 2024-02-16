@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 RealYusufIsmail.
+ * Copyright 2024 RealYusufIsmail.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,6 +42,6 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         copy(TagsInit.Blocks.STORAGE_COPPER, TagsInit.Items.STORAGE_COPPER);
 
         // ingots
-        tag(TagsInit.Items.ORES_COPPER).add(ItemInitCore.COPPER.get());
+        tag(TagsInit.Items.INGOTS_COPPER).add(ItemInitCore.COPPER.get());
     }
 }
