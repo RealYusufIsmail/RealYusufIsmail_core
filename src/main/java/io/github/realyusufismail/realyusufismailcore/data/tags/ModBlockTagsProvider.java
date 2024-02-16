@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 RealYusufIsmail.
+ * Copyright 2024 RealYusufIsmail.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,6 @@ import io.github.realyusufismail.realyusufismailcore.core.init.BlockInitCore;
 import io.github.realyusufismail.realyusufismailcore.core.init.TagsInit;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class ModBlockTagsProvider extends BlockTagsProvider {
@@ -35,12 +34,9 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     @Override
     protected void addTags() {
         // ores
-
         tag(TagsInit.Blocks.ORES_COPPER).add(BlockInitCore.COPPER_ORE.get());
-        tag(Tags.Blocks.ORES).addTag(TagsInit.Blocks.ORES_COPPER);
 
         // blocks
-        tag(TagsInit.Blocks.STORAGE_COPPER).add(BlockInitCore.COPPER_ORE.get());
-        tag(Tags.Blocks.ORES).addTag(TagsInit.Blocks.STORAGE_COPPER);
+        tag(TagsInit.Blocks.STORAGE_COPPER).add(BlockInitCore.COPPER_BLOCK.get());
     }
 }

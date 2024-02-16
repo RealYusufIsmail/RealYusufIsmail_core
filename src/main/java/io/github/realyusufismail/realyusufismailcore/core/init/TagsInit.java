@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 RealYusufIsmail.
+ * Copyright 2024 RealYusufIsmail.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,6 @@
  */ 
 package io.github.realyusufismail.realyusufismailcore.core.init;
 
-import io.github.realyusufismail.realyusufismailcore.RealYusufIsmailCore;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
@@ -29,33 +28,25 @@ import net.minecraft.util.ResourceLocation;
 public class TagsInit {
     public static final class Blocks {
         // ores
-        public static final ITag.INamedTag<Block> ORES_COPPER = BlockTags.bind("forge:ores/copper");
+        public static final ITag.INamedTag<Block> ORES_COPPER = forge("ores/copper");
         // blocks
-        public static final ITag.INamedTag<Block> STORAGE_COPPER = BlockTags.bind("forge:storage_blocks/copper");
+        public static final ITag.INamedTag<Block> STORAGE_COPPER = forge("storage_blocks/copper");
 
         private static ITag.INamedTag<Block> forge(String path) {
             return BlockTags.bind(new ResourceLocation("forge", path).toString());
-        }
-
-        private static ITag.INamedTag<Block> mod(String path) {
-            return BlockTags.bind(new ResourceLocation(RealYusufIsmailCore.MOD_ID, path).toString());
         }
     }
 
     public static final class Items {
         // ores
-        public static final ITag.INamedTag<Item> ORES_COPPER = ItemTags.bind("forge:ores/copper");
+        public static final ITag.INamedTag<Item> ORES_COPPER = forge("ores/copper");
         // blocks
-        public static final ITag.INamedTag<Item> STORAGE_COPPER = ItemTags.bind("forge:storage_blocks/copper");
+        public static final ITag.INamedTag<Item> STORAGE_COPPER = forge("storage_blocks/copper");
         // items
-        public static final ITag.INamedTag<Item> INGOTS_COPPER = ItemTags.bind("forge:ingots/copper");
+        public static final ITag.INamedTag<Item> INGOTS_COPPER = forge("ingots/copper");
 
         private static ITag.INamedTag<Item> forge(String path) {
             return ItemTags.bind(new ResourceLocation("forge", path).toString());
-        }
-
-        private static ITag.INamedTag<Item> mod(String path) {
-            return ItemTags.bind(new ResourceLocation(RealYusufIsmailCore.MOD_ID, path).toString());
         }
     }
 }
