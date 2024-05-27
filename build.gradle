@@ -14,7 +14,7 @@ plugins {
     id 'eclipse'
     id "com.diffplug.spotless" version "6.10.0"
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
-    id 'net.darkhax.curseforgegradle' version '1.1.17'
+    id 'net.darkhax.curseforgegradle' version '1.1.24'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
